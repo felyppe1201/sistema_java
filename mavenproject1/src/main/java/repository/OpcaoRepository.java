@@ -1,0 +1,18 @@
+
+package repository;
+
+import models.Opcao;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
+
+public class OpcaoRepository {
+    protected Connection conn;
+    public OpcaoRepository(Connection conn){{ this.conn = conn; }}
+
+    public void save(Opcao obj) throws SQLException {{}}
+    public Opcao findById(int id) throws SQLException {{ return null; }}
+    public List<Opcao> findAll() throws SQLException {{ return null; }}
+    public void update(Opcao obj) throws SQLException {{}}
+    public void delete(int id) throws SQLException {{}}
+}
