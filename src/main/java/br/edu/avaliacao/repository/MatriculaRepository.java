@@ -1,18 +1,40 @@
-
-package br.edu.avaliacao.repository;
+package br.edu.avaliacao.repositorys;
 
 import br.edu.avaliacao.models.Matricula;
-import java.sql.Connection;
-import java.sql.SQLException;
+import jakarta.persistence.*;
 import java.util.List;
 
 public class MatriculaRepository {
-    protected Connection conn;
-    public MatriculaRepository(Connection conn){ this.conn = conn; }
+    private EntityManager em;
 
-    public void save(Matricula obj) throws SQLException {}
-    public Matricula findById(long id) throws SQLException { return null; }
-    public List<Matricula> findAll() throws SQLException { return null; }
-    public void update(Matricula obj) throws SQLException {}
-    public void delete(long id) throws SQLException {}
+    public MatriculaRepository(EntityManager em) {
+        this.em = em;
+    }
+
+    public void save(Matricula obj) {
+        em.getTransaction().begin();
+        em.persist(obj);
+        em.getTransaction().commit();
+    }
+
+    public Matricula findById(long id) {
+        return em.find(Matricula.class, id);
+    }
+
+    public List<Matricula> findAll() {
+        return em.createQuery("SELECT m FROM Matricula m", Matricula.class).getResultList();
+    }
+
+    public void update(Matricula obj) {
+        em.getTransaction().begin();
+        em.merge(obj);
+        em.getTransaction().commit();
+    }
+
+    public void delete(long id) {
+        em.getTransaction().begin();
+        Matricula obj = em.find(Matricula.class, id);
+        if (obj != null) em.remove(obj);
+        em.getTransaction().commit();
+    }
 }

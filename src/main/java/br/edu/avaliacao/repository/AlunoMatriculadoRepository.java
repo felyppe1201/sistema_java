@@ -1,18 +1,40 @@
-
-package br.edu.avaliacao.repository;
+package br.edu.avaliacao.repositorys;
 
 import br.edu.avaliacao.models.AlunoMatriculado;
-import java.sql.Connection;
-import java.sql.SQLException;
+import jakarta.persistence.*;
 import java.util.List;
 
 public class AlunoMatriculadoRepository {
-    protected Connection conn;
-    public AlunoMatriculadoRepository(Connection conn){ this.conn = conn; }
+    private EntityManager em;
 
-    public void save(AlunoMatriculado obj) throws SQLException {}
-    public AlunoMatriculado findById(long id) throws SQLException { return null; }
-    public List<AlunoMatriculado> findAll() throws SQLException { return null; }
-    public void update(AlunoMatriculado obj) throws SQLException {}
-    public void delete(long id) throws SQLException {}
+    public AlunoMatriculadoRepository(EntityManager em) {
+        this.em = em;
+    }
+
+    public void save(AlunoMatriculado obj) {
+        em.getTransaction().begin();
+        em.persist(obj);
+        em.getTransaction().commit();
+    }
+
+    public AlunoMatriculado findById(long id) {
+        return em.find(AlunoMatriculado.class, id);
+    }
+
+    public List<AlunoMatriculado> findAll() {
+        return em.createQuery("SELECT a FROM AlunoMatriculado a", AlunoMatriculado.class).getResultList();
+    }
+
+    public void update(AlunoMatriculado obj) {
+        em.getTransaction().begin();
+        em.merge(obj);
+        em.getTransaction().commit();
+    }
+
+    public void delete(long id) {
+        em.getTransaction().begin();
+        AlunoMatriculado obj = em.find(AlunoMatriculado.class, id);
+        if (obj != null) em.remove(obj);
+        em.getTransaction().commit();
+    }
 }

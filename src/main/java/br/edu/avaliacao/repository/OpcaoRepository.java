@@ -1,18 +1,40 @@
-
-package br.edu.avaliacao.repository;
+package br.edu.avaliacao.repositorys;
 
 import br.edu.avaliacao.models.Opcao;
-import java.sql.Connection;
-import java.sql.SQLException;
+import jakarta.persistence.*;
 import java.util.List;
 
 public class OpcaoRepository {
-    protected Connection conn;
-    public OpcaoRepository(Connection conn){ this.conn = conn; }
+    private EntityManager em;
 
-    public void save(Opcao obj) throws SQLException {}
-    public Opcao findById(long id) throws SQLException { return null; }
-    public List<Opcao> findAll() throws SQLException { return null; }
-    public void update(Opcao obj) throws SQLException {}
-    public void delete(long id) throws SQLException {}
+    public OpcaoRepository(EntityManager em) {
+        this.em = em;
+    }
+
+    public void save(Opcao obj) {
+        em.getTransaction().begin();
+        em.persist(obj);
+        em.getTransaction().commit();
+    }
+
+    public Opcao findById(long id) {
+        return em.find(Opcao.class, id);
+    }
+
+    public List<Opcao> findAll() {
+        return em.createQuery("SELECT o FROM Opcao o", Opcao.class).getResultList();
+    }
+
+    public void update(Opcao obj) {
+        em.getTransaction().begin();
+        em.merge(obj);
+        em.getTransaction().commit();
+    }
+
+    public void delete(long id) {
+        em.getTransaction().begin();
+        Opcao obj = em.find(Opcao.class, id);
+        if (obj != null) em.remove(obj);
+        em.getTransaction().commit();
+    }
 }

@@ -1,18 +1,40 @@
-
-package br.edu.avaliacao.repository;
+package br.edu.avaliacao.repositorys;
 
 import br.edu.avaliacao.models.AtribuicaoProfessor;
-import java.sql.Connection;
-import java.sql.SQLException;
+import jakarta.persistence.*;
 import java.util.List;
 
 public class AtribuicaoProfessorRepository {
-    protected Connection conn;
-    public AtribuicaoProfessorRepository(Connection conn){ this.conn = conn; }
+    private EntityManager em;
 
-    public void save(AtribuicaoProfessor obj) throws SQLException {}
-    public AtribuicaoProfessor findById(long id) throws SQLException { return null; }
-    public List<AtribuicaoProfessor> findAll() throws SQLException { return null; }
-    public void update(AtribuicaoProfessor obj) throws SQLException {}
-    public void delete(long id) throws SQLException {}
+    public AtribuicaoProfessorRepository(EntityManager em) {
+        this.em = em;
+    }
+
+    public void save(AtribuicaoProfessor obj) {
+        em.getTransaction().begin();
+        em.persist(obj);
+        em.getTransaction().commit();
+    }
+
+    public AtribuicaoProfessor findById(long id) {
+        return em.find(AtribuicaoProfessor.class, id);
+    }
+
+    public List<AtribuicaoProfessor> findAll() {
+        return em.createQuery("SELECT a FROM AtribuicaoProfessor a", AtribuicaoProfessor.class).getResultList();
+    }
+
+    public void update(AtribuicaoProfessor obj) {
+        em.getTransaction().begin();
+        em.merge(obj);
+        em.getTransaction().commit();
+    }
+
+    public void delete(long id) {
+        em.getTransaction().begin();
+        AtribuicaoProfessor obj = em.find(AtribuicaoProfessor.class, id);
+        if (obj != null) em.remove(obj);
+        em.getTransaction().commit();
+    }
 }

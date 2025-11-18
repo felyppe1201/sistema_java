@@ -1,18 +1,40 @@
-
-package br.edu.avaliacao.repository;
+package br.edu.avaliacao.repositorys;
 
 import br.edu.avaliacao.models.Turma;
-import java.sql.Connection;
-import java.sql.SQLException;
+import jakarta.persistence.*;
 import java.util.List;
 
 public class TurmaRepository {
-    protected Connection conn;
-    public TurmaRepository(Connection conn){ this.conn = conn; }
+    private EntityManager em;
 
-    public void save(Turma obj) throws SQLException {}
-    public Turma findById(long id) throws SQLException { return null; }
-    public List<Turma> findAll() throws SQLException { return null; }
-    public void update(Turma obj) throws SQLException {}
-    public void delete(long id) throws SQLException {}
+    public TurmaRepository(EntityManager em) {
+        this.em = em;
+    }
+
+    public void save(Turma obj) {
+        em.getTransaction().begin();
+        em.persist(obj);
+        em.getTransaction().commit();
+    }
+
+    public Turma findById(long id) {
+        return em.find(Turma.class, id);
+    }
+
+    public List<Turma> findAll() {
+        return em.createQuery("SELECT t FROM Turma t", Turma.class).getResultList();
+    }
+
+    public void update(Turma obj) {
+        em.getTransaction().begin();
+        em.merge(obj);
+        em.getTransaction().commit();
+    }
+
+    public void delete(long id) {
+        em.getTransaction().begin();
+        Turma obj = em.find(Turma.class, id);
+        if (obj != null) em.remove(obj);
+        em.getTransaction().commit();
+    }
 }

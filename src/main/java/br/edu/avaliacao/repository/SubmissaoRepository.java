@@ -1,18 +1,40 @@
-
-package br.edu.avaliacao.repository;
+package br.edu.avaliacao.repositorys;
 
 import br.edu.avaliacao.models.Submissao;
-import java.sql.Connection;
-import java.sql.SQLException;
+import jakarta.persistence.*;
 import java.util.List;
 
 public class SubmissaoRepository {
-    protected Connection conn;
-    public SubmissaoRepository(Connection conn){ this.conn = conn; }
+    private EntityManager em;
 
-    public void save(Submissao obj) throws SQLException {}
-    public Submissao findById(long id) throws SQLException { return null; }
-    public List<Submissao> findAll() throws SQLException { return null; }
-    public void update(Submissao obj) throws SQLException {}
-    public void delete(long id) throws SQLException {}
+    public SubmissaoRepository(EntityManager em) {
+        this.em = em;
+    }
+
+    public void save(Submissao obj) {
+        em.getTransaction().begin();
+        em.persist(obj);
+        em.getTransaction().commit();
+    }
+
+    public Submissao findById(long id) {
+        return em.find(Submissao.class, id);
+    }
+
+    public List<Submissao> findAll() {
+        return em.createQuery("SELECT s FROM Submissao s", Submissao.class).getResultList();
+    }
+
+    public void update(Submissao obj) {
+        em.getTransaction().begin();
+        em.merge(obj);
+        em.getTransaction().commit();
+    }
+
+    public void delete(long id) {
+        em.getTransaction().begin();
+        Submissao obj = em.find(Submissao.class, id);
+        if (obj != null) em.remove(obj);
+        em.getTransaction().commit();
+    }
 }

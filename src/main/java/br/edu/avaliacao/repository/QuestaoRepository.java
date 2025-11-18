@@ -1,18 +1,40 @@
-
-package br.edu.avaliacao.repository;
+package br.edu.avaliacao.repositorys;
 
 import br.edu.avaliacao.models.Questao;
-import java.sql.Connection;
-import java.sql.SQLException;
+import jakarta.persistence.*;
 import java.util.List;
 
 public class QuestaoRepository {
-    protected Connection conn;
-    public QuestaoRepository(Connection conn){ this.conn = conn; }
+    private EntityManager em;
 
-    public void save(Questao obj) throws SQLException {}
-    public Questao findById(long id) throws SQLException { return null; }
-    public List<Questao> findAll() throws SQLException { return null; }
-    public void update(Questao obj) throws SQLException {}
-    public void delete(long id) throws SQLException {}
+    public QuestaoRepository(EntityManager em) {
+        this.em = em;
+    }
+
+    public void save(Questao obj) {
+        em.getTransaction().begin();
+        em.persist(obj);
+        em.getTransaction().commit();
+    }
+
+    public Questao findById(long id) {
+        return em.find(Questao.class, id);
+    }
+
+    public List<Questao> findAll() {
+        return em.createQuery("SELECT q FROM Questao q", Questao.class).getResultList();
+    }
+
+    public void update(Questao obj) {
+        em.getTransaction().begin();
+        em.merge(obj);
+        em.getTransaction().commit();
+    }
+
+    public void delete(long id) {
+        em.getTransaction().begin();
+        Questao obj = em.find(Questao.class, id);
+        if (obj != null) em.remove(obj);
+        em.getTransaction().commit();
+    }
 }

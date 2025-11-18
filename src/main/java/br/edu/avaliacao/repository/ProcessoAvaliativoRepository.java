@@ -1,18 +1,40 @@
-
-package br.edu.avaliacao.repository;
+package br.edu.avaliacao.repositorys;
 
 import br.edu.avaliacao.models.ProcessoAvaliativo;
-import java.sql.Connection;
-import java.sql.SQLException;
+import jakarta.persistence.*;
 import java.util.List;
 
 public class ProcessoAvaliativoRepository {
-    protected Connection conn;
-    public ProcessoAvaliativoRepository(Connection conn){ this.conn = conn; }
+    private EntityManager em;
 
-    public void save(ProcessoAvaliativo obj) throws SQLException {}
-    public ProcessoAvaliativo findById(long id) throws SQLException { return null; }
-    public List<ProcessoAvaliativo> findAll() throws SQLException { return null; }
-    public void update(ProcessoAvaliativo obj) throws SQLException {}
-    public void delete(long id) throws SQLException {}
+    public ProcessoAvaliativoRepository(EntityManager em) {
+        this.em = em;
+    }
+
+    public void save(ProcessoAvaliativo obj) {
+        em.getTransaction().begin();
+        em.persist(obj);
+        em.getTransaction().commit();
+    }
+
+    public ProcessoAvaliativo findById(long id) {
+        return em.find(ProcessoAvaliativo.class, id);
+    }
+
+    public List<ProcessoAvaliativo> findAll() {
+        return em.createQuery("SELECT p FROM ProcessoAvaliativo p", ProcessoAvaliativo.class).getResultList();
+    }
+
+    public void update(ProcessoAvaliativo obj) {
+        em.getTransaction().begin();
+        em.merge(obj);
+        em.getTransaction().commit();
+    }
+
+    public void delete(long id) {
+        em.getTransaction().begin();
+        ProcessoAvaliativo obj = em.find(ProcessoAvaliativo.class, id);
+        if (obj != null) em.remove(obj);
+        em.getTransaction().commit();
+    }
 }
