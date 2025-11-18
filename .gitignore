@@ -1,0 +1,22 @@
+# Java
+*.class
+*.log
+
+# Build
+target/
+out/
+
+# IDE
+*.iml
+.idea/
+.vscode/
+.classpath
+.project
+.settings/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Credenciais
+.env

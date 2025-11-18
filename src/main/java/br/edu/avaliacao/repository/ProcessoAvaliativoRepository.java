@@ -8,11 +8,11 @@ import java.util.List;
 
 public class ProcessoAvaliativoRepository {
     protected Connection conn;
-    public ProcessoAvaliativoRepository(Connection conn){{ this.conn = conn; }}
+    public ProcessoAvaliativoRepository(Connection conn){ this.conn = conn; }
 
-    public void save(ProcessoAvaliativo obj) throws SQLException {{}}
-    public ProcessoAvaliativo findById(int id) throws SQLException {{ return null; }}
-    public List<ProcessoAvaliativo> findAll() throws SQLException {{ return null; }}
-    public void update(ProcessoAvaliativo obj) throws SQLException {{}}
-    public void delete(int id) throws SQLException {{}}
+    public void save(ProcessoAvaliativo obj) throws SQLException {}
+    public ProcessoAvaliativo findById(long id) throws SQLException { return null; }
+    public List<ProcessoAvaliativo> findAll() throws SQLException { return null; }
+    public void update(ProcessoAvaliativo obj) throws SQLException {}
+    public void delete(long id) throws SQLException {}
 }

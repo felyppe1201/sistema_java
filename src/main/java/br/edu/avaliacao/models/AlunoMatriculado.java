@@ -1,24 +1,24 @@
 package br.edu.avaliacao.models;
 
-public class Disciplina {
+public class AlunoMatriculado {
     private long id;
+    private long idUsuario;
     private long idCurso;
-    private String nome;
 
-    public Disciplina() {}
+    public AlunoMatriculado() {}
 
-    public Disciplina(long id, long idCurso, String nome) {
+    public AlunoMatriculado(long id, long idUsuario, long idCurso) {
         this.id = id;
+        this.idUsuario = idUsuario;
         this.idCurso = idCurso;
-        this.nome = nome;
     }
 
     public long getId() { return id; }
     public void setId(long id) { this.id = id; }
 
+    public long getIdUsuario() { return idUsuario; }
+    public void setIdUsuario(long idUsuario) { this.idUsuario = idUsuario; }
+
     public long getIdCurso() { return idCurso; }
     public void setIdCurso(long idCurso) { this.idCurso = idCurso; }
-
-    public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome = nome; }
 }

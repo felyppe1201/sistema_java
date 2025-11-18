@@ -1,14 +1,29 @@
 package br.edu.avaliacao.models;
 
 public class ProcessoAvaliativo {
-    private int id;
+    private long id;
     private String nome;
-    private String semestre;
-    private String status;
+    private int periodo;
+    private int stat;
+
     public ProcessoAvaliativo() {}
-    public ProcessoAvaliativo(int id, String nome, String semestre, String status) { this.id = id; this.nome = nome; this.semestre = semestre; this.status = status; }
-    public int getId() { return id; } public void setId(int id) { this.id = id; }
-    public String getNome() { return nome; } public void setNome(String nome) { this.nome = nome; }
-    public String getSemestre() { return semestre; } public void setSemestre(String semestre) { this.semestre = semestre; }
-    public String getStatus() { return status; } public void setStatus(String status) { this.status = status; }
+
+    public ProcessoAvaliativo(long id, String nome, int periodo, int stat) {
+        this.id = id;
+        this.nome = nome;
+        this.periodo = periodo;
+        this.stat = stat;
+    }
+
+    public long getId() { return id; }
+    public void setId(long id) { this.id = id; }
+
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
+
+    public int getPeriodo() { return periodo; }
+    public void setPeriodo(int periodo) { this.periodo = periodo; }
+
+    public int getStat() { return stat; }
+    public void setStat(int stat) { this.stat = stat; }
 }

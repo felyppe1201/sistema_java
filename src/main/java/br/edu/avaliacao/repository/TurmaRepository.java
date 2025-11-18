@@ -8,11 +8,11 @@ import java.util.List;
 
 public class TurmaRepository {
     protected Connection conn;
-    public TurmaRepository(Connection conn){{ this.conn = conn; }}
+    public TurmaRepository(Connection conn){ this.conn = conn; }
 
-    public void save(Turma obj) throws SQLException {{}}
-    public Turma findById(int id) throws SQLException {{ return null; }}
-    public List<Turma> findAll() throws SQLException {{ return null; }}
-    public void update(Turma obj) throws SQLException {{}}
-    public void delete(int id) throws SQLException {{}}
+    public void save(Turma obj) throws SQLException {}
+    public Turma findById(long id) throws SQLException { return null; }
+    public List<Turma> findAll() throws SQLException { return null; }
+    public void update(Turma obj) throws SQLException {}
+    public void delete(long id) throws SQLException {}
 }

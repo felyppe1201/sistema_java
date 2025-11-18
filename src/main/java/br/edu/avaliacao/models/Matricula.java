@@ -1,16 +1,29 @@
 package br.edu.avaliacao.models;
 
 public class Matricula {
-    private int id;
-    private int idTurma;
-    private int idAluno;
-    private int idCurso;
-    private String status;
+    private long id;
+    private long idTurma;
+    private long idAluno;
+    private int stat;
+
     public Matricula() {}
-    public Matricula(int id, int idTurma, int idAluno, int idCurso, String status) { this.id = id; this.idTurma = idTurma; this.idAluno = idAluno; this.idCurso = idCurso; this.status = status; }
-    public int getId() { return id; } public void setId(int id) { this.id = id; }
-    public int getIdTurma() { return idTurma; } public void setIdTurma(int idTurma) { this.idTurma = idTurma; }
-    public int getIdAluno() { return idAluno; } public void setIdAluno(int idAluno) { this.idAluno = idAluno; }
-    public int getIdCurso() { return idCurso; } public void setIdCurso(int idCurso) { this.idCurso = idCurso; }
-    public String getStatus() { return status; } public void setStatus(String status) { this.status = status; }
+
+    public Matricula(long id, long idTurma, long idAluno, int stat) {
+        this.id = id;
+        this.idTurma = idTurma;
+        this.idAluno = idAluno;
+        this.stat = stat;
+    }
+
+    public long getId() { return id; }
+    public void setId(long id) { this.id = id; }
+
+    public long getIdTurma() { return idTurma; }
+    public void setIdTurma(long idTurma) { this.idTurma = idTurma; }
+
+    public long getIdAluno() { return idAluno; }
+    public void setIdAluno(long idAluno) { this.idAluno = idAluno; }
+
+    public int getStat() { return stat; }
+    public void setStat(int stat) { this.stat = stat; }
 }
