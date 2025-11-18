@@ -1,4 +1,4 @@
-package br.edu.avaliacao.repositorys;
+package br.edu.avaliacao.repository;
 
 import br.edu.avaliacao.models.Questao;
 import jakarta.persistence.*;
