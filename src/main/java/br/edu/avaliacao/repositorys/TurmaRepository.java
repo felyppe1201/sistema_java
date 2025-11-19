@@ -35,19 +35,20 @@ public class TurmaRepository {
      * Assume que a classe Turma tem um campo 'professor' que referencia a classe Usuario.
      */
     public List<Turma> findTurmasByProfessorId(Long professorId) {
-        try {
-            TypedQuery<Turma> query = em.createQuery(
-                // Assumindo que o campo de relacionamento na Turma se chama 'professor'
-                "SELECT t FROM Turma t WHERE t.professor.id = :professorId ORDER BY t.periodo, t.disciplina.nome", 
-                Turma.class
-            );
-            query.setParameter("professorId", professorId);
-            return query.getResultList();
-        } catch (Exception e) {
-            System.err.println("Erro ao buscar turmas do professor: " + e.getMessage());
-            return List.of(); // Retorna lista vazia em caso de erro
-        }
+    try {
+        TypedQuery<Turma> query = em.createQuery(
+            "SELECT ap.turma FROM AtribuicaoProfessor ap " +
+            "WHERE ap.professor.id = :professorId AND ap.turma.ativo = true " +
+            "ORDER BY ap.turma.periodo, ap.turma.disciplina.nome",
+            Turma.class
+        );
+        query.setParameter("professorId", professorId);
+        return query.getResultList();
+    } catch (Exception e) {
+        System.err.println("Erro ao buscar turmas do professor: " + e.getMessage());
+        return List.of(); // Retorna lista vazia em caso de erro
     }
+}
 
     public void update(Turma obj) {
         try {

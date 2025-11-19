@@ -162,16 +162,22 @@ public class DashboardServlet extends HttpServlet {
             Usuario professor = usuarioRepo.findById(professorId);
 
             // 2. BUSCAR TURMAS ATIVAS
-            // Requer que TurmaRepository tenha o método findTurmasByProfessorId(Long)
             List<Turma> turmas = turmaRepo.findTurmasByProfessorId(professorId);
+            List<Map<String, Object>> turmasDTO = new ArrayList<>();
             
-            // 3. SETAR ATRIBUTOS PARA O JSP
-            req.setAttribute("professor", professor); // Objeto completo do professor
-            req.setAttribute("turmas", turmas);
+            for (Turma t : turmas) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("id", t.getId());
+                map.put("codigo", t.getCodigoTurma());
+                map.put("periodo", t.getPeriodo());
+                map.put("disciplina", t.getDisciplina() != null ? t.getDisciplina().getNome() : "N/D");
+                map.put("vagas", t.getNumeroVagas());
+                turmasDTO.add(map);
+            }
 
-            // Mock de Indicadores de Alerta (A ser implementado com lógica real de Avaliação)
-            req.setAttribute("avaliacoesPendentes", turmas.size() * 2); // Exemplo de valor mock
-            req.setAttribute("alunosEmRisco", (int) (turmas.size() * 1.5)); // Exemplo de valor mock
+            // 4. Setar atributos para o JSP
+            req.setAttribute("professor", professor);
+            req.setAttribute("turmas", turmasDTO);
             
         } catch (Exception e) {
             System.err.println("Erro ao carregar dados do Dashboard do Professor: " + e.getMessage());
