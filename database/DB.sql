@@ -14,9 +14,6 @@ CREATE TABLE Usuario (
     stat INT UNSIGNED NOT NULL DEFAULT 1
 );
 
-INSERT INTO Usuario (nome, email, senha, cargo, ativo, stat)
-VALUES ('Administrador Mestre', 'admin@teste.com', '$2a$10$gh3qXRA14m0eiZnm9mweUuNskXxCM3IHcnn6QZNjWt3gLZ/eCpXdG', 'adm', TRUE, 1);
-
 CREATE TABLE Curso (
     id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     ativo BOOLEAN DEFAULT TRUE,
@@ -192,3 +189,90 @@ BEGIN
     END IF;
 END$$
 DELIMITER ;
+
+
+-- dados teste:
+
+INSERT INTO Usuario (nome, email, senha, cargo, ativo, stat)
+VALUES
+('Administrador Geral', 'admin@teste.com', '$2a$10$gh3qXRA14m0eiZnm9mweUuNskXxCM3IHcnn6QZNjWt3gLZ/eCpXdG', 'adm', TRUE, 1),
+('Carlos Coordenador', 'coord@teste.com', '$2a$10$gh3qXRA14m0eiZnm9mweUuNskXxCM3IHcnn6QZNjWt3gLZ/eCpXdG', 'coord', TRUE, 1),
+('Paulo Professor', 'prof@teste.com', '$2a$10$gh3qXRA14m0eiZnm9mweUuNskXxCM3IHcnn6QZNjWt3gLZ/eCpXdG', 'prof', TRUE, 1),
+('Ana Aluna', 'aluna1@teste.com', '$2a$10$gh3qXRA14m0eiZnm9mweUuNskXxCM3IHcnn6QZNjWt3gLZ/eCpXdG', 'alu', TRUE, 1),
+('Bruno Aluno', 'aluno2@teste.com', '$2a$10$gh3qXRA14m0eiZnm9mweUuNskXxCM3IHcnn6QZNjWt3gLZ/eCpXdG', 'alu', TRUE, 1);
+
+INSERT INTO Curso (nome, ativo)
+VALUES ('Ciência da Computação', TRUE);
+
+INSERT INTO aluno_matriculado (id_usuario, curso_id, ativo)
+VALUES
+(4, 1, TRUE),
+(5, 1, TRUE);
+
+INSERT INTO Disciplina (curso_id, nome, ativo)
+VALUES
+(1, 'Programação I', TRUE),
+(1, 'Banco de Dados', TRUE);
+
+INSERT INTO Turma (disciplina_id, codigo_turma, ativo, numero_vagas, periodo, stat)
+VALUES
+(1, 'PROG1-A', TRUE, 40, 1, 1),
+(2, 'BD-A', TRUE, 40, 1, 1);
+
+INSERT INTO AtribuicaoProfessor (turma_id, professor_id)
+VALUES
+(1, 3),
+(2, 3);
+
+INSERT INTO Matricula (turma_id, aluno_id, ativo, stat)
+VALUES
+(1, 4, TRUE, 1),
+(1, 5, TRUE, 1),
+(2, 4, TRUE, 1);
+
+INSERT INTO ProcessoAvaliativo (nome, ativo, periodo, stat)
+VALUES
+('Avaliação Docente 2025', TRUE, 1, 1);
+
+
+INSERT INTO Formulario (processo_id, titulo, identificado, stat)
+VALUES
+(1, 'Avaliação da Turma PROG1-A', TRUE, 102);
+
+
+INSERT INTO Questao (formulario_id, texto, tipo, obrigatoria)
+VALUES
+(1, 'O professor demonstra domínio do conteúdo?', 'obj', TRUE),
+(1, 'Comente sobre os pontos fortes do professor.', 'disc', FALSE);
+
+INSERT INTO Opcao (questao_id, texto, vf, respostavf, correta)
+VALUES
+(1, 'Excelente', FALSE, NULL, FALSE),
+(1, 'Bom', FALSE, NULL, FALSE),
+(1, 'Regular', FALSE, NULL, FALSE),
+(1, 'Ruim', FALSE, NULL, FALSE);
+
+
+INSERT INTO Peso (questao_id, opcao_id, peso)
+VALUES
+(1, 1, 1.0),
+(1, 2, 0.8),
+(1, 3, 0.5),
+(1, 4, 0.2);
+
+INSERT INTO Submissao (formulario_id, turma_id, usuario_id, nota)
+VALUES
+(1, 1, 4, 0),  -- Ana
+(1, 1, 5, 0);  -- Bruno
+
+INSERT INTO Resposta (submissao_id, questao_id, opcao_id, texto)
+VALUES
+(1, 1, 1, NULL),
+(1, 2, NULL, 'Professor explica muito bem e dá exemplos.');
+
+INSERT INTO Resposta (submissao_id, questao_id, opcao_id, texto)
+VALUES
+(2, 1, 3, NULL),
+(2, 2, NULL, 'Acho que poderia melhorar a dinâmica das aulas.');
+
+select * from usuario;

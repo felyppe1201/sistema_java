@@ -1,4 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" %> <%@ taglib prefix="c"
+uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
   <head>
@@ -60,7 +61,6 @@
                   <strong>Disciplina ${t.disciplinaId}</strong><br /> Período:
                   ${t.periodo}<br /> Vagas: ${t.vagas}<br /> Código:
                   ${t.codigo}<br />
-                  <span class="turma-id">ID interno: ${t.id}</span>
                 </div>
               </c:forEach>
             </div>

@@ -49,7 +49,18 @@ public class DashboardServlet extends HttpServlet {
         switch (cargo.toUpperCase()) {
             case "ADM":
                 destino = "/WEB-INF/views/dashboard/adminDashboard.jsp";
-                carregarDadosAdmin(req); 
+                System.out.println("=== DB URL (JPA props) ===");
+                    try {
+                        EntityManager emTemp = EntityManagerUtil.getEntityManager();
+                        Object url = emTemp.getEntityManagerFactory().getProperties()
+                                        .getOrDefault("jakarta.persistence.jdbc.url",
+                                                    emTemp.getEntityManagerFactory().getProperties().get("javax.persistence.jdbc.url"));
+                        System.out.println("JPA URL = " + url);
+                        emTemp.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                carregarDadosAdmin(req);  
                 break;
 
             case "ALU":
@@ -144,15 +155,18 @@ public class DashboardServlet extends HttpServlet {
         EntityManager em = EntityManagerUtil.getEntityManager();
 
         try {
+            System.out.println("DEBUG: abrindo EM para carregarDadosAdmin");
             AtribuicaoProfessorRepository atribuicaoRepo =
                     new AtribuicaoProfessorRepository(em);
             UsuarioRepository usuarioRepo = new UsuarioRepository(em);
 
             // 1) Buscar todos os professores (via Repository)
             List<Usuario> professores = usuarioRepo.findProfessoresAtivos();
+            System.out.println("DEBUG: professores.size() = " + (professores == null ? "null" : professores.size()));
 
             // 2) Buscar todas as atribuições
             List<AtribuicaoProfessor> atribuicoes = atribuicaoRepo.findAll();
+            System.out.println("DEBUG: atribuicoes.size() = " + (atribuicoes == null ? "null" : atribuicoes.size()));
 
             // 3) Estrutura final para enviar ao JSP
             List<Map<String, Object>> professoresDTO = new ArrayList<>();
