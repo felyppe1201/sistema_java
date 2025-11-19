@@ -1,0 +1,119 @@
+/* -------------------- */
+/* Configurações gerais */
+/* -------------------- */
+
+body {
+  margin: 0;
+  background-color: #f3f4f6; /* cinza claro */
+  font-family: Arial, sans-serif;
+}
+
+.no-select {
+  user-select: none;
+}
+
+/* -------------------- */
+/* CONTEÚDO DO DASHBOARD */
+/* -------------------- */
+
+.dashboard-content {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.dashboard-content h1 {
+  color: #1e3a8a;
+  margin-bottom: 30px;
+  font-size: 28px;
+  text-align: left;
+}
+
+/* Cards */
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+}
+
+.card {
+  width: 240px;
+  height: 140px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 17px;
+  color: #1e3a8a;
+}
+
+/* Mobile ajustado */
+@media (max-width: 768px) {
+  .card {
+    width: 80%;
+  }
+}
+
+/* ------------------------- */
+/* LISTA DE PROFESSORES      */
+/* ------------------------- */
+
+.prof-list {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.prof-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.prof-header {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.prof-name {
+  font-weight: bold;
+  font-size: 17px;
+  color: #1e3a8a;
+}
+
+.prof-count {
+  background: #1e3a8a;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 8px;
+}
+
+.turmas {
+  margin-top: 15px;
+}
+
+.turma-item {
+  padding: 10px;
+  margin-bottom: 10px;
+  background: #f8fafc;
+  border-left: 4px solid #1e3a8a;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.turma-id {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.hidden {
+  display: none;
+}

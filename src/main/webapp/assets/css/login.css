@@ -1,0 +1,179 @@
+/* src/main/webapp/assets/css/login.css
+   Versão responsiva melhorada: usa clamp(), min/max, e media queries
+*/
+
+/* Reset e base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Inter, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  user-select: none;
+}
+html,
+body {
+  height: 100%;
+}
+
+/* Página: fundo escuro e centralização */
+body.page-container {
+  background-color: #1f1f1f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+/* Card do formulário (glassmorphism) */
+.login-card {
+  width: clamp(
+    320px,
+    40vw,
+    480px
+  ); /* responsivo: mínimo 320px, ideal 40vw, máximo 480px */
+  min-height: clamp(
+    420px,
+    55vh,
+    700px
+  ); /* altura adaptativa: 55% da viewport, com limites */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: clamp(20px, 3.5vw, 36px);
+  gap: 1rem;
+
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 8px 48px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+
+  /* layout interno para distribuir título/form/rodapé */
+  justify-content: center;
+}
+
+/* Título */
+.login-title {
+  color: #ffffff;
+  font-size: clamp(20px, 3.2vw, 28px);
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-align: center;
+  margin-bottom: 4px;
+  width: 100%;
+}
+
+/* Subtítulo opcional (se usar) */
+.login-sub {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: clamp(12px, 1.8vw, 14px);
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+/* Formulário */
+.login-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: stretch;
+}
+
+/* Labels */
+.login-form label {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+  font-size: clamp(12px, 1.6vw, 14px);
+  margin-bottom: 6px;
+}
+
+/* Inputs */
+.login-form input {
+  width: 100%;
+  padding: clamp(10px, 1.8vw, 14px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.95);
+  font-size: clamp(14px, 1.9vw, 16px);
+  color: #111;
+  outline: none;
+  transition: box-shadow 0.15s ease, transform 0.06s ease;
+  -webkit-appearance: none;
+}
+
+.login-form input:focus {
+  box-shadow: 0 6px 18px rgba(30, 58, 138, 0.14);
+  transform: translateY(-1px);
+  border-color: rgba(30, 58, 138, 0.9);
+}
+
+/* Botão */
+.login-form button {
+  margin-top: 6px;
+  padding: clamp(10px, 1.8vw, 14px);
+  border-radius: 10px;
+  border: none;
+  background-color: #1e3a8a;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: clamp(15px, 1.9vw, 16px);
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.08s ease;
+}
+
+.login-form button:hover {
+  background-color: #2747b0;
+  transform: translateY(-2px);
+}
+
+/* Mensagem de erro */
+.erro-msg {
+  color: #ff6b6b;
+  margin-top: 6px;
+  font-weight: 700;
+  text-align: center;
+  width: 100%;
+  font-size: clamp(13px, 1.7vw, 14px);
+}
+
+/* Pequeno rodapé (opcional) */
+.login-footer {
+  margin-top: auto;
+  width: 100%;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 12px;
+  padding-top: 8px;
+}
+
+/* Responsividade: telas muito altas (desktop estreito) */
+@media (min-height: 900px) {
+  .login-card {
+    min-height: 520px;
+    padding: 44px;
+  }
+}
+
+/* Responsividade: telas menores (mobile) */
+@media (max-width: 420px) {
+  body.page-container {
+    padding: 1rem;
+  }
+  .login-card {
+    width: 100%;
+    min-height: 460px;
+    padding: 20px;
+    border-radius: 12px;
+  }
+  .login-form {
+    gap: 10px;
+  }
+  .login-title {
+    font-size: 20px;
+  }
+}

@@ -1,39 +1,56 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-
 <!DOCTYPE html>
-
 <html>
   <head>
     <title>Login</title>
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
     <link
       rel="stylesheet"
       type="text/css"
-      href="${pageContext.request.contextPath}/assets/css/generico.css"
+      href="${pageContext.request.contextPath}/assets/css/login.css"
     />
   </head>
-  <body class="bg-gray flex justify-center items-center h-full">
-    <div class="bg-white p-5 rounded-lg w-25vw flex flex-col items-center">
-      <h2 class="text-blue text-center">LOGIN</h2>
 
-      ```
+  <body class="page-container">
+    <div class="login-card">
+      <h2 class="login-title">LOGIN</h2>
+
       <form
         action="${pageContext.request.contextPath}/auth/login"
         method="post"
-        class="flex flex-col w-full mt-3"
+        class="login-form"
       >
-        <label class="font-bold">Email:</label>
-        <input type="text" name="email" required />
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="text"
+          name="email"
+          required
+          autocomplete="username"
+        />
 
-        <label class="font-bold mt-2">Senha:</label>
-        <input type="password" name="senha" required />
+        <label for="senha">Senha</label>
+        <input
+          id="senha"
+          type="password"
+          name="senha"
+          required
+          autocomplete="current-password"
+        />
 
-        <button type="submit" class="mt-4">Entrar</button>
+        <button type="submit">Entrar</button>
       </form>
 
       <% String erro = request.getParameter("erro"); if (erro != null) { %>
-      <p class="text-red mt-2">Credenciais inválidas.</p>
+      <p class="erro-msg">Credenciais inválidas.</p>
       <% } %>
+
+      <div class="login-footer" aria-hidden="true">
+        © <%= java.time.Year.now() %> Sistema de provas
+      </div>
     </div>
-    ```
   </body>
 </html>
