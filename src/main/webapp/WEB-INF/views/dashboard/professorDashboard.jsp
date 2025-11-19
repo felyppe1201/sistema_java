@@ -14,9 +14,14 @@
       type="text/css"
       href="${pageContext.request.contextPath}/assets/css/navbar.css"
     />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="${pageContext.request.contextPath}/assets/css/generico.css"
+    />
   </head>
 
-  <body>
+  <body class="m-0">
     <!-- NAVBAR -->
     <nav class="navbar no-select">
       <div class="nav-logo">Sistema Acadêmico</div>
@@ -28,11 +33,6 @@
           <a href="${pageContext.request.contextPath}/dashboard">Painel</a>
         </li>
         <li><a href="${pageContext.request.contextPath}/conta">Conta</a></li>
-        <li>
-          <a href="${pageContext.request.contextPath}/central_admin"
-            >Central de administração</a
-          >
-        </li>
         <li>
           <a href="${pageContext.request.contextPath}/relatorios">Relatórios</a>
         </li>

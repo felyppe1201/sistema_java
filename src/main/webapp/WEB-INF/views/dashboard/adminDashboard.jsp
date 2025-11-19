@@ -31,7 +31,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         <li><a href="${pageContext.request.contextPath}/conta">Conta</a></li>
         <li>
           <a href="${pageContext.request.contextPath}/central_admin"
-            >Central de adm inistração</a
+            >Central de administração</a
           >
         </li>
         <li>
