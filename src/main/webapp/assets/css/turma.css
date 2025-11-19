@@ -1,0 +1,245 @@
+/* * Estilos genéricos para os JSPs da aplicação de Avaliação.
+
+Focado em layout responsivo, tipografia limpa e cores sóbrias.
+*/
+
+:root {
+--primary-color: #007bff;
+--secondary-color: #6c757d;
+--success-color: #28a745; /* Cor para ATIVO /
+--danger-color: #dc3545; / Cor de exemplo para uso futuro */
+--background-color: #f8f9fa;
+--card-background: #ffffff;
+--text-color: #343a40;
+--border-color: #dee2e6;
+--shadow-light: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+body {
+font-family: 'Inter', sans-serif;
+background-color: var(--background-color);
+color: var(--text-color);
+margin: 0;
+padding: 0;
+line-height: 1.6;
+}
+
+.container {
+width: 90%;
+max-width: 1200px;
+margin: 20px auto;
+padding: 20px;
+}
+
+header {
+background-color: var(--card-background);
+padding: 15px 0;
+box-shadow: var(--shadow-light);
+border-bottom: 3px solid var(--primary-color);
+}
+
+header .container {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 0 20px;
+}
+
+.logo a {
+font-size: 1.5rem;
+font-weight: bold;
+color: var(--primary-color);
+text-decoration: none;
+}
+
+nav a {
+margin-left: 20px;
+color: var(--text-color);
+text-decoration: none;
+padding: 5px 10px;
+border-radius: 4px;
+transition: background-color 0.3s;
+}
+
+nav a:hover {
+background-color: var(--border-color);
+color: var(--primary-color);
+}
+
+h1, h2 {
+color: var(--primary-color);
+border-bottom: 2px solid var(--border-color);
+padding-bottom: 10px;
+margin-top: 20px;
+margin-bottom: 20px;
+}
+
+/* Estilo para cartões de informação */
+.card {
+background-color: var(--card-background);
+border: 1px solid var(--border-color);
+border-radius: 8px;
+padding: 20px;
+margin-bottom: 20px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Estilos de Botões */
+.btn {
+display: inline-block;
+padding: 10px 20px;
+font-size: 1rem;
+font-weight: 600;
+text-align: center;
+text-decoration: none;
+border-radius: 6px;
+transition: background-color 0.3s, transform 0.1s;
+cursor: pointer;
+border: none;
+}
+
+.btn-primary {
+background-color: var(--primary-color);
+color: white;
+}
+
+.btn-primary:hover {
+background-color: #0056b3;
+transform: translateY(-1px);
+}
+
+.btn-secondary {
+background-color: var(--secondary-color);
+color: white;
+}
+
+/* Estilos de Lista/Tabela para Processos Avaliativos */
+.processos-list {
+list-style: none;
+padding: 0;
+}
+
+.processo-item {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 15px;
+margin-bottom: 10px;
+background-color: var(--card-background);
+border: 1px solid var(--border-color);
+border-radius: 6px;
+/* Borda esquerda padrão */
+border-left: 5px solid var(--border-color);
+}
+
+.processo-details {
+flex-grow: 1;
+display: flex;
+flex-wrap: wrap;
+align-items: center;
+}
+
+.processo-name {
+font-size: 1.1rem;
+font-weight: 600;
+color: var(--text-color);
+margin-right: 15px;
+}
+
+.processo-periodo {
+font-size: 0.9rem;
+color: var(--secondary-color);
+margin-right: 15px;
+}
+
+/* ESTILOS PARA O BADGE DE STATUS */
+.status-badge {
+padding: 4px 8px;
+border-radius: 12px;
+font-size: 0.75rem;
+font-weight: 700;
+text-transform: uppercase;
+color: white;
+margin-top: 0;
+}
+
+.status-ativo {
+background-color: var(--success-color);
+}
+
+/* Aplica cor na borda esquerda do item quando ativo */
+.processo-item:has(.status-ativo) {
+border-left-color: var(--success-color);
+}
+
+.status-arquivado {
+background-color: var(--secondary-color);
+}
+
+/* Aplica cor na borda esquerda do item quando arquivado /
+.processo-item:has(.status-arquivado) {
+border-left-color: var(--secondary-color);
+}
+/ FIM DOS ESTILOS DE STATUS */
+
+.processo-actions a {
+margin-left: 10px;
+}
+
+.no-data {
+text-align: center;
+padding: 30px;
+background-color: #fff3cd;
+color: #856404;
+border: 1px solid #ffeeba;
+border-radius: 8px;
+}
+
+/* Responsividade Básica */
+@media (max-width: 768px) {
+header .container {
+flex-direction: column;
+align-items: flex-start;
+}
+
+nav {
+    margin-top: 10px;
+}
+
+nav a {
+    margin-left: 0;
+    margin-right: 15px;
+    display: inline-block;
+}
+
+.processo-item {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Quebra os detalhes (nome, período, status) em colunas no mobile */
+.processo-details {
+    margin-bottom: 10px;
+    flex-direction: column; 
+    align-items: flex-start;
+}
+
+.processo-name, .processo-periodo, .status-badge {
+    margin-right: 0;
+    margin-bottom: 5px;
+}
+
+.processo-actions {
+    margin-top: 10px;
+    width: 100%; /* Faz as ações ocuparem a largura total */
+}
+
+.processo-actions a {
+    width: 100%;
+    display: block;
+    margin-left: 0;
+    margin-bottom: 5px;
+}
+
+
+}
