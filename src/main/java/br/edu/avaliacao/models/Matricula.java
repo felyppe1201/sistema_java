@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "matricula")
 public class Matricula {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -21,6 +22,14 @@ public class Matricula {
     @Column(name = "stat", nullable = false, columnDefinition = "INT UNSIGNED DEFAULT 1")
     private Integer stat = 1;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "turma_id", insertable = false, updatable = false)
+    private Turma turma;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "aluno_id", insertable = false, updatable = false)
+    private Usuario aluno;
+
     public Matricula() {}
 
     public Matricula(long id, long idTurma, long idAluno, boolean ativo, Integer stat) {
@@ -33,12 +42,19 @@ public class Matricula {
 
     public long getId() { return id; }
     public void setId(long id) { this.id = id; }
+
     public long getIdTurma() { return idTurma; }
     public void setIdTurma(long idTurma) { this.idTurma = idTurma; }
+
     public long getIdAluno() { return idAluno; }
     public void setIdAluno(long idAluno) { this.idAluno = idAluno; }
+
     public boolean isAtivo() { return ativo; }
     public void setAtivo(boolean ativo) { this.ativo = ativo; }
+
     public Integer getStat() { return stat; }
     public void setStat(Integer stat) { this.stat = stat; }
+
+    public Turma getTurma() { return turma; }
+    public Usuario getAluno() { return aluno; }
 }

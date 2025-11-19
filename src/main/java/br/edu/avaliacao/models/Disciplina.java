@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "disciplina")
 public class Disciplina {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -15,8 +16,15 @@ public class Disciplina {
     @Column(nullable = false)
     private String nome;
 
+    @Column(columnDefinition = "INT UNSIGNED")
+    private Integer periodo;
+
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
     private boolean ativo = true;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "curso_id", insertable = false, updatable = false)
+    private Curso curso;
 
     public Disciplina() {}
 
@@ -29,10 +37,18 @@ public class Disciplina {
 
     public long getId() { return id; }
     public void setId(long id) { this.id = id; }
+
     public long getCursoId() { return cursoId; }
     public void setCursoId(long cursoId) { this.cursoId = cursoId; }
+
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }
+
+    public Integer getPeriodo() { return periodo; }
+    public void setPeriodo(Integer periodo) { this.periodo = periodo; }
+
     public boolean isAtivo() { return ativo; }
     public void setAtivo(boolean ativo) { this.ativo = ativo; }
+
+    public Curso getCurso() { return curso; }
 }

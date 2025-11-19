@@ -65,7 +65,7 @@ public class DashboardServlet extends HttpServlet {
 
             case "ALU":
                 destino = "/WEB-INF/views/dashboard/alunoDashboard.jsp";
-                carregarDadosAluno(req, usuario);
+                carregarDadosAluno(req, usuario.getId());
                 break;
 
             case "PROF":
@@ -91,59 +91,53 @@ public class DashboardServlet extends HttpServlet {
      * Carrega informações básicas, turmas atuais e turmas disponíveis
      * para uso no alunoDashboard.jsp.
      */
-    private void carregarDadosAluno(HttpServletRequest req, UsuarioSessionDTO usuario) {
+    private void carregarDadosAluno(HttpServletRequest req, Long alunoId) {
 
-        req.setAttribute("nome", usuario.getNome());
-        req.setAttribute("curso", "Engenharia de Software"); 
-        req.setAttribute("periodo", "5º Semestre"); 
-        
-        List<Map<String, Object>> turmasAtuaisDTO = new ArrayList<>();
-        Map<String, Object> t1 = new HashMap<>(); 
-        t1.put("codigo", "COMP201"); 
-        t1.put("disciplina", "Algoritmos"); 
-        t1.put("periodo", "5º Semestre");
-        turmasAtuaisDTO.add(t1);
-        
-        Map<String, Object> t2 = new HashMap<>(); 
-        t2.put("codigo", "HUM105"); 
-        t2.put("disciplina", "Ética Profissional"); 
-        t2.put("periodo", "5º Semestre");
-        turmasAtuaisDTO.add(t2);
-
-        List<Map<String, Object>> turmasDisponiveisDTO = new ArrayList<>();
-        Map<String, Object> d1 = new HashMap<>(); 
-        d1.put("id", 1001); 
-        d1.put("codigo", "PROG300"); 
-        d1.put("disciplina", "Desenvolvimento Web II"); 
-        d1.put("vagas", 15); 
-        turmasDisponiveisDTO.add(d1);
-        
-        Map<String, Object> d2 = new HashMap<>(); 
-        d2.put("id", 1002); 
-        d2.put("codigo", "CALC101"); 
-        d2.put("disciplina", "Cálculo I"); 
-        d2.put("vagas", 2); 
-        turmasDisponiveisDTO.add(d2);
-
-        req.setAttribute("turmasAtuais", turmasAtuaisDTO);
-        req.setAttribute("turmasDisponiveis", turmasDisponiveisDTO);
-        
-        /*
         EntityManager em = EntityManagerUtil.getEntityManager();
+
         try {
+            AlunoMatriculadoRepository alunoMatRepo = new AlunoMatriculadoRepository(em);
             MatriculaRepository matriculaRepo = new MatriculaRepository(em);
-            TurmaRepository turmaRepo = new TurmaRepository(em);
-            
-            List<Turma> turmasAtuais = matriculaRepo.findTurmasByAlunoId(usuario.getId());
-            req.setAttribute("turmasAtuais", turmasAtuais);
-            
-            List<Turma> turmasDisponiveis = turmaRepo.findAllDisponiveisParaMatricula(); 
-            req.setAttribute("turmasDisponiveis", turmasDisponiveis);
-            
+
+            // 1) Buscar matrícula acadêmica do aluno (curso + período)
+            AlunoMatriculado am = alunoMatRepo.findByUsuarioId(alunoId);
+
+            if (am == null) {
+                req.setAttribute("erroAluno", "Aluno não possui vínculo acadêmico ativo.");
+                return;
+            }
+
+            String cursoNome = am.getCurso().getNome();
+            Integer periodoAtual = am.getPeriodo();
+
+            // 2) Buscar turmas em que o aluno está matriculado
+            List<Object[]> resultados = matriculaRepo.findTurmasDetalhadasByAlunoId(alunoId);
+
+            List<Map<String, Object>> turmasDTO = new ArrayList<>();
+
+            for (Object[] linha : resultados) {
+                Turma turma = (Turma) linha[0];
+                Disciplina disc = (Disciplina) linha[1];
+                Curso curso = (Curso) linha[2];
+
+                Map<String, Object> map = new HashMap<>();
+                map.put("id", turma.getId());
+                map.put("codigo", turma.getCodigoTurma());
+                map.put("periodo", turma.getPeriodo());
+                map.put("disciplina", disc.getNome());
+                map.put("curso", curso.getNome());
+
+                turmasDTO.add(map);
+            }
+
+            // 3) Atribuir ao request
+            req.setAttribute("curso", cursoNome);
+            req.setAttribute("periodo", periodoAtual);
+            req.setAttribute("turmasMatriculadas", turmasDTO);
+
         } finally {
             em.close();
         }
-        */
     }
 
     /**
@@ -183,7 +177,7 @@ public class DashboardServlet extends HttpServlet {
 
                         Map<String, Object> turmaMap = new HashMap<>();
                         turmaMap.put("id", t.getId());
-                        turmaMap.put("disciplinaId", t.getIdDisciplina());
+                        turmaMap.put("disciplinaId", t.getDisciplina().getId());
                         turmaMap.put("periodo", t.getPeriodo());
                         turmaMap.put("codigo", t.getCodigoTurma());
                         turmaMap.put("vagas", t.getNumeroVagas());
