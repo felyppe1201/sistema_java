@@ -42,11 +42,13 @@ public class UsuarioRepository {
     }
 
     public List<Usuario> findProfessoresAtivos() {
-    return em.createQuery(
-        "SELECT u FROM Usuario u WHERE LOWER(u.cargo) = 'prof' AND u.ativo = true",
-        Usuario.class
-    ).getResultList();
-}
+        TypedQuery<Usuario> q = em.createQuery(
+            "SELECT u FROM Usuario u WHERE TRIM(LOWER(u.cargo)) = :cargo AND u.ativo = true",
+            Usuario.class);
+        q.setParameter("cargo", "prof");
+        return q.getResultList();
+    }
+
 
     public void update(Usuario obj) {
         try {
