@@ -17,10 +17,29 @@ public class MatriculaRepository {
             em.persist(obj);
             em.getTransaction().commit();
         } catch (Exception e) {
-            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             throw e;
         }
     }
+    
+    public List<Object[]> findTurmasDetalhadasByAlunoId(Long alunoId) {
+
+        String jpql = """
+            SELECT t, d, c
+            FROM Matricula m
+            JOIN m.turma t
+            JOIN t.disciplina d
+            JOIN d.curso c
+            WHERE m.aluno.id = :alunoId
+              AND m.ativo = TRUE
+        """;
+
+        return em.createQuery(jpql, Object[].class)
+                 .setParameter("alunoId", alunoId)
+                 .getResultList();
+    }
+
 
     public Matricula findById(long id) {
         return em.find(Matricula.class, id);

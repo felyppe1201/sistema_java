@@ -28,6 +28,21 @@ public class AlunoMatriculadoRepository {
         return em.find(AlunoMatriculado.class, id);
     }
 
+    public AlunoMatriculado findByUsuarioId(Long usuarioId) {
+        String jpql = """
+                    SELECT a
+                    FROM AlunoMatriculado a
+                    JOIN FETCH a.curso
+                    WHERE a.usuario.id = :usuarioId
+                      AND a.ativo = TRUE
+                """;
+
+        TypedQuery<AlunoMatriculado> q = em.createQuery(jpql, AlunoMatriculado.class);
+        q.setParameter("usuarioId", usuarioId);
+
+        return q.getResultStream().findFirst().orElse(null);
+    }
+    
     public List<AlunoMatriculado> findAll() {
         return em.createQuery("SELECT a FROM AlunoMatriculado a", AlunoMatriculado.class).getResultList();
     }

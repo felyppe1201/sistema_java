@@ -16,6 +16,7 @@ CREATE TABLE Usuario (
 
 CREATE TABLE Curso (
     id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    periodo int,
     ativo BOOLEAN DEFAULT TRUE,
     nome VARCHAR(255) NOT NULL
 );
@@ -200,6 +201,10 @@ VALUES
 ('Paulo Professor', 'prof@teste.com', '$2a$10$gh3qXRA14m0eiZnm9mweUuNskXxCM3IHcnn6QZNjWt3gLZ/eCpXdG', 'prof', TRUE, 1),
 ('Ana Aluna', 'aluna1@teste.com', '$2a$10$gh3qXRA14m0eiZnm9mweUuNskXxCM3IHcnn6QZNjWt3gLZ/eCpXdG', 'alu', TRUE, 1),
 ('Bruno Aluno', 'aluno2@teste.com', '$2a$10$gh3qXRA14m0eiZnm9mweUuNskXxCM3IHcnn6QZNjWt3gLZ/eCpXdG', 'alu', TRUE, 1);
+
+INSERT INTO Usuario (nome, email, senha, cargo, ativo, stat)
+VALUES
+('Pedro Professor', 'prof2@teste.com', '$2a$10$gh3qXRA14m0eiZnm9mweUuNskXxCM3IHcnn6QZNjWt3gLZ/eCpXdG', 'prof', TRUE, 1);
 
 INSERT INTO Curso (nome, ativo)
 VALUES ('Ciência da Computação', TRUE);
