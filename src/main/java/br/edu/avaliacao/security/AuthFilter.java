@@ -18,6 +18,12 @@ public class AuthFilter implements Filter {
         String uri = req.getRequestURI();
         String ctx = req.getContextPath();
 
+        // NOVO: redireciona a rota raiz para o dashboard
+        if (uri.equals(ctx + "/") || uri.equals(ctx)) {
+            resp.sendRedirect(ctx + "/dashboard");
+            return;
+        }
+
         boolean isLoginServlet = uri.equals(ctx + "/auth/login");
         boolean isStatic = uri.startsWith(ctx + "/assets/");
         boolean isLogout = uri.equals(ctx + "/auth/logout");
@@ -35,7 +41,7 @@ public class AuthFilter implements Filter {
             return;
         }
 
-        // --- ROTA PÚBLICAS (login, logout, assets) ---
+        // --- ROTAS PÚBLICAS (login, logout, assets) ---
         if (isLoginServlet || isStatic || isLogout) {
             chain.doFilter(request, response);
             return;

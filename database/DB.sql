@@ -81,7 +81,9 @@ CREATE TABLE ProcessoAvaliativo (
     nome VARCHAR(255) NOT NULL,
     ativo BOOLEAN DEFAULT TRUE,
     periodo INT,
-    stat INT UNSIGNED NOT NULL DEFAULT 1
+    turma_id BIGINT UNSIGNED UNSIGNED NOT NULL,
+    stat INT UNSIGNED NOT NULL DEFAULT 1,
+    foreign key (turma_id) references Turma(id)
 );
 
 CREATE TABLE Formulario (
@@ -236,9 +238,9 @@ VALUES
 (1, 5, TRUE, 1),
 (2, 4, TRUE, 1);
 
-INSERT INTO ProcessoAvaliativo (nome, ativo, periodo, stat)
+INSERT INTO ProcessoAvaliativo (nome, ativo, periodo, turma_id, stat)
 VALUES
-('Avaliação Docente 2025', TRUE, 1, 1);
+('Avaliação Docente 2025', TRUE, 1, 1, 1);
 
 
 INSERT INTO Formulario (processo_id, titulo, identificado, stat)
