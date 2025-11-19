@@ -9,7 +9,7 @@ public class Disciplina {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "id_curso", nullable = false)
+    @Column(name = "curso_id", nullable = false)
     private long idCurso;
 
     @Column(nullable = false)

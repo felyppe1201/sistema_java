@@ -12,7 +12,7 @@ public class AlunoMatriculado {
     @Column(name = "id_usuario", nullable = false)
     private long idUsuario;
 
-    @Column(name = "id_curso", nullable = false)
+    @Column(name = "curso_id", nullable = false)
     private long idCurso;
 
     public AlunoMatriculado() {}

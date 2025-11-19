@@ -9,7 +9,7 @@ public class Turma {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "id_disciplina", nullable = false)
+    @Column(name = "disciplina_id", nullable = false)
     private long idDisciplina;
 
     @Column(name = "codigo_turma", nullable = false)

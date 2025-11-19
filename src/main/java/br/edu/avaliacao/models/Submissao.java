@@ -10,16 +10,16 @@ public class Submissao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "id_formulario", nullable = false)
+    @Column(name = "formulario_id", nullable = false)
     private long idFormulario;
 
-    @Column(name = "id_turma", nullable = false)
+    @Column(name = "turma_id", nullable = false)
     private long idTurma;
 
-    @Column(name = "id_usuario")
+    @Column(name = "usuario_id")
     private Long idUsuario;
 
-    @Column(name = "data_envio")
+    @Column(name = "data_envio", nullable = false, insertable = false, updatable = false)
     private Timestamp dataEnvio;
 
     public Submissao() {}

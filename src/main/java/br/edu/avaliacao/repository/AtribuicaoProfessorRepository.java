@@ -12,9 +12,14 @@ public class AtribuicaoProfessorRepository {
     }
 
     public void save(AtribuicaoProfessor obj) {
-        em.getTransaction().begin();
-        em.persist(obj);
-        em.getTransaction().commit();
+        try {
+            em.getTransaction().begin();
+            em.persist(obj);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw e;
+        }
     }
 
     public AtribuicaoProfessor findById(long id) {
@@ -26,15 +31,25 @@ public class AtribuicaoProfessorRepository {
     }
 
     public void update(AtribuicaoProfessor obj) {
-        em.getTransaction().begin();
-        em.merge(obj);
-        em.getTransaction().commit();
+        try {
+            em.getTransaction().begin();
+            em.merge(obj);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw e;
+        }
     }
 
     public void delete(long id) {
-        em.getTransaction().begin();
-        AtribuicaoProfessor obj = em.find(AtribuicaoProfessor.class, id);
-        if (obj != null) em.remove(obj);
-        em.getTransaction().commit();
+        try {
+            em.getTransaction().begin();
+            AtribuicaoProfessor obj = em.find(AtribuicaoProfessor.class, id);
+            if (obj != null) em.remove(obj);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw e;
+        }
     }
 }

@@ -9,7 +9,7 @@ public class Formulario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "id_processo", nullable = false)
+    @Column(name = "processo_id", nullable = false)
     private long idProcesso;
 
     @Column(nullable = false)

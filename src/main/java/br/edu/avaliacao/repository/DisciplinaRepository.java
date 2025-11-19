@@ -12,9 +12,14 @@ public class DisciplinaRepository {
     }
 
     public void save(Disciplina obj) {
-        em.getTransaction().begin();
-        em.persist(obj);
-        em.getTransaction().commit();
+        try {
+            em.getTransaction().begin();
+            em.persist(obj);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw e;
+        }
     }
 
     public Disciplina findById(long id) {
@@ -26,15 +31,25 @@ public class DisciplinaRepository {
     }
 
     public void update(Disciplina obj) {
-        em.getTransaction().begin();
-        em.merge(obj);
-        em.getTransaction().commit();
+        try {
+            em.getTransaction().begin();
+            em.merge(obj);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw e;
+        }
     }
 
     public void delete(long id) {
-        em.getTransaction().begin();
-        Disciplina obj = em.find(Disciplina.class, id);
-        if (obj != null) em.remove(obj);
-        em.getTransaction().commit();
+        try {
+            em.getTransaction().begin();
+            Disciplina obj = em.find(Disciplina.class, id);
+            if (obj != null) em.remove(obj);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw e;
+        }
     }
 }

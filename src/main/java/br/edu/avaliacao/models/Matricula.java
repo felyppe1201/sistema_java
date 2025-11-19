@@ -9,10 +9,10 @@ public class Matricula {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "id_turma", nullable = false)
+    @Column(name = "turma_id", nullable = false)
     private long idTurma;
 
-    @Column(name = "id_aluno", nullable = false)
+    @Column(name = "aluno_id", nullable = false)
     private long idAluno;
 
     @Column(nullable = false)

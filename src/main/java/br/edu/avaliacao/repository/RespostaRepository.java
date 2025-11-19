@@ -12,9 +12,14 @@ public class RespostaRepository {
     }
 
     public void save(Resposta obj) {
-        em.getTransaction().begin();
-        em.persist(obj);
-        em.getTransaction().commit();
+        try {
+            em.getTransaction().begin();
+            em.persist(obj);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw e;
+        }
     }
 
     public Resposta findById(long id) {
@@ -26,15 +31,25 @@ public class RespostaRepository {
     }
 
     public void update(Resposta obj) {
-        em.getTransaction().begin();
-        em.merge(obj);
-        em.getTransaction().commit();
+        try {
+            em.getTransaction().begin();
+            em.merge(obj);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw e;
+        }
     }
 
     public void delete(long id) {
-        em.getTransaction().begin();
-        Resposta obj = em.find(Resposta.class, id);
-        if (obj != null) em.remove(obj);
-        em.getTransaction().commit();
+        try {
+            em.getTransaction().begin();
+            Resposta obj = em.find(Resposta.class, id);
+            if (obj != null) em.remove(obj);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw e;
+        }
     }
 }

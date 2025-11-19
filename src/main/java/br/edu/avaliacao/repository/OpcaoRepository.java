@@ -12,9 +12,14 @@ public class OpcaoRepository {
     }
 
     public void save(Opcao obj) {
-        em.getTransaction().begin();
-        em.persist(obj);
-        em.getTransaction().commit();
+        try {
+            em.getTransaction().begin();
+            em.persist(obj);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw e;
+        }
     }
 
     public Opcao findById(long id) {
@@ -26,15 +31,25 @@ public class OpcaoRepository {
     }
 
     public void update(Opcao obj) {
-        em.getTransaction().begin();
-        em.merge(obj);
-        em.getTransaction().commit();
+        try {
+            em.getTransaction().begin();
+            em.merge(obj);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw e;
+        }
     }
 
     public void delete(long id) {
-        em.getTransaction().begin();
-        Opcao obj = em.find(Opcao.class, id);
-        if (obj != null) em.remove(obj);
-        em.getTransaction().commit();
+        try {
+            em.getTransaction().begin();
+            Opcao obj = em.find(Opcao.class, id);
+            if (obj != null) em.remove(obj);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw e;
+        }
     }
 }

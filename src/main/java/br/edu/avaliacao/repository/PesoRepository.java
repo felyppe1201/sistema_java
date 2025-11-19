@@ -12,9 +12,14 @@ public class PesoRepository {
     }
 
     public void save(Peso obj) {
-        em.getTransaction().begin();
-        em.persist(obj);
-        em.getTransaction().commit();
+        try {
+            em.getTransaction().begin();
+            em.persist(obj);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw e;
+        }
     }
 
     public Peso findById(long id) {
@@ -26,15 +31,25 @@ public class PesoRepository {
     }
 
     public void update(Peso obj) {
-        em.getTransaction().begin();
-        em.merge(obj);
-        em.getTransaction().commit();
+        try {
+            em.getTransaction().begin();
+            em.merge(obj);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw e;
+        }
     }
 
     public void delete(long id) {
-        em.getTransaction().begin();
-        Peso obj = em.find(Peso.class, id);
-        if (obj != null) em.remove(obj);
-        em.getTransaction().commit();
+        try {
+            em.getTransaction().begin();
+            Peso obj = em.find(Peso.class, id);
+            if (obj != null) em.remove(obj);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw e;
+        }
     }
 }

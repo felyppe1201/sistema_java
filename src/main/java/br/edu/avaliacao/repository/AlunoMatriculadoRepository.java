@@ -12,9 +12,16 @@ public class AlunoMatriculadoRepository {
     }
 
     public void save(AlunoMatriculado obj) {
-        em.getTransaction().begin();
-        em.persist(obj);
-        em.getTransaction().commit();
+        try {
+            em.getTransaction().begin();
+            em.persist(obj);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw e; // Repassa o erro para quem chamou tratar
+        }
     }
 
     public AlunoMatriculado findById(long id) {
@@ -26,15 +33,29 @@ public class AlunoMatriculadoRepository {
     }
 
     public void update(AlunoMatriculado obj) {
-        em.getTransaction().begin();
-        em.merge(obj);
-        em.getTransaction().commit();
+        try {
+            em.getTransaction().begin();
+            em.merge(obj);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw e;
+        }
     }
 
     public void delete(long id) {
-        em.getTransaction().begin();
-        AlunoMatriculado obj = em.find(AlunoMatriculado.class, id);
-        if (obj != null) em.remove(obj);
-        em.getTransaction().commit();
+        try {
+            em.getTransaction().begin();
+            AlunoMatriculado obj = em.find(AlunoMatriculado.class, id);
+            if (obj != null) em.remove(obj);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw e;
+        }
     }
 }

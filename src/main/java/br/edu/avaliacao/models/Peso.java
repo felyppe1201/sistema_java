@@ -9,10 +9,10 @@ public class Peso {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "id_questao")
+    @Column(name = "questao_id")
     private Long idQuestao;
 
-    @Column(name = "id_opcao")
+    @Column(name = "opcao_id")
     private Long idOpcao;
 
     @Column(nullable = false)

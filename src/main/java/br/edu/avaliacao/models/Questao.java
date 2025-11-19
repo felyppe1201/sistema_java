@@ -9,7 +9,7 @@ public class Questao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "id_formulario", nullable = false)
+    @Column(name = "formulario_id", nullable = false)
     private long idFormulario;
 
     @Column(nullable = false)

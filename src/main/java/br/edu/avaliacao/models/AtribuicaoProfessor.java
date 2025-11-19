@@ -9,10 +9,10 @@ public class AtribuicaoProfessor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "id_turma", nullable = false)
+    @Column(name = "turma_id", nullable = false)
     private long idTurma;
 
-    @Column(name = "id_professor", nullable = false)
+    @Column(name = "professor_id", nullable = false)
     private long idProfessor;
 
     public AtribuicaoProfessor() {}

@@ -9,16 +9,16 @@ public class Resposta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "id_submissao", nullable = false)
+    @Column(name = "submissao_id", nullable = false)
     private long idSubmissao;
 
-    @Column(name = "id_questao", nullable = false)
+    @Column(name = "questao_id", nullable = false)
     private long idQuestao;
 
-    @Column(name = "id_opcao")
+    @Column(name = "opcao_id")
     private Long idOpcao;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String texto;
 
     public Resposta() {}

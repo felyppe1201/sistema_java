@@ -9,7 +9,7 @@ public class Opcao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "id_questao", nullable = false)
+    @Column(name = "questao_id", nullable = false)
     private long idQuestao;
 
     @Column(nullable = false)
