@@ -15,21 +15,25 @@ public class Turma {
     @Column(name = "codigo_turma", nullable = false)
     private String codigoTurma;
 
+    @Column(nullable = false)
+    private boolean ativo;
+
     @Column(name = "numero_vagas", nullable = false)
     private int numeroVagas;
 
     @Column(nullable = false)
     private int periodo;
 
-    @Column(nullable = false)
-    private int stat;
+    @Column(name = "stat", nullable = false, columnDefinition = "INT UNSIGNED DEFAULT 1")
+    private Integer stat = 1;
 
     public Turma() {}
 
-    public Turma(long id, long idDisciplina, String codigoTurma, int numeroVagas, int periodo, int stat) {
+    public Turma(long id, long idDisciplina, String codigoTurma, boolean ativo, int numeroVagas, int periodo, Integer stat) {
         this.id = id;
         this.idDisciplina = idDisciplina;
         this.codigoTurma = codigoTurma;
+        this.ativo = ativo;
         this.numeroVagas = numeroVagas;
         this.periodo = periodo;
         this.stat = stat;
@@ -41,10 +45,12 @@ public class Turma {
     public void setIdDisciplina(long idDisciplina) { this.idDisciplina = idDisciplina; }
     public String getCodigoTurma() { return codigoTurma; }
     public void setCodigoTurma(String codigoTurma) { this.codigoTurma = codigoTurma; }
+    public boolean isAtivo() { return ativo; }
+    public void setAtivo(boolean ativo) { this.ativo = ativo; }
     public int getNumeroVagas() { return numeroVagas; }
     public void setNumeroVagas(int numeroVagas) { this.numeroVagas = numeroVagas; }
     public int getPeriodo() { return periodo; }
     public void setPeriodo(int periodo) { this.periodo = periodo; }
-    public int getStat() { return stat; }
-    public void setStat(int stat) { this.stat = stat; }
+    public Integer getStat() { return stat; }
+    public void setStat(Integer stat) { this.stat = stat; }
 }

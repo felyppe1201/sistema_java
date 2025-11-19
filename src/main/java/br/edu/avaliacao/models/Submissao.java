@@ -2,6 +2,7 @@ package br.edu.avaliacao.models;
 
 import jakarta.persistence.*;
 import java.sql.Timestamp;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "submissao")
@@ -21,6 +22,9 @@ public class Submissao {
 
     @Column(name = "data_envio", nullable = false, insertable = false, updatable = false)
     private Timestamp dataEnvio;
+
+    @Column(name = "nota", precision = 5, scale = 2)
+    private BigDecimal nota;
 
     public Submissao() {}
 
@@ -42,4 +46,6 @@ public class Submissao {
     public void setIdUsuario(Long idUsuario) { this.idUsuario = idUsuario; }
     public Timestamp getDataEnvio() { return dataEnvio; }
     public void setDataEnvio(Timestamp dataEnvio) { this.dataEnvio = dataEnvio; }
+    public BigDecimal getNota() { return nota; }
+    public void setNota(BigDecimal nota) { this.nota = nota; }
 }

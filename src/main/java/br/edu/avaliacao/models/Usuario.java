@@ -24,12 +24,12 @@ public class Usuario {
     @Column(nullable = false)
     private boolean ativo;
 
-    @Column(nullable = false)
-    private int stat;
+    @Column(name = "stat", nullable = false, columnDefinition = "INT UNSIGNED DEFAULT 1")
+    private Integer stat = 1;
 
     public Usuario() {}
 
-    public Usuario(long id, String nome, String email, String senha, String cargo, boolean ativo, int stat) {
+    public Usuario(long id, String nome, String email, String senha, String cargo, boolean ativo, Integer stat) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -51,6 +51,6 @@ public class Usuario {
     public void setCargo(String cargo) { this.cargo = cargo; }
     public boolean isAtivo() { return ativo; }
     public void setAtivo(boolean ativo) { this.ativo = ativo; }
-    public int getStat() { return stat; }
-    public void setStat(int stat) { this.stat = stat; }
+    public Integer getStat() { return stat; }
+    public void setStat(Integer stat) { this.stat = stat; }
 }

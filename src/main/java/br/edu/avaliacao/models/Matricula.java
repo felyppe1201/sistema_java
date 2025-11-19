@@ -16,14 +16,18 @@ public class Matricula {
     private long idAluno;
 
     @Column(nullable = false)
-    private int stat;
+    private boolean ativo;
+
+    @Column(name = "stat", nullable = false, columnDefinition = "INT UNSIGNED DEFAULT 1")
+    private Integer stat = 1;
 
     public Matricula() {}
 
-    public Matricula(long id, long idTurma, long idAluno, int stat) {
+    public Matricula(long id, long idTurma, long idAluno, boolean ativo, Integer stat) {
         this.id = id;
         this.idTurma = idTurma;
         this.idAluno = idAluno;
+        this.ativo = ativo;
         this.stat = stat;
     }
 
@@ -33,6 +37,8 @@ public class Matricula {
     public void setIdTurma(long idTurma) { this.idTurma = idTurma; }
     public long getIdAluno() { return idAluno; }
     public void setIdAluno(long idAluno) { this.idAluno = idAluno; }
-    public int getStat() { return stat; }
-    public void setStat(int stat) { this.stat = stat; }
+    public boolean isAtivo() { return ativo; }
+    public void setAtivo(boolean ativo) { this.ativo = ativo; }
+    public Integer getStat() { return stat; }
+    public void setStat(Integer stat) { this.stat = stat; }
 }

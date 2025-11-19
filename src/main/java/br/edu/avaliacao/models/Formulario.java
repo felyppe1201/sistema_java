@@ -15,15 +15,15 @@ public class Formulario {
     @Column(nullable = false)
     private String titulo;
 
-    @Column(nullable = false)
-    private boolean identificado;
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
+    private boolean identificado = true;
 
-    @Column(nullable = false)
-    private int stat;
+    @Column(name = "stat", nullable = false, columnDefinition = "INT UNSIGNED DEFAULT 1")
+    private Integer stat = 1;
 
     public Formulario() {}
 
-    public Formulario(long id, long idProcesso, String titulo, boolean identificado, int stat) {
+    public Formulario(long id, long idProcesso, String titulo, boolean identificado, Integer stat) {
         this.id = id;
         this.idProcesso = idProcesso;
         this.titulo = titulo;
@@ -39,6 +39,6 @@ public class Formulario {
     public void setTitulo(String titulo) { this.titulo = titulo; }
     public boolean isIdentificado() { return identificado; }
     public void setIdentificado(boolean identificado) { this.identificado = identificado; }
-    public int getStat() { return stat; }
-    public void setStat(int stat) { this.stat = stat; }
+    public Integer getStat() { return stat; }
+    public void setStat(Integer stat) { this.stat = stat; }
 }

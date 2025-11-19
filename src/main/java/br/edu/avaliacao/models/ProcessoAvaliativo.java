@@ -13,16 +13,20 @@ public class ProcessoAvaliativo {
     private String nome;
 
     @Column(nullable = false)
-    private int periodo;
+    private boolean ativo;
 
     @Column(nullable = false)
-    private int stat;
+    private int periodo;
+
+    @Column(name = "stat", nullable = false, columnDefinition = "INT UNSIGNED DEFAULT 1")
+    private Integer stat = 1;
 
     public ProcessoAvaliativo() {}
 
-    public ProcessoAvaliativo(long id, String nome, int periodo, int stat) {
+    public ProcessoAvaliativo(long id, String nome, boolean ativo, int periodo, Integer stat) {
         this.id = id;
         this.nome = nome;
+        this.ativo = ativo;
         this.periodo = periodo;
         this.stat = stat;
     }
@@ -31,8 +35,10 @@ public class ProcessoAvaliativo {
     public void setId(long id) { this.id = id; }
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }
+    public boolean isAtivo() { return ativo; }
+    public void setAtivo(boolean ativo) { this.ativo = ativo; }
     public int getPeriodo() { return periodo; }
     public void setPeriodo(int periodo) { this.periodo = periodo; }
-    public int getStat() { return stat; }
-    public void setStat(int stat) { this.stat = stat; }
+    public Integer getStat() { return stat; }
+    public void setStat(Integer stat) { this.stat = stat; }
 }

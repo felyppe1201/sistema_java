@@ -3,30 +3,50 @@ package br.edu.avaliacao.models;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "atribuicao_professor")
+@Table(name = "AtribuicaoProfessor")
 public class AtribuicaoProfessor {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "turma_id", nullable = false)
-    private long idTurma;
+    @ManyToOne
+    @JoinColumn(name = "turma_id", nullable = false)
+    private Turma turma;
 
-    @Column(name = "professor_id", nullable = false)
-    private long idProfessor;
+    @ManyToOne
+    @JoinColumn(name = "professor_id", nullable = false)
+    private Usuario professor;
 
     public AtribuicaoProfessor() {}
 
-    public AtribuicaoProfessor(long id, long idTurma, long idProfessor) {
+    public AtribuicaoProfessor(long id, Turma turma, Usuario professor) {
         this.id = id;
-        this.idTurma = idTurma;
-        this.idProfessor = idProfessor;
+        this.turma = turma;
+        this.professor = professor;
     }
 
-    public long getId() { return id; }
-    public void setId(long id) { this.id = id; }
-    public long getIdTurma() { return idTurma; }
-    public void setIdTurma(long idTurma) { this.idTurma = idTurma; }
-    public long getIdProfessor() { return idProfessor; }
-    public void setIdProfessor(long idProfessor) { this.idProfessor = idProfessor; }
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Turma getTurma() {
+        return turma;
+    }
+
+    public void setTurma(Turma turma) {
+        this.turma = turma;
+    }
+
+    public Usuario getProfessor() {
+        return professor;
+    }
+
+    public void setProfessor(Usuario professor) {
+        this.professor = professor;
+    }
 }
