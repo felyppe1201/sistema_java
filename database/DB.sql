@@ -16,7 +16,6 @@ CREATE TABLE Usuario (
 
 CREATE TABLE Curso (
     id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-    periodo int,
     ativo BOOLEAN DEFAULT TRUE,
     nome VARCHAR(255) NOT NULL
 );
@@ -24,6 +23,7 @@ CREATE TABLE Curso (
 CREATE TABLE aluno_matriculado (
     id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     id_usuario BIGINT UNSIGNED NOT NULL,
+    periodo INT UNSIGNED,
     curso_id BIGINT UNSIGNED NOT NULL,
     ativo BOOLEAN DEFAULT TRUE,
     FOREIGN KEY (id_usuario)
@@ -37,6 +37,7 @@ CREATE TABLE Disciplina (
     curso_id BIGINT UNSIGNED NOT NULL,
     ativo BOOLEAN DEFAULT TRUE,
     nome VARCHAR(255) NOT NULL,
+    periodo INT UNSIGNED,
     FOREIGN KEY (curso_id)
         REFERENCES Curso (id)
 );

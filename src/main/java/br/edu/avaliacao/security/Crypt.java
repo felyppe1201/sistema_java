@@ -16,6 +16,7 @@ public class Crypt {
      * * @param password A senha em texto simples.
      * @return O hash seguro da senha.
      */
+    
     public static String hashPassword(String password) {
         // Gera um salt (semente) aleatório e aplica o hash com o número de rounds definido.
         return BCrypt.hashpw(password, BCrypt.gensalt(LOG_ROUNDS));

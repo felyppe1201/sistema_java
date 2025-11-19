@@ -31,12 +31,6 @@ public class ContaServlet extends HttpServlet {
         }
 
         UsuarioSessionDTO usuario = (UsuarioSessionDTO) session.getAttribute("usuario");
-        
-        // Se não for aluno, pode-se redirecionar para o dashboard ou negar acesso
-        if (!"ALU".equalsIgnoreCase(usuario.getCargo())) {
-             resp.sendRedirect(req.getContextPath() + "/dashboard");
-             return;
-        }
 
         EntityManager em = EntityManagerUtil.getEntityManager();
         
@@ -56,7 +50,7 @@ public class ContaServlet extends HttpServlet {
             req.setAttribute("periodoAtual", dadosAcademicos.getPeriodoAtual()); 
             
             // 4. Encaminha para a View
-            String destino = "/WEB-INF/views/conta/conta.jsp";
+            String destino = "/WEB-INF/views/conta.jsp";
             req.getRequestDispatcher(destino).forward(req, resp);
             
         } catch (Exception e) {

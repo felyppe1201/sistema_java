@@ -9,13 +9,10 @@
     <!-- Seus arquivos CSS existentes -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/navbar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/generico.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/especial.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/perfil.css">
-    <!-- Link para o CSS específico da conta (onde estão os estilos de feedback) -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/conta.css"> 
 
 </head>
-<body class="bg-gray">
+<body class="bg-gray m-0">
 
     <!-- BARRA DE NAVEGAÇÃO -->
     <nav class="navbar no-select">
