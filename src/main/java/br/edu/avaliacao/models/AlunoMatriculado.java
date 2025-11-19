@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "aluno_matriculado")
-public class AlunoMatriculado {
+public class AlunoMatriculado { // Nome do Model em CamelCase
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -13,20 +13,26 @@ public class AlunoMatriculado {
     private long idUsuario;
 
     @Column(name = "curso_id", nullable = false)
-    private long idCurso;
+    private long cursoId;
+
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
+    private boolean ativo = true;
 
     public AlunoMatriculado() {}
 
-    public AlunoMatriculado(long id, long idUsuario, long idCurso) {
+    public AlunoMatriculado(long id, long idUsuario, long cursoId, boolean ativo) {
         this.id = id;
         this.idUsuario = idUsuario;
-        this.idCurso = idCurso;
+        this.cursoId = cursoId;
+        this.ativo = ativo;
     }
 
     public long getId() { return id; }
     public void setId(long id) { this.id = id; }
     public long getIdUsuario() { return idUsuario; }
     public void setIdUsuario(long idUsuario) { this.idUsuario = idUsuario; }
-    public long getIdCurso() { return idCurso; }
-    public void setIdCurso(long idCurso) { this.idCurso = idCurso; }
+    public long getCursoId() { return cursoId; }
+    public void setCursoId(long cursoId) { this.cursoId = cursoId; }
+    public boolean isAtivo() { return ativo; }
+    public void setAtivo(boolean ativo) { this.ativo = ativo; }
 }
