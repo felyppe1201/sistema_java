@@ -1,17 +1,17 @@
 package br.edu.avaliacao.repositorys;
 
-import br.edu.avaliacao.models.Usuario;
+import br.edu.avaliacao.models.Curso;
 import jakarta.persistence.*;
 import java.util.List;
 
-public class UsuarioRepository {
+public class CursoRepository {
     private EntityManager em;
 
-    public UsuarioRepository(EntityManager em) {
+    public CursoRepository(EntityManager em) {
         this.em = em;
     }
 
-    public void save(Usuario obj) {
+    public void save(Curso obj) {
         try {
             em.getTransaction().begin();
             em.persist(obj);
@@ -22,15 +22,15 @@ public class UsuarioRepository {
         }
     }
 
-    public Usuario findById(long id) {
-        return em.find(Usuario.class, id);
+    public Curso findById(long id) {
+        return em.find(Curso.class, id);
     }
 
-    public List<Usuario> findAll() {
-        return em.createQuery("SELECT u FROM Usuario u", Usuario.class).getResultList();
+    public List<Curso> findAll() {
+        return em.createQuery("SELECT c FROM Curso c", Curso.class).getResultList();
     }
 
-    public void update(Usuario obj) {
+    public void update(Curso obj) {
         try {
             em.getTransaction().begin();
             em.merge(obj);
@@ -44,24 +44,12 @@ public class UsuarioRepository {
     public void delete(long id) {
         try {
             em.getTransaction().begin();
-            Usuario obj = em.find(Usuario.class, id);
+            Curso obj = em.find(Curso.class, id);
             if (obj != null) em.remove(obj);
             em.getTransaction().commit();
         } catch (Exception e) {
             if (em.getTransaction().isActive()) em.getTransaction().rollback();
             throw e;
-        }
-    }
-
-    public boolean authenticate(String email, String senha) {
-        try {
-            TypedQuery<Usuario> query = em.createQuery(
-                "SELECT u FROM Usuario u WHERE u.email = :email AND u.senha = :senha", Usuario.class);
-            query.setParameter("email", email);
-            query.setParameter("senha", senha); // Lembre-se: em produção idealmente usaríamos hash, mas para o trabalho ok
-            return !query.getResultList().isEmpty();
-        } catch (NoResultException e) {
-            return false;
         }
     }
 }

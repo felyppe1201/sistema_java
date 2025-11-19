@@ -1,55 +1,56 @@
 package br.edu.avaliacao.models;
 
 import jakarta.persistence.*;
-import java.io.Serializable;
 
 @Entity
-@Table(name = "Usuario")
-public class Usuario implements Serializable {
-
+@Table(name = "usuario")
+public class Usuario {
     @Id
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-    @Column(name = "nome", nullable = false, length = 255)
+    @Column(nullable = false)
     private String nome;
 
-    @Column(name = "email", nullable = false, unique = true, length = 255)
+    @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(name = "senha", nullable = false, length = 128)
+    @Column(nullable = false)
     private String senha;
 
-    @Column(name = "cargo", nullable = false, length = 10)
-    private String cargo; // 'alu','prof','coord','adm'
+    @Column(nullable = false)
+    private String cargo;
 
-    @Column(name = "ativo", nullable = false)
-    private Boolean ativo = true;
+    @Column(nullable = false)
+    private boolean ativo;
 
-    @Column(name = "stat", nullable = false)
-    private Integer stat = 1;
+    @Column(nullable = false)
+    private int stat;
 
     public Usuario() {}
 
-    // getters e setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Usuario(long id, String nome, String email, String senha, String cargo, boolean ativo, int stat) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+        this.cargo = cargo;
+        this.ativo = ativo;
+        this.stat = stat;
+    }
 
+    public long getId() { return id; }
+    public void setId(long id) { this.id = id; }
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }
-
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
-
     public String getSenha() { return senha; }
     public void setSenha(String senha) { this.senha = senha; }
-
     public String getCargo() { return cargo; }
     public void setCargo(String cargo) { this.cargo = cargo; }
-
-    public Boolean getAtivo() { return ativo; }
-    public void setAtivo(Boolean ativo) { this.ativo = ativo; }
-
-    public Integer getStat() { return stat; }
-    public void setStat(Integer stat) { this.stat = stat; }
+    public boolean isAtivo() { return ativo; }
+    public void setAtivo(boolean ativo) { this.ativo = ativo; }
+    public int getStat() { return stat; }
+    public void setStat(int stat) { this.stat = stat; }
 }
