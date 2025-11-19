@@ -1,5 +1,5 @@
 
-package br.edu.avaliacao.repository;
+package br.edu.avaliacao.repositorys;
 
 import br.edu.avaliacao.models.Resposta;
 import java.sql.Connection;

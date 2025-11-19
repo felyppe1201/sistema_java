@@ -1,0 +1,52 @@
+package br.edu.avaliacao.security;
+
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.*;
+import java.io.IOException;
+
+@WebFilter("/*")
+public class AuthFilter implements Filter {
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
+
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse resp = (HttpServletResponse) response;
+
+        String uri = req.getRequestURI();
+        String ctx = req.getContextPath();
+
+        boolean isLoginServlet = uri.equals(ctx + "/auth/login");
+        boolean isStatic = uri.startsWith(ctx + "/assets/");
+        boolean isLogout = uri.equals(ctx + "/auth/logout");
+
+        HttpSession session = req.getSession(false);
+        boolean logado = (session != null && session.getAttribute("usuario") != null);
+
+        // --- BLOQUEIA TENTATIVAS DE ACESSAR JSP DIRETAMENTE ---
+        if (uri.endsWith(".jsp")) {
+            if (logado) {
+                resp.sendRedirect(ctx + "/dashboard");
+            } else {
+                resp.sendRedirect(ctx + "/auth/login");
+            }
+            return;
+        }
+
+        // --- ROTA PÚBLICAS (login, logout, assets) ---
+        if (isLoginServlet || isStatic || isLogout) {
+            chain.doFilter(request, response);
+            return;
+        }
+
+        // --- BLOQUEIA ROTAS PROTEGIDAS ---
+        if (!logado) {
+            resp.sendRedirect(ctx + "/auth/login");
+            return;
+        }
+
+        chain.doFilter(request, response);
+    }
+}

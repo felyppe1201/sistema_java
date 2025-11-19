@@ -1,28 +1,39 @@
 package br.edu.avaliacao.models;
 
-public class Usuario {
-    private long id;
+import jakarta.persistence.*;
+import java.io.Serializable;
+
+@Entity
+@Table(name = "Usuario")
+public class Usuario implements Serializable {
+
+    @Id
+    @Column(name = "id", nullable = false)
+    private Long id;
+
+    @Column(name = "nome", nullable = false, length = 255)
     private String nome;
+
+    @Column(name = "email", nullable = false, unique = true, length = 255)
     private String email;
+
+    @Column(name = "senha", nullable = false, length = 128)
     private String senha;
-    private String cargo;
-    private boolean ativo;
-    private int stat;
+
+    @Column(name = "cargo", nullable = false, length = 10)
+    private String cargo; // 'alu','prof','coord','adm'
+
+    @Column(name = "ativo", nullable = false)
+    private Boolean ativo = true;
+
+    @Column(name = "stat", nullable = false)
+    private Integer stat = 1;
 
     public Usuario() {}
 
-    public Usuario(long id, String nome, String email, String senha, String cargo, boolean ativo, int stat) {
-        this.id = id;
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
-        this.cargo = cargo;
-        this.ativo = ativo;
-        this.stat = stat;
-    }
-
-    public long getId() { return id; }
-    public void setId(long id) { this.id = id; }
+    // getters e setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }
@@ -36,9 +47,9 @@ public class Usuario {
     public String getCargo() { return cargo; }
     public void setCargo(String cargo) { this.cargo = cargo; }
 
-    public boolean isAtivo() { return ativo; }
-    public void setAtivo(boolean ativo) { this.ativo = ativo; }
+    public Boolean getAtivo() { return ativo; }
+    public void setAtivo(Boolean ativo) { this.ativo = ativo; }
 
-    public int getStat() { return stat; }
-    public void setStat(int stat) { this.stat = stat; }
+    public Integer getStat() { return stat; }
+    public void setStat(Integer stat) { this.stat = stat; }
 }
