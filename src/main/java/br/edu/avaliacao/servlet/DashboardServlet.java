@@ -49,11 +49,12 @@ public class DashboardServlet extends HttpServlet {
         switch (cargo.toUpperCase()) {
             case "ADM":
                 destino = "/WEB-INF/views/dashboard/adminDashboard.jsp";
-                carregarDadosAdmin(req);  
+                carregarDadosAdmin(req); 
                 break;
 
             case "ALU":
                 destino = "/WEB-INF/views/dashboard/alunoDashboard.jsp";
+                carregarDadosAluno(req, usuario);
                 break;
 
             case "PROF":
@@ -74,7 +75,52 @@ public class DashboardServlet extends HttpServlet {
         req.setAttribute("usuario", usuario);
         req.getRequestDispatcher(destino).forward(req, resp);
     }
-     /**
+    
+    /**
+     * Carrega informações básicas, turmas atuais e turmas disponíveis
+     * para uso no alunoDashboard.jsp.
+     */
+    private void carregarDadosAluno(HttpServletRequest req, UsuarioSessionDTO usuario) {
+
+        req.setAttribute("nome", usuario.getNome());
+        req.setAttribute("curso", "Engenharia de Software"); 
+        req.setAttribute("periodo", "5º Semestre"); 
+        
+        List<Map<String, Object>> turmasAtuaisDTO = new ArrayList<>();
+        Map<String, Object> t1 = new HashMap<>(); 
+        t1.put("codigo", "COMP201"); 
+        t1.put("disciplina", "Algoritmos"); 
+        t1.put("periodo", "5º Semestre");
+        turmasAtuaisDTO.add(t1);
+        
+        Map<String, Object> t2 = new HashMap<>(); 
+        t2.put("codigo", "HUM105"); 
+        t2.put("disciplina", "Ética Profissional"); 
+        t2.put("periodo", "5º Semestre");
+        turmasAtuaisDTO.add(t2);
+
+        List<Map<String, Object>> turmasDisponiveisDTO = new ArrayList<>();
+        Map<String, Object> d1 = new HashMap<>(); 
+        d1.put("id", 1001); 
+        d1.put("codigo", "PROG300"); 
+        d1.put("disciplina", "Desenvolvimento Web II"); 
+        d1.put("vagas", 15); 
+        turmasDisponiveisDTO.add(d1);
+        
+        Map<String, Object> d2 = new HashMap<>(); 
+        d2.put("id", 1002); 
+        d2.put("codigo", "CALC101"); 
+        d2.put("disciplina", "Cálculo I"); 
+        d2.put("vagas", 2); 
+        turmasDisponiveisDTO.add(d2);
+
+        req.setAttribute("turmasAtuais", turmasAtuaisDTO);
+        req.setAttribute("turmasDisponiveis", turmasDisponiveisDTO);
+        
+        
+    }
+
+    /**
      * Carrega lista de professores e suas turmas
      * para uso no adminDashboard.jsp
      */
