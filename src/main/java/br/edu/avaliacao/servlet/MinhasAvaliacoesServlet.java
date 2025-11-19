@@ -2,8 +2,8 @@ package br.edu.avaliacao.servlet;
 
 import br.edu.avaliacao.config.EntityManagerUtil;
 import br.edu.avaliacao.models.*;
-import br.edu.avaliacao.repository.*;
-import br.edu.avaliacao.security.UsuarioSessionDTO; // Ou seu model de Usuario
+import br.edu.avaliacao.repositorys.*;
+import br.edu.avaliacao.models.Usuario;
 import jakarta.persistence.EntityManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
