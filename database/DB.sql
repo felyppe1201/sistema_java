@@ -16,6 +16,7 @@ CREATE TABLE Usuario (
 
 CREATE TABLE Curso (
     id BIGINT UNSIGNED PRIMARY KEY,
+    ativo BOOLEAN DEFAULT TRUE,
     nome VARCHAR(255) NOT NULL
 );
 
@@ -23,6 +24,7 @@ CREATE TABLE aluno_matriculado (
     id BIGINT UNSIGNED PRIMARY KEY,
     id_usuario BIGINT UNSIGNED NOT NULL,
     curso_id BIGINT UNSIGNED NOT NULL,
+    ativo BOOLEAN DEFAULT TRUE,
     FOREIGN KEY (id_usuario)
         REFERENCES usuario (id),
     FOREIGN KEY (curso_id)
@@ -32,6 +34,7 @@ CREATE TABLE aluno_matriculado (
 CREATE TABLE Disciplina (
     id BIGINT UNSIGNED PRIMARY KEY,
     curso_id BIGINT UNSIGNED NOT NULL,
+    ativo BOOLEAN DEFAULT TRUE,
     nome VARCHAR(255) NOT NULL,
     FOREIGN KEY (curso_id)
         REFERENCES Curso (id)
@@ -41,6 +44,7 @@ CREATE TABLE Turma (
     id BIGINT UNSIGNED PRIMARY KEY,
     disciplina_id BIGINT UNSIGNED NOT NULL,
     codigo_turma VARCHAR(50) NOT NULL,
+    ativo BOOLEAN DEFAULT TRUE,
     numero_vagas INT,
     periodo INT,
     stat INT UNSIGNED NOT NULL DEFAULT 1,
@@ -52,6 +56,7 @@ CREATE TABLE Matricula (
     id BIGINT UNSIGNED PRIMARY KEY,
     turma_id BIGINT UNSIGNED NOT NULL,
     aluno_id BIGINT UNSIGNED NOT NULL,
+    ativo BOOLEAN DEFAULT TRUE,
     stat INT UNSIGNED NOT NULL DEFAULT 1,
     FOREIGN KEY (turma_id)
         REFERENCES Turma (id),
@@ -72,6 +77,7 @@ CREATE TABLE AtribuicaoProfessor (
 CREATE TABLE ProcessoAvaliativo (
     id BIGINT UNSIGNED PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
+    ativo BOOLEAN DEFAULT TRUE,
     periodo INT,
     stat INT UNSIGNED NOT NULL DEFAULT 1
 );
@@ -100,6 +106,9 @@ CREATE TABLE Opcao (
     id BIGINT UNSIGNED PRIMARY KEY,
     questao_id BIGINT UNSIGNED NOT NULL,
     texto VARCHAR(255) NOT NULL,
+    vf BOOLEAN DEFAULT FALSE NOT NULL,
+    respostavf BOOLEAN,
+    correta BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (questao_id)
         REFERENCES Questao (id)
 );
@@ -110,6 +119,7 @@ CREATE TABLE Submissao (
     turma_id BIGINT UNSIGNED NOT NULL,
     usuario_id BIGINT UNSIGNED,
     data_envio TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    nota decimal(5,2),
     FOREIGN KEY (formulario_id)
         REFERENCES Formulario (id),
     FOREIGN KEY (turma_id)
