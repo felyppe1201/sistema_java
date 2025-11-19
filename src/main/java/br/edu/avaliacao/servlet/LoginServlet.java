@@ -2,6 +2,7 @@ package br.edu.avaliacao.servlet;
 
 import br.edu.avaliacao.config.EntityManagerUtil;
 import br.edu.avaliacao.security.AuthService;
+import br.edu.avaliacao.security.UsuarioSessionDTO;
 import br.edu.avaliacao.models.Usuario;
 
 import jakarta.servlet.ServletException;
@@ -39,9 +40,17 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
+        // criar DTO seguro para a sessão
+        UsuarioSessionDTO sessionUser = new UsuarioSessionDTO(
+            user.getId(),
+            user.getNome(),
+            user.getEmail(),
+            user.getCargo(),
+            user.getStat()
+        );
+
         HttpSession session = req.getSession();
-        user.setSenha(null);
-        session.setAttribute("usuario", user);
+        session.setAttribute("usuario", sessionUser);
 
         resp.sendRedirect(req.getContextPath() + "/dashboard");
     }

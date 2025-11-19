@@ -26,6 +26,17 @@ public class UsuarioRepository {
         return em.find(Usuario.class, id);
     }
 
+    public Usuario findByEmail(String email) {
+        try {
+            TypedQuery<Usuario> query = em.createQuery(
+                "SELECT u FROM Usuario u WHERE u.email = :email AND u.ativo = true", Usuario.class);
+            query.setParameter("email", email);
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
     public List<Usuario> findAll() {
         return em.createQuery("SELECT u FROM Usuario u", Usuario.class).getResultList();
     }
