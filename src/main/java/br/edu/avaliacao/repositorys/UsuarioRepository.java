@@ -118,9 +118,9 @@ public class UsuarioRepository {
                 // 2. Verifica se o novo email já está em uso por outro usuário ativo
                 Usuario existingUser = findByEmail(novoEmail);
                 // Compara o ID Long
-                if (existingUser != null && !existingUser.getId().equals(idUsuario)) { 
-                     em.getTransaction().rollback();
-                     return false; // Email já em uso
+                if (existingUser != null && existingUser.getId() != idUsuario) {
+                    em.getTransaction().rollback();
+                    return false; // Email já em uso
                 }
                 
                 // 3. Aplica a mudança e salva

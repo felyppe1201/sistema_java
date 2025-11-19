@@ -20,4 +20,7 @@ public class UsuarioSessionDTO {
     public String getEmail() { return email; }
     public String getCargo() { return cargo; }
     public int getStat() { return stat; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }
