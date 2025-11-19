@@ -81,7 +81,7 @@ CREATE TABLE ProcessoAvaliativo (
     nome VARCHAR(255) NOT NULL,
     ativo BOOLEAN DEFAULT TRUE,
     periodo INT,
-    turma_id BIGINT UNSIGNED UNSIGNED NOT NULL,
+    turma_id BIGINT UNSIGNED NOT NULL,
     stat INT UNSIGNED NOT NULL DEFAULT 1,
     foreign key (turma_id) references Turma(id)
 );
