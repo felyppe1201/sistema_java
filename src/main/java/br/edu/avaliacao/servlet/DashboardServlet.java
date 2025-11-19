@@ -3,7 +3,11 @@ package br.edu.avaliacao.servlet;
 import br.edu.avaliacao.config.EntityManagerFactoryProvider;
 import br.edu.avaliacao.config.EntityManagerUtil;
 import br.edu.avaliacao.models.*;
-import br.edu.avaliacao.repositorys.*;
+import br.edu.avaliacao.repositorys.AlunoMatriculadoRepository;
+import br.edu.avaliacao.repositorys.AtribuicaoProfessorRepository;
+import br.edu.avaliacao.repositorys.MatriculaRepository;
+import br.edu.avaliacao.repositorys.TurmaRepository; // Import necessário
+import br.edu.avaliacao.repositorys.UsuarioRepository;
 import br.edu.avaliacao.security.UsuarioSessionDTO;
 
 import jakarta.persistence.EntityManager;
@@ -53,7 +57,7 @@ public class DashboardServlet extends HttpServlet {
                     try {
                         EntityManager emTemp = EntityManagerUtil.getEntityManager();
                         Object url = emTemp.getEntityManagerFactory().getProperties()
-                                        .getOrDefault("jakarta.persistence.jdbc.url",
+                                            .getOrDefault("jakarta.persistence.jdbc.url",
                                                     emTemp.getEntityManagerFactory().getProperties().get("javax.persistence.jdbc.url"));
                         System.out.println("JPA URL = " + url);
                         emTemp.close();
@@ -69,7 +73,10 @@ public class DashboardServlet extends HttpServlet {
                 break;
 
             case "PROF":
+                // Redireciona para o JSP específico do professor
                 destino = "/WEB-INF/views/dashboard/professorDashboard.jsp";
+                // Carrega os dados de turmas e perfil do professor
+                carregarDadosProfessor(req, usuario.getId());
                 break;
 
             case "COORD":
@@ -135,6 +142,41 @@ public class DashboardServlet extends HttpServlet {
             req.setAttribute("periodo", periodoAtual);
             req.setAttribute("turmasMatriculadas", turmasDTO);
 
+        } finally {
+            em.close();
+        }
+    }
+
+    /**
+     * Carrega os dados de perfil e a lista de turmas que o professor está lecionando.
+     */
+    private void carregarDadosProfessor(HttpServletRequest req, Long professorId) {
+        
+        EntityManager em = EntityManagerUtil.getEntityManager();
+        
+        try {
+            UsuarioRepository usuarioRepo = new UsuarioRepository(em);
+            TurmaRepository turmaRepo = new TurmaRepository(em);
+
+            // 1. BUSCAR DADOS COMPLETOS DO PROFESSOR (Nome, Email, etc.)
+            Usuario professor = usuarioRepo.findById(professorId);
+
+            // 2. BUSCAR TURMAS ATIVAS
+            // Requer que TurmaRepository tenha o método findTurmasByProfessorId(Long)
+            List<Turma> turmas = turmaRepo.findTurmasByProfessorId(professorId);
+            
+            // 3. SETAR ATRIBUTOS PARA O JSP
+            req.setAttribute("professor", professor); // Objeto completo do professor
+            req.setAttribute("turmas", turmas);
+
+            // Mock de Indicadores de Alerta (A ser implementado com lógica real de Avaliação)
+            req.setAttribute("avaliacoesPendentes", turmas.size() * 2); // Exemplo de valor mock
+            req.setAttribute("alunosEmRisco", (int) (turmas.size() * 1.5)); // Exemplo de valor mock
+            
+        } catch (Exception e) {
+            System.err.println("Erro ao carregar dados do Dashboard do Professor: " + e.getMessage());
+            e.printStackTrace();
+            req.setAttribute("erroDashboard", "Não foi possível carregar as turmas do professor.");
         } finally {
             em.close();
         }
