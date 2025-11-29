@@ -3,7 +3,7 @@ package br.edu.avaliacao.models;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "processo_avaliativo")
+@Table(name = "processoavaliativo")
 public class ProcessoAvaliativo {
 
     @Id

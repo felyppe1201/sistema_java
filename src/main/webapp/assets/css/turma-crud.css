@@ -1,0 +1,209 @@
+/* ---- cores padrão ---- */
+:root {
+  --verde-main: #2ecc71;
+  --verde-dark: #27ae60;
+  --cinza-claro: #f2f2f2;
+  --cinza-medio: #dcdcdc;
+  --texto-dark: #333;
+  --white: #ffffff;
+
+  --danger: #e74c3c;
+  --danger-dark: #c0392b;
+  --blue-main: #1e3a8a; /* usado no botão de acessar processo */
+  --blue-dark: #162e6b;
+}
+
+/* ---- ESTRUTURA GERAL ---- */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  background-color: var(--cinza-claro);
+  color: var(--texto-dark);
+}
+
+.page-container {
+  max-width: 1100px;
+  margin: 35px auto;
+  padding: 20px;
+}
+
+/* ---- TÍTULOS ---- */
+.page-container h1 {
+  margin-bottom: 12px;
+  color: var(--verde-dark);
+  font-size: 1.8rem;
+}
+
+.page-container h2 {
+  margin-top: 35px;
+  margin-bottom: 15px;
+  color: var(--verde-dark);
+  font-size: 1.4rem;
+}
+
+/* ---- MENSAGENS FLASH ---- */
+.msg-success,
+.msg-error {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin: 15px 0;
+  font-size: 0.95rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.msg-success {
+  background: #e6ffed;
+  border-left: 5px solid var(--verde-main);
+  color: #165c2a;
+}
+
+.msg-error {
+  background: #ffe6e6;
+  border-left: 5px solid var(--danger);
+  color: #7a1b1b;
+}
+
+/* ---- CARD DE INFORMAÇÕES DA TURMA ---- */
+.info-box {
+  background: var(--white);
+  padding: 18px 22px;
+  border-radius: 10px;
+  border: 1px solid var(--cinza-medio);
+  margin-bottom: 25px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+.info-box p {
+  margin: 6px 0;
+  font-size: 0.98rem;
+}
+
+/* ---- PROCESSOS (LISTA EM CARDS) ---- */
+.processos-container {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 15px;
+}
+
+.process-item {
+  display: flex;
+  align-items: center;
+  background: var(--white);
+  border: 1px solid var(--cinza-medio);
+  border-radius: 10px;
+  padding: 12px;
+  gap: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  transition: 0.25s ease;
+}
+
+.process-item:hover {
+  border-color: var(--verde-main);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+/* ---- BOTÃO: acessar processo ---- */
+.process-btn-form {
+  flex: 1;
+  margin: 0;
+}
+
+.process-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  background-color: var(--blue-main);
+  color: white;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: 0.25s ease;
+}
+
+.process-btn:hover {
+  background-color: var(--blue-dark);
+}
+
+/* ---- BOTÃO: excluir ---- */
+.btn-delete-small {
+  background-color: var(--danger);
+  color: white;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: 0.25s ease;
+  min-width: 80px;
+}
+
+.btn-delete-small:hover {
+  background-color: var(--danger-dark);
+}
+
+/* ---- FORMULÁRIO DE CRIAÇÃO ---- */
+#createForm {
+  background: var(--white);
+  padding: 18px 22px;
+  border-radius: 10px;
+  border: 1px solid var(--cinza-medio);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  margin-top: 20px;
+}
+
+#createForm label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+#createForm input[type="text"] {
+  width: 80%;
+  padding: 8px;
+  border: 1px solid var(--cinza-medio);
+  border-radius: 6px;
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+}
+
+.btn-primary {
+  background: var(--verde-main);
+  color: var(--white);
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: 0.25s ease;
+}
+
+.btn-primary:hover {
+  background: var(--verde-dark);
+}
+
+/* ---- RESPONSIVO ---- */
+@media (max-width: 768px) {
+  .page-container {
+    margin: 15px;
+  }
+
+  #createForm input[type="text"] {
+    width: 100%;
+  }
+
+  .process-item {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 15px;
+  }
+
+  .btn-delete-small {
+    width: 100%;
+    text-align: center;
+  }
+}

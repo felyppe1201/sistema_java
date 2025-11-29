@@ -65,11 +65,30 @@ public class TurmaRepository {
         try {
             em.getTransaction().begin();
             Turma obj = em.find(Turma.class, id);
-            if (obj != null) em.remove(obj);
+            if (obj != null)
+                em.remove(obj);
             em.getTransaction().commit();
         } catch (Exception e) {
-            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             throw e;
+        }
+    }
+    
+    public boolean professorLecionaTurma(Long professorId, Long turmaId) {
+        try {
+            Long count = em.createQuery(
+                "SELECT COUNT(ap) FROM AtribuicaoProfessor ap " +
+                "WHERE ap.professor.id = :pid AND ap.turma.id = :tid", Long.class
+            )
+            .setParameter("pid", professorId)
+            .setParameter("tid", turmaId)
+            .getSingleResult();
+
+            return count != null && count > 0;
+        } catch (Exception e) {
+            System.err.println("Erro em professorLecionaTurma: " + e.getMessage());
+            return false;
         }
     }
 }

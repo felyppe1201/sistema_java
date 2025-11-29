@@ -91,6 +91,7 @@ CREATE TABLE Formulario (
     processo_id BIGINT UNSIGNED NOT NULL,
     titulo VARCHAR(255) NOT NULL,
     identificado BOOLEAN NOT NULL DEFAULT TRUE,
+    ativo BOOLEAN DEFAULT TRUE,
     stat INT UNSIGNED NOT NULL DEFAULT 1,
     FOREIGN KEY (processo_id)
         REFERENCES ProcessoAvaliativo (id)
@@ -284,3 +285,7 @@ VALUES
 (2, 2, NULL, 'Acho que poderia melhorar a dinâmica das aulas.');
 
 select * from usuario;
+
+SELECT id, nome, ativo, stat FROM processoavaliativo WHERE turma_id = 1;
+
+select * from processoavaliativo;

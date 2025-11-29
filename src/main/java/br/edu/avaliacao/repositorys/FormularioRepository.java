@@ -45,11 +45,46 @@ public class FormularioRepository {
         try {
             em.getTransaction().begin();
             Formulario obj = em.find(Formulario.class, id);
-            if (obj != null) em.remove(obj);
+            if (obj != null)
+                em.remove(obj);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
+            throw e;
+        }
+    }
+    
+    public List<Formulario> findAtivosByProcessoId(Long processoId) {
+        try {
+            TypedQuery<Formulario> q = em.createQuery(
+                "SELECT f FROM Formulario f WHERE f.idProcesso = :procId AND f.ativo = true ORDER BY f.id DESC",
+                Formulario.class
+            );
+            q.setParameter("procId", processoId);
+            return q.getResultList();
+        } catch (Exception e) {
+            System.err.println("Erro ao buscar formulários ativos: " + e.getMessage());
+            return List.of();
+        }
+    }
+
+    /**
+     * Soft delete: marca ativo = false e stat = 0
+     */
+    public void softDelete(Long id) {
+        try {
+            em.getTransaction().begin();
+            Formulario f = em.find(Formulario.class, id);
+            if (f != null) {
+                f.setAtivo(false);
+                f.setStat(0);
+                em.merge(f);
+            }
             em.getTransaction().commit();
         } catch (Exception e) {
             if (em.getTransaction().isActive()) em.getTransaction().rollback();
-            throw e;
+            throw new RuntimeException("Erro ao softDelete Formulario: " + e.getMessage(), e);
         }
     }
 }

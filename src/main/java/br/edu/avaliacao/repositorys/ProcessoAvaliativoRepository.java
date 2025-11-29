@@ -96,8 +96,44 @@ public class ProcessoAvaliativoRepository {
             }
             em.getTransaction().commit();
         } catch (Exception e) {
-            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             throw new RuntimeException("Erro ao deletar ProcessoAvaliativo: " + e.getMessage(), e);
         }
     }
+    
+    public List<ProcessoAvaliativo> findAtivosByTurmaId(Long turmaId) {
+        try {
+            return em.createQuery(
+                    "SELECT pa FROM ProcessoAvaliativo pa " +
+                            "WHERE pa.turma.id = :turmaId AND pa.ativo = true " +
+                            "ORDER BY pa.periodo DESC, pa.nome ASC",
+                    ProcessoAvaliativo.class)
+                    .setParameter("turmaId", turmaId)
+                    .getResultList();
+        } catch (Exception e) {
+            System.err.println("Erro ao buscar processos ativos: " + e.getMessage());
+            return List.of();
+        }
+    }
+    
+    public void softDelete(Long id) {
+        try {
+            em.getTransaction().begin();
+            ProcessoAvaliativo pa = em.find(ProcessoAvaliativo.class, id);
+
+            if (pa != null) {
+                pa.setAtivo(false);
+                pa.setStat(0);
+                em.merge(pa);
+            }
+
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw new RuntimeException("Erro no softDelete: " + e.getMessage(), e);
+        }
+    }
+
+
 }
