@@ -56,7 +56,7 @@ uri="jakarta.tags.core" %>
               <c:forEach var="turma" items="${turmasMatriculadas}">
                 <a
                   class="turma-card"
-                  href="${pageContext.request.contextPath}/turma?id=${turma.id}"
+                  href="${pageContext.request.contextPath}/aluno/turma?id=${turma.id}"
                 >
                   <h3>${turma.disciplina}</h3>
 

@@ -7,10 +7,10 @@ import jakarta.persistence.*;
 public class Formulario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id; 
 
-    @Column(name = "processo_id", nullable = false)
-    private long idProcesso;
+    @Column(name = "processo_id", nullable = false) 
+    private Long idProcesso; 
 
     @Column(nullable = false)
     private String titulo;
@@ -26,8 +26,7 @@ public class Formulario {
 
     public Formulario() {}
 
-    public Formulario(long id, long idProcesso, String titulo, boolean identificado, boolean ativo, Integer stat) {
-        this.id = id;
+    public Formulario(Long idProcesso, String titulo, boolean identificado, boolean ativo, Integer stat) {
         this.idProcesso = idProcesso;
         this.titulo = titulo;
         this.identificado = identificado;
@@ -35,10 +34,12 @@ public class Formulario {
         this.stat = stat;
     }
 
-    public long getId() { return id; }
-    public void setId(long id) { this.id = id; }
-    public long getIdProcesso() { return idProcesso; }
-    public void setIdProcesso(long idProcesso) { this.idProcesso = idProcesso; }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public Long getIdProcesso() { return idProcesso; }
+    public void setIdProcesso(Long idProcesso) { this.idProcesso = idProcesso; }
+    
     public String getTitulo() { return titulo; }
     public void setTitulo(String titulo) { this.titulo = titulo; }
     public boolean isIdentificado() { return identificado; }
