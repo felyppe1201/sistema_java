@@ -1,0 +1,235 @@
+/* --- Reutiliza cores do alunoDashboard.css --- */
+/*
+:root {
+    --verde-main: #2ecc71;
+    --verde-dark: #27ae60;
+    --cinza-claro: #f2f2f2;
+    --cinza-medio: #dcdcdc;
+    --texto-dark: #333;
+    --white: #ffffff;
+    --red-error: #e74c3c;
+    --blue-info: #3498db;
+}
+*/
+
+/* --- Botão Voltar --- */
+.btn-back {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 8px 15px;
+    background-color: var(--cinza-medio);
+    color: var(--texto-dark);
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+}
+
+.btn-back:hover {
+    background-color: #c9c9c9;
+}
+
+/* --- Cards de Matrícula Disponível --- */
+.turma-card-enroll {
+    display: flex;
+    justify-content: space-between; /* Alinha informações à esquerda e botão à direita */
+    align-items: center;
+    width: 100%; /* Ocupa a largura total na lista */
+    max-width: 450px;
+    padding: 15px 20px;
+    background: var(--white);
+    border-radius: 12px;
+    border: 1px solid var(--cinza-medio);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+}
+
+.turma-card-enroll:hover {
+    border-color: var(--verde-main);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.turma-info h3 {
+    margin: 0 0 5px;
+    color: var(--verde-dark);
+    font-size: 1.1rem;
+}
+
+.vagas-count {
+    font-weight: 700;
+    color: var(--verde-dark);
+}
+
+.btn-enroll-action {
+    padding: 10px 18px;
+    background-color: var(--verde-main);
+    color: var(--white);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.25s ease;
+}
+
+.btn-enroll-action:hover {
+    background-color: var(--verde-dark);
+}
+
+/* --- Feedback e Loading --- */
+
+.message-box {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: opacity 0.3s ease;
+}
+
+.message-box-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.message-box-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.message-box-hidden {
+    opacity: 0;
+    height: 0;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+/* Loading Ring - Reutilizando CSS comum para carregamento */
+.loading-ring {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    margin: 20px auto;
+}
+.loading-ring:after {
+    content: " ";
+    display: block;
+    width: 32px;
+    height: 32px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 3px solid var(--verde-main);
+    border-color: var(--verde-main) transparent var(--verde-main) transparent;
+    animation: loading-ring-spin 1.2s linear infinite;
+}
+@keyframes loading-ring-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-text, .error-message, .sem-turmas {
+    text-align: center;
+    width: 100%;
+    font-style: italic;
+    color: #777;
+    margin-bottom: 20px;
+}
+.error-message {
+    color: var(--red-error, #e74c3c);
+    font-weight: 600;
+    font-style: normal;
+}
+
+/* --- Modal de Confirmação --- */
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+}
+
+.modal-hidden {
+    display: none;
+    opacity: 0;
+}
+
+.modal-content-sm {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-title-center {
+    text-align: center;
+    color: var(--texto-dark);
+    margin-top: 0;
+    font-size: 1.3rem;
+}
+
+.modal-text-center {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: space-around;
+    gap: 15px;
+}
+
+.btn-cancel, .btn-confirm {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    flex-grow: 1;
+    transition: opacity 0.2s ease;
+}
+
+.btn-cancel {
+    background-color: var(--cinza-medio);
+    color: var(--texto-dark);
+}
+
+.btn-cancel:hover {
+    background-color: #c9c9c9;
+}
+
+.btn-confirm {
+    background-color: var(--verde-main);
+    color: var(--white);
+}
+
+.btn-confirm:hover {
+    background-color: var(--verde-dark);
+}
+
+/* --- Responsivo --- */
+@media (max-width: 768px) {
+    .turmas-list {
+        /* Garante que a lista fique centralizada */
+        align-items: center; 
+    }
+    .turma-card-enroll {
+        flex-direction: column; /* Empilha em telas pequenas */
+        align-items: stretch;
+        max-width: 95%;
+    }
+    .btn-enroll-action {
+        margin-top: 15px;
+        width: 100%; /* Ocupa a largura total */
+    }
+}

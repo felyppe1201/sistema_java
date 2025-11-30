@@ -30,6 +30,25 @@ public class TurmaRepository {
         return em.createQuery("SELECT t FROM Turma t", Turma.class).getResultList();
     }
 
+    public List<Turma> findTurmasElegiveis(Integer periodo, Long cursoId) {
+        try {
+            String jpql = "SELECT t FROM Turma t " +
+                          "JOIN t.disciplina d " +
+                          "WHERE t.periodo = :periodo " +
+                          "AND d.curso.id = :cursoId " +
+                          "AND t.ativo = true " +
+                          "AND t.stat = 1"; // Status 1 = Matrícula Aberta
+
+            return em.createQuery(jpql, Turma.class)
+                     .setParameter("periodo", periodo)
+                     .setParameter("cursoId", cursoId)
+                     .getResultList();
+        } catch (Exception e) {
+            System.err.println("Erro ao buscar turmas elegíveis: " + e.getMessage());
+            return List.of();
+        }
+    }
+
     /**
      * NOVO: Busca todas as turmas associadas a um professor específico.
      * Assume que a classe Turma tem um campo 'professor' que referencia a classe Usuario.

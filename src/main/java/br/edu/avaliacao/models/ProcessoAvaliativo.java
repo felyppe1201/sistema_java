@@ -1,7 +1,6 @@
 package br.edu.avaliacao.models;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "processoavaliativo")
