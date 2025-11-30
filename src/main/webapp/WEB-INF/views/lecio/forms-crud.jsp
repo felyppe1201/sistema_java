@@ -8,6 +8,11 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="jakarta.tags.core" %>
     <title>${processo.nome}</title>
     <link
       rel="stylesheet"
+      type="text/css"
+      href="${pageContext.request.contextPath}/assets/css/reset.css"
+    />
+    <link
+      rel="stylesheet"
       href="${pageContext.request.contextPath}/assets/css/navbar.css"
     />
     <link

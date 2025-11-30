@@ -7,6 +7,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Turma: ${turma.disciplina.nome}</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="${pageContext.request.contextPath}/assets/css/reset.css"
+    />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/turma.css"> 
 </head>
 <body class="m0">

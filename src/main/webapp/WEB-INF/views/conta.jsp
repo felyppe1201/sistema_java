@@ -5,8 +5,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Minha Conta</title>
-    
-    <!-- Seus arquivos CSS existentes -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="${pageContext.request.contextPath}/assets/css/reset.css"
+    />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/navbar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/generico.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/perfil.css">

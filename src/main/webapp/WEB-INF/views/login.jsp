@@ -10,6 +10,11 @@
     <link
       rel="stylesheet"
       type="text/css"
+      href="${pageContext.request.contextPath}/assets/css/reset.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
       href="${pageContext.request.contextPath}/assets/css/login.css"
     />
   </head>

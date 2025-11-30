@@ -4,6 +4,11 @@
 <html>
 <head>
     <title>Responder Avaliação</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="${pageContext.request.contextPath}/assets/css/reset.css"
+    />
     <style>
         body { font-family: sans-serif; background: #f3f4f6; padding: 20px; }
         .container { max-width: 800px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }

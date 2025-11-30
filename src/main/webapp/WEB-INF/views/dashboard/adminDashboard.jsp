@@ -8,6 +8,11 @@ uri="http://java.sun.com/jsp/jstl/core" %>
     <link
       rel="stylesheet"
       type="text/css"
+      href="${pageContext.request.contextPath}/assets/css/reset.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
       href="${pageContext.request.contextPath}/assets/css/adminDashboard.css"
     />
     <link

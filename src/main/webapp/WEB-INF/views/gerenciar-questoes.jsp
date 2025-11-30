@@ -4,6 +4,11 @@
 <html>
 <head>
     <title>Gerenciar Questões - ${formulario.titulo}</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="${pageContext.request.contextPath}/assets/css/reset.css"
+    />
     <style>
         .questao-card {
             background: #fff;

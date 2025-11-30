@@ -1,0 +1,368 @@
+/* ----------------------------------------------------------------- */
+/* 1. Reset Básico e Variáveis */
+/* ----------------------------------------------------------------- */
+:root {
+    --color-primary: #007bff;
+    --color-secondary: #6c757d;
+    --color-success: #28a745;
+    --color-error: #dc3545;
+    --color-warning: #ffc107;
+    --color-bg-light: #f7f7f7;
+    --color-text-dark: #333;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --shadow-default: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --radius-md: 0.5rem;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ----------------------------------------------------------------- */
+/* 2. Layout e Tipografia */
+/* ----------------------------------------------------------------- */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--color-bg-light);
+    color: var(--color-text-dark);
+    line-height: 1.6;
+}
+
+#app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 var(--spacing-md);
+}
+
+.main-content {
+    flex-grow: 1;
+    padding-top: var(--spacing-lg);
+    padding-bottom: 4rem; /* Espaço antes do footer */
+}
+
+/* Títulos */
+.card-title, .report-title, .section-title {
+    margin-bottom: var(--spacing-md);
+    color: var(--color-primary);
+    border-bottom: 2px solid #eee;
+    padding-bottom: 0.5rem;
+}
+
+.report-title {
+    font-size: 1.5rem;
+    color: var(--color-text-dark);
+}
+
+.section-title {
+    font-size: 1.25rem;
+    margin-top: var(--spacing-lg);
+    border-bottom: none;
+    color: var(--color-secondary);
+}
+
+/* ----------------------------------------------------------------- */
+/* 3. Header e Footer */
+/* ----------------------------------------------------------------- */
+.header {
+    background-color: var(--color-primary);
+    color: white;
+    padding: var(--spacing-md) 0;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-title {
+    font-size: 1.75rem;
+}
+
+.header-nav {
+    display: flex;
+    gap: var(--spacing-md);
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem;
+    transition: background-color 0.3s;
+    border-radius: var(--radius-md);
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.btn-logout {
+    background-color: var(--color-error);
+    color: white;
+    padding: 0.5rem var(--spacing-md);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.btn-logout:hover {
+    background-color: #c82333;
+}
+
+.footer {
+    background-color: #343a40;
+    color: #f8f9fa;
+    text-align: center;
+    padding: var(--spacing-md) 0;
+    margin-top: auto;
+}
+
+/* ----------------------------------------------------------------- */
+/* 4. Cards e Alertas */
+/* ----------------------------------------------------------------- */
+.card {
+    background-color: white;
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-lg);
+    box-shadow: var(--shadow-default);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.alert {
+    padding: 0.75rem var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    border-radius: var(--radius-md);
+    border-left: 5px solid;
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border-color: #bee5eb;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-color: #f5c6cb;
+}
+
+/* ----------------------------------------------------------------- */
+/* 5. Grid de Estatísticas (Stats Grid) */
+/* ----------------------------------------------------------------- */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.stat-card {
+    background-color: #fefefe;
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    border-left: 4px solid;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.stat-enrolled {
+    border-color: var(--color-primary);
+}
+
+.stat-collected {
+    border-color: var(--color-success);
+}
+
+.stat-completion {
+    border-color: var(--color-warning);
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--color-secondary);
+    margin-bottom: 0.25rem;
+}
+
+.stat-value {
+    font-size: 1.75rem;
+    font-weight: bold;
+}
+
+/* ----------------------------------------------------------------- */
+/* 6. Lista de Questões e Barras de Progresso */
+/* ----------------------------------------------------------------- */
+.question-item {
+    background-color: #fefefe;
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    border: 1px solid #ddd;
+    margin-bottom: var(--spacing-md);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+    gap: var(--spacing-md);
+}
+
+.question-text {
+    font-weight: 600;
+    color: var(--color-text-dark);
+    flex-grow: 1;
+}
+
+.score-display {
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.score-label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--color-secondary);
+}
+
+.score-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--color-success);
+}
+
+.alternatives-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--color-secondary);
+    font-size: 0.9rem;
+}
+
+.alternative-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    gap: var(--spacing-md);
+}
+
+.alternative-text {
+    flex-basis: 30%; /* Espaço fixo para o texto da alternativa */
+    flex-shrink: 0;
+    font-size: 0.95rem;
+}
+
+.progress-bar-container {
+    flex-grow: 1;
+    height: 10px;
+    background-color: #e9ecef;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: var(--color-primary);
+    transition: width 0.6s ease;
+    border-radius: 5px;
+}
+
+.alternative-percent {
+    flex-basis: 50px; /* Espaço para o texto de porcentagem */
+    text-align: right;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: var(--color-text-dark);
+    flex-shrink: 0;
+}
+
+/* ----------------------------------------------------------------- */
+/* 7. Classes de Largura Geradas Dinamicamente (width-XX) */
+/* Estas classes são essenciais para o funcionamento das barras. */
+/* Você pode adicionar mais se precisar de maior granularidade. */
+/* ----------------------------------------------------------------- */
+
+.width-0 { width: 0%; }
+.width-1 { width: 1%; }
+.width-5 { width: 5%; }
+.width-10 { width: 10%; }
+.width-15 { width: 15%; }
+.width-20 { width: 20%; }
+.width-25 { width: 25%; }
+.width-30 { width: 30%; }
+.width-35 { width: 35%; }
+.width-40 { width: 40%; }
+.width-45 { width: 45%; }
+.width-50 { width: 50%; }
+.width-55 { width: 55%; }
+.width-60 { width: 60%; }
+.width-65 { width: 65%; }
+.width-70 { width: 70%; }
+.width-75 { width: 75%; }
+.width-80 { width: 80%; }
+.width-85 { width: 85%; }
+.width-90 { width: 90%; }
+.width-95 { width: 95%; }
+.width-100 { width: 100%; }
+
+/* ----------------------------------------------------------------- */
+/* 8. Responsividade */
+/* ----------------------------------------------------------------- */
+
+/* Ajustes para telas menores (Smartphones) */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+
+    .header-nav {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .stat-value {
+        font-size: 1.5rem;
+    }
+    
+    .question-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .score-display {
+        text-align: left;
+    }
+
+    .alternative-item {
+        flex-wrap: wrap;
+    }
+
+    .alternative-text {
+        flex-basis: 100%; /* Texto ocupa a linha inteira */
+        margin-bottom: 0.25rem;
+    }
+
+    .progress-bar-container {
+        flex-basis: 75%; /* Progresso e percentual juntos ocupam o resto da linha */
+    }
+
+    .alternative-percent {
+        flex-basis: 25%;
+    }
+}
