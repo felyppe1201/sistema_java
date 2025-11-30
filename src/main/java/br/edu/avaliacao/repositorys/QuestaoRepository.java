@@ -11,16 +11,11 @@ public class QuestaoRepository {
         this.em = em;
     }
 
-    public void save(Questao obj) {
-        try {
-            em.getTransaction().begin();
-            em.persist(obj);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            if (em.getTransaction().isActive()) em.getTransaction().rollback();
-            throw e;
-        }
+
+    public void save(Questao q) {
+        em.persist(q);
     }
+
 
     public Questao findById(long id) {
         return em.find(Questao.class, id);
@@ -30,26 +25,28 @@ public class QuestaoRepository {
         return em.createQuery("SELECT q FROM Questao q", Questao.class).getResultList();
     }
 
-    public void update(Questao obj) {
-        try {
-            em.getTransaction().begin();
-            em.merge(obj);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            if (em.getTransaction().isActive()) em.getTransaction().rollback();
-            throw e;
+    public void update(Questao q) {
+        em.merge(q);
+    }
+
+
+    public void delete(long id) {
+        Questao obj = em.find(Questao.class, id);
+        if (obj != null) {
+            em.remove(em.contains(obj) ? obj : em.merge(obj));
         }
     }
 
-    public void delete(long id) {
+    
+    public List<Questao> findByFormularioId(Long formularioId) {
         try {
-            em.getTransaction().begin();
-            Questao obj = em.find(Questao.class, id);
-            if (obj != null) em.remove(obj);
-            em.getTransaction().commit();
+            TypedQuery<Questao> q = em.createQuery(
+                "SELECT q FROM Questao q WHERE q.idFormulario = :fid ORDER BY q.id", Questao.class);
+            q.setParameter("fid", formularioId);
+            return q.getResultList();
         } catch (Exception e) {
-            if (em.getTransaction().isActive()) em.getTransaction().rollback();
-            throw e;
+            return List.of();
         }
     }
+
 }

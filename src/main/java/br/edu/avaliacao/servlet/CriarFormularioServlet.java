@@ -2,16 +2,16 @@ package br.edu.avaliacao.servlet;
 
 import br.edu.avaliacao.config.EntityManagerUtil;
 import br.edu.avaliacao.models.Formulario;
-import br.edu.avaliacao.models.Questao;
 import br.edu.avaliacao.models.Opcao;
 import br.edu.avaliacao.models.Peso;
 import br.edu.avaliacao.models.ProcessoAvaliativo;
+import br.edu.avaliacao.models.Questao;
 import br.edu.avaliacao.models.Turma;
 import br.edu.avaliacao.repositorys.FormularioRepository;
-import br.edu.avaliacao.repositorys.QuestaoRepository;
 import br.edu.avaliacao.repositorys.OpcaoRepository;
 import br.edu.avaliacao.repositorys.PesoRepository;
 import br.edu.avaliacao.repositorys.ProcessoAvaliativoRepository;
+import br.edu.avaliacao.repositorys.QuestaoRepository;
 import br.edu.avaliacao.repositorys.TurmaRepository;
 import br.edu.avaliacao.security.UsuarioSessionDTO;
 
@@ -22,6 +22,7 @@ import jakarta.servlet.http.*;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.*;
 import java.util.regex.Pattern;
 
 @WebServlet("/lecio/criar-forms")
@@ -31,12 +32,12 @@ public class CriarFormularioServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // autenticação / autorização
         HttpSession session = req.getSession(false);
         if (session == null || session.getAttribute("usuario") == null) {
             resp.sendRedirect(req.getContextPath() + "/login.jsp");
             return;
         }
-
         UsuarioSessionDTO usuario = (UsuarioSessionDTO) session.getAttribute("usuario");
         if (!"PROF".equalsIgnoreCase(usuario.getCargo())) {
             resp.sendError(403, "Acesso não autorizado.");
@@ -44,23 +45,56 @@ public class CriarFormularioServlet extends HttpServlet {
         }
 
         String processoIdParam = req.getParameter("id_process");
-        if (processoIdParam == null || processoIdParam.isBlank()) {
-            resp.sendError(400, "ID do processo não informado.");
-            return;
+        String idFormParam = req.getParameter("id_form");
+
+        Long processoId = null; 
+        Long idForm = null;
+
+        // -----------------------------------------
+        // 1) CASO: id_form presente → buscar formulário e derivar processo
+        // -----------------------------------------
+        if (idFormParam != null && !idFormParam.isBlank()) {
+            try {
+                idForm = Long.parseLong(idFormParam);
+
+                EntityManager emTemp = EntityManagerUtil.getEntityManager();
+                try {
+                    FormularioRepository fRepo = new FormularioRepository(emTemp);
+                    Formulario f = fRepo.findById(idForm);
+                    if (f != null) {
+                        processoId = f.getIdProcesso(); // derivação correta
+                    }
+                } finally {
+                    emTemp.close();
+                }
+
+            } catch (NumberFormatException ignored) {}
         }
 
-        long processoId;
-        try {
-            processoId = Long.parseLong(processoIdParam);
-        } catch (NumberFormatException e) {
-            resp.sendError(400, "ID do processo inválido.");
-            return;
+        // -----------------------------------------
+        // 2) CASO: ainda não temos processoId → tentar via id_process
+        // -----------------------------------------
+        if (processoId == null) {
+            if (processoIdParam == null || processoIdParam.isBlank()) {
+                resp.sendError(400, "ID do processo não informado.");
+                return;
+            }
+            try {
+                processoId = Long.parseLong(processoIdParam);
+            } catch (NumberFormatException e) {
+                resp.sendError(400, "ID do processo inválido.");
+                return;
+            }
         }
 
         EntityManager em = EntityManagerUtil.getEntityManager();
         try {
             ProcessoAvaliativoRepository procRepo = new ProcessoAvaliativoRepository(em);
             TurmaRepository turmaRepo = new TurmaRepository(em);
+            FormularioRepository formRepo = new FormularioRepository(em);
+            QuestaoRepository questRepo = new QuestaoRepository(em);
+            OpcaoRepository opcRepo = new OpcaoRepository(em);
+            PesoRepository pesoRepo = new PesoRepository(em);
 
             ProcessoAvaliativo processo = procRepo.findById(processoId);
             if (processo == null || !processo.isAtivo()) {
@@ -79,21 +113,63 @@ public class CriarFormularioServlet extends HttpServlet {
                 return;
             }
 
+            // -----------------------------------------
+            // 3) Carregar o formulário:
+            //    - id_form explícito
+            //    - ou último formulário do processo
+            // -----------------------------------------
+            Formulario formulario = null;
+
+            if (idForm != null) {
+                formulario = formRepo.findById(idForm);
+            }
+
+            // -----------------------------------------
+            // 4) Montar estrutura para exibição no JSP
+            // -----------------------------------------
+            List<Map<String, Object>> qView = new ArrayList<>();
+
+            if (formulario != null) {
+                List<Questao> qs = questRepo.findByFormularioId(formulario.getId());
+
+                for (Questao q : qs) {
+                    Map<String, Object> m = new HashMap<>();
+                    m.put("id", q.getId());
+                    m.put("texto", q.getTexto());
+                    m.put("tipo", q.getTipo());
+                    m.put("obrigatoria", q.isObrigatoria());
+
+                    Double pesoQ = pesoRepo.findPesoByQuestaoId(q.getId());
+                    m.put("pesoQuestao", pesoQ);
+                    qView.add(m);
+                }
+            }
+
             req.setAttribute("processo", processo);
+            req.setAttribute("formulario", formulario);
+            req.setAttribute("questoes", qView);
+
             req.getRequestDispatcher("/WEB-INF/views/lecio/criar-forms.jsp").forward(req, resp);
+
         } finally {
             em.close();
         }
     }
 
+
+    /**
+     * POST: salva/atualiza somente o cabeçalho do formulário.
+     * Se id_form não existir, cria um novo formulário associado ao processo.
+     * Redireciona para a mesma página com id_form para permitir adicionar questões.
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         HttpSession session = req.getSession(false);
         if (session == null || session.getAttribute("usuario") == null) {
             resp.sendRedirect(req.getContextPath() + "/login.jsp");
             return;
         }
-
         UsuarioSessionDTO usuario = (UsuarioSessionDTO) session.getAttribute("usuario");
         if (!"PROF".equalsIgnoreCase(usuario.getCargo())) {
             resp.sendError(403, "Acesso não autorizado.");
@@ -102,10 +178,57 @@ public class CriarFormularioServlet extends HttpServlet {
 
         req.setCharacterEncoding("UTF-8");
 
+         // ====================================================================================
+        // ===== BLOCO DE EXCLUSÃO DE QUESTÃO — CORRETO, USANDO REPOSITÓRIO E TRANSAÇÃO =======
+        // ====================================================================================
+        String action = req.getParameter("action");
+        if ("deleteQuestao".equals(action)) {
+
+            String idProc = req.getParameter("id_process");
+            String idForm = req.getParameter("id_form");
+            String idQuest = req.getParameter("id_questao");
+
+            if (idProc == null || idForm == null || idQuest == null) {
+                session.setAttribute("msgError", "Dados insuficientes para excluir a questão.");
+                resp.sendRedirect(req.getContextPath() + "/lecio/turma");
+                return;
+            }
+
+            long qid;
+            try {
+                qid = Long.parseLong(idQuest);
+            } catch (NumberFormatException e) {
+                session.setAttribute("msgError", "ID da questão inválido.");
+                resp.sendRedirect(req.getContextPath() + "/lecio/criar-forms?id_process=" + idProc + "&id_form=" + idForm);
+                return;
+            }
+
+            EntityManager emDel = EntityManagerUtil.getEntityManager();
+            try {
+                emDel.getTransaction().begin();
+                QuestaoRepository qRepo = new QuestaoRepository(emDel);
+
+                qRepo.delete(qid);
+
+                emDel.getTransaction().commit();
+                session.setAttribute("msgSuccess", "Questão excluída com sucesso.");
+
+            } catch (Exception e) {
+                emDel.getTransaction().rollback();
+                session.setAttribute("msgError", "Erro ao excluir questão: " + e.getMessage());
+            } finally {
+                emDel.close();
+            }
+
+            resp.sendRedirect(req.getContextPath() +
+                    "/lecio/criar-forms?id_process=" + idProc + "&id_form=" + idForm);
+            return;
+        }
+
         String processoIdParam = req.getParameter("id_process");
+        String idFormParam = req.getParameter("id_form");
         String titulo = req.getParameter("titulo");
         String identificadoParam = req.getParameter("identificado");
-        String qCountParam = req.getParameter("q_count");
 
         if (processoIdParam == null || processoIdParam.isBlank()) {
             session.setAttribute("msgError", "ID do processo não informado.");
@@ -128,30 +251,18 @@ public class CriarFormularioServlet extends HttpServlet {
             return;
         }
 
-        int qCount = 0;
-        try {
-            qCount = qCountParam == null ? 0 : Integer.parseInt(qCountParam);
-        } catch (NumberFormatException ignored) { qCount = 0; }
-
-        if (qCount <= 0) {
-            session.setAttribute("msgError", "É obrigatório criar pelo menos uma questão.");
-            resp.sendRedirect(req.getContextPath() + "/lecio/criar-forms?id_process=" + processoId);
-            return;
-        }
-
         EntityManager em = EntityManagerUtil.getEntityManager();
         try {
             ProcessoAvaliativoRepository procRepo = new ProcessoAvaliativoRepository(em);
             TurmaRepository turmaRepo = new TurmaRepository(em);
+            FormularioRepository formRepo = new FormularioRepository(em);
 
-            // valida processo e permissão
             ProcessoAvaliativo processo = procRepo.findById(processoId);
             if (processo == null || !processo.isAtivo()) {
                 session.setAttribute("msgError", "Processo avaliativo não encontrado.");
                 resp.sendRedirect(req.getContextPath() + "/lecio/turma");
                 return;
             }
-
             Turma turma = processo.getTurma();
             if (!turmaRepo.professorLecionaTurma(usuario.getId(), turma.getId())) {
                 session.setAttribute("msgError", "Você não leciona esta turma.");
@@ -159,186 +270,38 @@ public class CriarFormularioServlet extends HttpServlet {
                 return;
             }
 
-            // ---------- PRE-VALIDAÇÃO DE PESOS E CAMPOS (evita persistência parcial) ----------
-            boolean anyQuestionWithText = false;
-            for (int i = 0; i < qCount; i++) {
-                String exists = req.getParameter("q_" + i + "_exists");
-                if (exists == null) continue;
-
-                String texto = req.getParameter("q_" + i + "_texto");
-                if (texto != null && !texto.isBlank()) anyQuestionWithText = true;
-
-                String tipo = req.getParameter("q_" + i + "_tipo");
-                if (tipo == null || tipo.isBlank()) tipo = "disc";
-
-                // valida peso da questão (se informado)
-                String qPeso = req.getParameter("q_" + i + "_peso");
-                if (qPeso != null && !qPeso.isBlank()) {
-                    if (!isValidPeso(qPeso)) {
-                        session.setAttribute("msgError", "Peso inválido na questão " + (i+1) + ". Use número >= 1 com até 2 casas decimais.");
-                        resp.sendRedirect(req.getContextPath() + "/lecio/criar-forms?id_process=" + processoId);
-                        return;
-                    }
-                    double pv = Double.parseDouble(qPeso.replace(",", "."));
-                    if (pv < 1.0) {
-                        session.setAttribute("msgError", "Peso da questão " + (i+1) + " deve ser >= 1.00.");
-                        resp.sendRedirect(req.getContextPath() + "/lecio/criar-forms?id_process=" + processoId);
-                        return;
-                    }
-                }
-
-                if (!"disc".equalsIgnoreCase(tipo)) {
-                    int optCount = 0;
-                    try { optCount = Integer.parseInt(req.getParameter("q_" + i + "_opt_count")); } catch (Exception ex) { optCount = 0; }
-                    if (optCount <= 0) {
-                        session.setAttribute("msgError", "Questão " + (i+1) + " precisa ter ao menos uma opção.");
-                        resp.sendRedirect(req.getContextPath() + "/lecio/criar-forms?id_process=" + processoId);
-                        return;
-                    }
-                    for (int j = 0; j < optCount; j++) {
-                        String optTexto = req.getParameter("q_" + i + "_opt_" + j + "_texto");
-                        if (optTexto == null || optTexto.isBlank()) {
-                            session.setAttribute("msgError", "Opção vazia na questão " + (i+1) + " — verifique opção " + (j+1) + ".");
-                            resp.sendRedirect(req.getContextPath() + "/lecio/criar-forms?id_process=" + processoId);
-                            return;
-                        }
-
-                        // VF: cada opção deve ter respostavf true/false
-                        if ("vf".equalsIgnoreCase(tipo)) {
-                            String r = req.getParameter("q_" + i + "_opt_" + j + "_respostavf");
-                            if (r == null || !(r.equalsIgnoreCase("true") || r.equalsIgnoreCase("false"))) {
-                                session.setAttribute("msgError", "Opção VF sem valor (verdadeiro/falso) na questão " + (i+1) + ".");
-                                resp.sendRedirect(req.getContextPath() + "/lecio/criar-forms?id_process=" + processoId);
-                                return;
-                            }
-                        }
-
-                        // valida peso da opção (se informado)
-                        String opPeso = req.getParameter("q_" + i + "_opt_" + j + "_peso");
-                        if (opPeso != null && !opPeso.isBlank()) {
-                            if (!isValidPeso(opPeso)) {
-                                session.setAttribute("msgError", "Peso inválido na opção " + (j+1) + " da questão " + (i+1) + ". Use número >= 1 com até 2 decimais.");
-                                resp.sendRedirect(req.getContextPath() + "/lecio/criar-forms?id_process=" + processoId);
-                                return;
-                            }
-                            double pv = Double.parseDouble(opPeso.replace(",", "."));
-                            if (pv < 1.0) {
-                                session.setAttribute("msgError", "Peso da opção " + (j+1) + " da questão " + (i+1) + " deve ser >= 1.00.");
-                                resp.sendRedirect(req.getContextPath() + "/lecio/criar-forms?id_process=" + processoId);
-                                return;
-                            }
-                        }
-                    }
-                }
-            } // end pre-validation
-
-            if (!anyQuestionWithText) {
-                session.setAttribute("msgError", "Adicione pelo menos uma questão com enunciado.");
-                resp.sendRedirect(req.getContextPath() + "/lecio/criar-forms?id_process=" + processoId);
-                return;
+            Formulario formulario = null;
+            if (idFormParam != null && !idFormParam.isBlank()) {
+                try {
+                    long idf = Long.parseLong(idFormParam);
+                    formulario = formRepo.findById(idf);
+                } catch (NumberFormatException ignored) { formulario = null; }
             }
 
-            // ---------- PERSISTÊNCIA (agora que tudo foi validado) ----------
-            Formulario formulario = new Formulario();
-            formulario.setIdProcesso(processoId);
-            formulario.setTitulo(titulo.trim());
-            formulario.setIdentificado(identificadoParam != null && identifiedTrue(identificadoParam));
-            formulario.setAtivo(true);
-            formulario.setStat(1);
-
-            FormularioRepository formRepo = new FormularioRepository(em);
-            QuestaoRepository questRepo = new QuestaoRepository(em);
-            OpcaoRepository opcRepo = new OpcaoRepository(em);
-            PesoRepository pesoRepo = new PesoRepository(em);
-
-            // salva formulário
-            formRepo.save(formulario);
-
-            int createdQuestions = 0;
-            for (int i = 0; i < qCount; i++) {
-                String exists = req.getParameter("q_" + i + "_exists");
-                if (exists == null) continue;
-
-                String tipo = req.getParameter("q_" + i + "_tipo");
-                String texto = req.getParameter("q_" + i + "_texto");
-                String obrig = req.getParameter("q_" + i + "_obrigatoria");
-
-                if (texto == null || texto.isBlank()) continue;
-                if (tipo == null || tipo.isBlank()) tipo = "disc";
-
-                Questao questao = new Questao();
-                questao.setIdFormulario(formulario.getId());
-                questao.setTexto(texto.trim());
-                questao.setTipo(tipo);
-                questao.setObrigatoria(obrig != null && (obrig.equalsIgnoreCase("on") || obrig.equalsIgnoreCase("true")));
-
-                questRepo.save(questao);
-
-                // peso da questão (opcional)
-                String qPeso = req.getParameter("q_" + i + "_peso");
-                if (qPeso != null && !qPeso.isBlank()) {
-                    double pesoVal = Double.parseDouble(qPeso.replace(",", "."));
-                    Peso pesoQ = new Peso();
-                    pesoQ.setIdQuestao(questao.getId());
-                    pesoQ.setIdOpcao(null);
-                    // arredonda 2 casas
-                    pesoQ.setPeso(round2(pesoVal));
-                    pesoRepo.save(pesoQ);
-                }
-
-                int optCount = 0;
-                try { optCount = Integer.parseInt(req.getParameter("q_" + i + "_opt_count")); } catch (Exception ex) { optCount = 0; }
-
-                for (int j = 0; j < optCount; j++) {
-                    String optTexto = req.getParameter("q_" + i + "_opt_" + j + "_texto");
-                    if (optTexto == null || optTexto.isBlank()) continue;
-
-                    Opcao opcao = new Opcao();
-                    opcao.setIdQuestao(questao.getId());
-                    opcao.setTexto(optTexto.trim());
-
-                    if ("vf".equalsIgnoreCase(tipo)) {
-                        opcao.setVf(true);
-                        String r = req.getParameter("q_" + i + "_opt_" + j + "_respostavf");
-                        opcao.setRespostavf("true".equalsIgnoreCase(r));
-                        opcao.setCorreta(false); // VF ignora o campo correta
-                    } else {
-                        opcao.setVf(false);
-                        opcao.setRespostavf(null);
-                        String corr = req.getParameter("q_" + i + "_opt_" + j + "_correta");
-                        opcao.setCorreta(corr != null && (corr.equalsIgnoreCase("on") || corr.equalsIgnoreCase("true")));
-                    }
-
-                    opcRepo.save(opcao);
-
-                    // peso da opção (opcional)
-                    String opPeso = req.getParameter("q_" + i + "_opt_" + j + "_peso");
-                    if (opPeso != null && !opPeso.isBlank()) {
-                        double pesoVal = Double.parseDouble(opPeso.replace(",", "."));
-                        Peso p = new Peso();
-                        p.setIdQuestao(questao.getId());
-                        p.setIdOpcao(opcao.getId());
-                        p.setPeso(round2(pesoVal));
-                        pesoRepo.save(p);
-                    }
-                }
-
-                createdQuestions++;
+            if (formulario == null) {
+                // cria novo formulário
+                formulario = new Formulario();
+                formulario.setIdProcesso(processoId);
+                formulario.setTitulo(titulo.trim());
+                formulario.setIdentificado(identifiedTrue(identificadoParam));
+                formulario.setAtivo(true);
+                formulario.setStat(1);
+                formRepo.save(formulario);
+                session.setAttribute("msgSuccess", "Cabeçalho do formulário criado. Agora você pode adicionar questões.");
+            } else {
+                // atualiza apenas título/identificado
+                formulario.setTitulo(titulo.trim());
+                formulario.setIdentificado(identifiedTrue(identificadoParam));
+                formRepo.update(formulario);
+                session.setAttribute("msgSuccess", "Cabeçalho atualizado.");
             }
 
-            if (createdQuestions == 0) {
-                session.setAttribute("msgError", "É obrigatório criar pelo menos uma questão com conteúdo.");
-                resp.sendRedirect(req.getContextPath() + "/lecio/criar-forms?id_process=" + processoId);
-                return;
-            }
-
-            session.setAttribute("msgSuccess", "Formulário criado com sucesso.");
-            resp.sendRedirect(req.getContextPath() + "/lecio/process?id=" + processoId);
+            // redireciona para página de edição do mesmo formulário (id_form)
+            resp.sendRedirect(req.getContextPath() + "/lecio/criar-forms?id_process=" + processoId + "&id_form=" + formulario.getId());
             return;
-
         } catch (Exception e) {
             e.printStackTrace();
-            session.setAttribute("msgError", "Erro ao salvar formulário: " + e.getMessage());
+            session.setAttribute("msgError", "Erro ao salvar cabeçalho: " + e.getMessage());
             resp.sendRedirect(req.getContextPath() + "/lecio/criar-forms?id_process=" + processoId);
             return;
         } finally {

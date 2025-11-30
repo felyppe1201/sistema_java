@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "opcao")
 public class Opcao {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -24,6 +25,12 @@ public class Opcao {
     @Column(name = "correta", columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean correta = false;
 
+    // ---- RELACIONAMENTO ----
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "questao_id", insertable = false, updatable = false)
+    private Questao questao;
+
     public Opcao() {}
 
     public Opcao(long id, long idQuestao, String texto) {
@@ -32,10 +39,14 @@ public class Opcao {
         this.texto = texto;
     }
 
+    // ---- GETTERS E SETTERS ----
+
     public long getId() { return id; }
     public void setId(long id) { this.id = id; }
+
     public long getIdQuestao() { return idQuestao; }
     public void setIdQuestao(long idQuestao) { this.idQuestao = idQuestao; }
+
     public String getTexto() { return texto; }
     public void setTexto(String texto) { this.texto = texto; }
 
@@ -47,4 +58,6 @@ public class Opcao {
 
     public Boolean getCorreta() { return correta; }
     public void setCorreta(Boolean correta) { this.correta = correta; }
+
+    public Questao getQuestao() { return questao; }
 }

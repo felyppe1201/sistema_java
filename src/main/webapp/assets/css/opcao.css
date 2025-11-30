@@ -1,0 +1,125 @@
+:root {
+  --verde-main: #2ecc71;
+  --blue-main: #0078ff;
+  --cinza-medio: #dcdcdc;
+  --white: #fff;
+  --texto-dark: #333;
+  --danger: #e74c3c;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  background: #f6f7f8;
+  color: var(--texto-dark);
+}
+
+.container {
+  width: 65%;
+  max-width: 900px;
+  margin: 28px auto;
+  padding: 22px;
+  background: var(--white);
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+h2 {
+  margin-top: 0;
+}
+
+label {
+  display: block;
+  margin-top: 12px;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+input[type="text"],
+textarea {
+  width: calc(100% - 40px);
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--cinza-medio);
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.chk-obg {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btnSalvar {
+  background: var(--blue-main);
+  color: var(--white);
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.btnSalvar:hover {
+  filter: brightness(0.95);
+}
+
+.btn-cancel {
+  display: inline-block;
+  margin-left: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+.msg-error {
+  background: #ffecec;
+  border-left: 5px solid var(--danger);
+  padding: 10px 14px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+/* Container geral para alinhar o peso com os outros controles */
+.peso-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+/* Label do peso */
+.peso-label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Campo numérico integrado ao estilo dos inputs existentes */
+.peso-input {
+  width: 70px;
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Foco padronizado */
+.peso-input:focus {
+  border-color: #4c7af1;
+  box-shadow: 0 0 0 3px rgba(76, 122, 241, 0.25);
+  outline: none;
+}

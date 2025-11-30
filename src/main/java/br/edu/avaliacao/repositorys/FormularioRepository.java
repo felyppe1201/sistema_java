@@ -83,8 +83,21 @@ public class FormularioRepository {
             }
             em.getTransaction().commit();
         } catch (Exception e) {
-            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             throw new RuntimeException("Erro ao softDelete Formulario: " + e.getMessage(), e);
         }
     }
+    
+    
+    public List<Formulario> findByProcessoId(Long processoId) {
+        return em.createQuery(
+            "SELECT f FROM Formulario f WHERE f.idProcesso = :pid AND f.ativo = true ORDER BY f.id DESC",
+            Formulario.class
+        )
+        .setParameter("pid", processoId)
+        .getResultList();
+    }
+
+
 }

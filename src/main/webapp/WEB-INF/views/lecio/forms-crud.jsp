@@ -21,9 +21,7 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="jakarta.tags.core" %>
       <button class="nav-toggle" onclick="toggleMenu()">☰</button>
       <ul id="nav-links" class="nav-links">
         <li>
-          <a href="${pageContext.request.contextPath}/dashboard/professor"
-            >Painel</a
-          >
+          <a href="${pageContext.request.contextPath}/dashboard">Painel</a>
         </li>
         <li><a href="${pageContext.request.contextPath}/conta">Conta</a></li>
         <li>
@@ -64,7 +62,7 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="jakarta.tags.core" %>
                 <div class="form-actions">
                   <a
                     class="btn-view"
-                    href="${pageContext.request.contextPath}/lecio/visualizar-form?id=${f.id}"
+                    href="${pageContext.request.contextPath}/lecio/criar-forms?id_process=${processo.id}&id_form=${f.id}"
                     >Abrir</a
                   >
 

@@ -21,9 +21,7 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="jakarta.tags.core" %>
       <button class="nav-toggle" onclick="toggleMenu()">☰</button>
       <ul id="nav-links" class="nav-links">
         <li>
-          <a href="${pageContext.request.contextPath}/dashboard/professor"
-            >Painel</a
-          >
+          <a href="${pageContext.request.contextPath}/dashboard ">Painel</a>
         </li>
         <li><a href="${pageContext.request.contextPath}/conta">Conta</a></li>
         <li>
@@ -31,84 +29,87 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="jakarta.tags.core" %>
         </li>
       </ul>
     </nav>
+    <div class="container">
+      <h1>${turma.codigoTurma}</h1>
+      <p>
+        Disciplina: ${turma.disciplina != null ? turma.disciplina.nome : 'N/D'}
+      </p>
+      <p>Período: ${turma.periodo}</p>
 
-    <h1>${turma.codigoTurma}</h1>
-    <p>
-      Disciplina: ${turma.disciplina != null ? turma.disciplina.nome : 'N/D'}
-    </p>
-    <p>Período: ${turma.periodo}</p>
+      <!-- Mensagens flash -->
+      <c:if test="${not empty msgSuccess}">
+        <div class="msg-success">${msgSuccess}</div>
+      </c:if>
+      <c:if test="${not empty msgError}">
+        <div class="msg-error">${msgError}</div>
+      </c:if>
 
-    <!-- Mensagens flash -->
-    <c:if test="${not empty msgSuccess}">
-      <div class="msg-success">${msgSuccess}</div>
-    </c:if>
-    <c:if test="${not empty msgError}">
-      <div class="msg-error">${msgError}</div>
-    </c:if>
+      <hr />
 
-    <hr />
+      <h2>Processos Avaliativos</h2>
 
-    <h2>Processos Avaliativos</h2>
+      <div class="processos-container">
+        <c:choose>
+          <c:when test="${not empty processos}">
+            <c:forEach var="p" items="${processos}">
+              <div class="process-item">
+                <!-- Botão de acessar -->
+                <a
+                  class="process-btn"
+                  href="${pageContext.request.contextPath}/lecio/process?id=${p.id}"
+                >
+                  ${p.nome}
+                </a>
 
-    <div class="processos-container">
-      <c:choose>
-        <c:when test="${not empty processos}">
-          <c:forEach var="p" items="${processos}">
-            <div class="process-item">
-              <!-- Botão de acessar -->
-              <a
-                class="process-btn"
-                href="${pageContext.request.contextPath}/lecio/process?id=${p.id}"
-              >
-                ${p.nome}
-              </a>
+                <!-- Botão de excluir -->
+                <form
+                  method="post"
+                  action="${pageContext.request.contextPath}/lecio/turma"
+                  onsubmit="return confirmDelete(this);"
+                >
+                  <input type="hidden" name="action" value="delete" />
+                  <input type="hidden" name="idProcesso" value="${p.id}" />
+                  <input type="hidden" name="id" value="${turma.id}" />
 
-              <!-- Botão de excluir -->
-              <form
-                method="post"
-                action="${pageContext.request.contextPath}/lecio/turma"
-                onsubmit="return confirmDelete(this);"
-              >
-                <input type="hidden" name="action" value="delete" />
-                <input type="hidden" name="idProcesso" value="${p.id}" />
-                <input type="hidden" name="id" value="${turma.id}" />
+                  <button type="submit" class="btn-delete-small">
+                    Excluir
+                  </button>
+                </form>
+              </div>
+            </c:forEach>
+          </c:when>
+          <c:otherwise>
+            <p>Nenhum processo avaliativo ativo nesta turma.</p>
+          </c:otherwise>
+        </c:choose>
+      </div>
 
-                <button type="submit" class="btn-delete-small">Excluir</button>
-              </form>
-            </div>
-          </c:forEach>
-        </c:when>
-        <c:otherwise>
-          <p>Nenhum processo avaliativo ativo nesta turma.</p>
-        </c:otherwise>
-      </c:choose>
+      <hr />
+
+      <h2>Novo Processo Avaliativo</h2>
+
+      <form
+        id="createForm"
+        method="post"
+        action="${pageContext.request.contextPath}/lecio/turma"
+        onsubmit="return disableOnSubmit(this);"
+      >
+        <input type="hidden" name="action" value="create" />
+        <input type="hidden" name="id" value="${turma.id}" />
+
+        <label for="nome">Nome do Processo:</label>
+        <input
+          id="nome"
+          type="text"
+          name="nome"
+          required
+          maxlength="255"
+          style="width: 60%"
+        />
+
+        <button type="submit" class="btn-primary">Criar</button>
+      </form>
     </div>
-
-    <hr />
-
-    <h2>Novo Processo Avaliativo</h2>
-
-    <form
-      id="createForm"
-      method="post"
-      action="${pageContext.request.contextPath}/lecio/turma"
-      onsubmit="return disableOnSubmit(this);"
-    >
-      <input type="hidden" name="action" value="create" />
-      <input type="hidden" name="id" value="${turma.id}" />
-
-      <label for="nome">Nome do Processo:</label>
-      <input
-        id="nome"
-        type="text"
-        name="nome"
-        required
-        maxlength="255"
-        style="width: 60%"
-      />
-
-      <button type="submit" class="btn-primary">Criar</button>
-    </form>
 
     <script>
       function confirmDelete(form) {

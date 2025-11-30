@@ -4,13 +4,13 @@
   --verde-dark: #27ae60;
   --cinza-claro: #f2f2f2;
   --cinza-medio: #dcdcdc;
+  --cinza-btn: #7f8c8d; /* novo: botão processos */
+  --cinza-btn-hover: #636e72;
   --texto-dark: #333;
   --white: #ffffff;
 
   --danger: #e74c3c;
   --danger-dark: #c0392b;
-  --blue-main: #1e3a8a; /* usado no botão de acessar processo */
-  --blue-dark: #162e6b;
 }
 
 /* ---- ESTRUTURA GERAL ---- */
@@ -22,24 +22,36 @@ body {
   color: var(--texto-dark);
 }
 
-.page-container {
-  max-width: 1100px;
-  margin: 35px auto;
-  padding: 20px;
+.container {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 0 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
 }
 
 /* ---- TÍTULOS ---- */
-.page-container h1 {
-  margin-bottom: 12px;
+h1 {
+  font-size: 2rem;
   color: var(--verde-dark);
-  font-size: 1.8rem;
+  margin-bottom: 12px;
+  text-align: center;
 }
 
-.page-container h2 {
-  margin-top: 35px;
-  margin-bottom: 15px;
+h2 {
+  font-size: 1.5rem;
   color: var(--verde-dark);
-  font-size: 1.4rem;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  border-bottom: 2px solid var(--verde-main);
+  padding-bottom: 5px;
+}
+
+/* ---- PARÁGRAFOS ---- */
+p {
+  font-size: 1rem;
+  margin: 6px 0;
 }
 
 /* ---- MENSAGENS FLASH ---- */
@@ -67,77 +79,76 @@ body {
 /* ---- CARD DE INFORMAÇÕES DA TURMA ---- */
 .info-box {
   background: var(--white);
-  padding: 18px 22px;
-  border-radius: 10px;
+  padding: 20px 25px;
+  border-radius: 12px;
   border: 1px solid var(--cinza-medio);
-  margin-bottom: 25px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .info-box p {
-  margin: 6px 0;
-  font-size: 0.98rem;
+  margin: 0;
+  font-size: 1rem;
 }
 
 /* ---- PROCESSOS (LISTA EM CARDS) ---- */
 .processos-container {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  margin-top: 15px;
+  gap: 16px;
+  margin-top: 10px;
 }
 
 .process-item {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   background: var(--white);
   border: 1px solid var(--cinza-medio);
   border-radius: 10px;
-  padding: 12px;
+  padding: 12px 16px;
   gap: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
   transition: 0.25s ease;
 }
 
 .process-item:hover {
   border-color: var(--verde-main);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 /* ---- BOTÃO: acessar processo ---- */
-.process-btn-form {
-  flex: 1;
-  margin: 0;
-}
-
 .process-btn {
-  width: 100%;
+  flex: 1;
   padding: 12px;
   border: none;
-  font-size: 15px;
+  font-size: 1rem;
   cursor: pointer;
-  background-color: var(--blue-main);
-  color: white;
+  background-color: var(--cinza-btn);
+  color: var(--white);
   border-radius: 6px;
-  font-weight: 500;
+  font-weight: 600;
   transition: 0.25s ease;
+  text-align: center;
 }
 
 .process-btn:hover {
-  background-color: var(--blue-dark);
+  background-color: var(--cinza-btn-hover);
 }
 
 /* ---- BOTÃO: excluir ---- */
 .btn-delete-small {
   background-color: var(--danger);
   color: white;
-  padding: 10px 14px;
+  padding: 10px 16px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.9rem;
   transition: 0.25s ease;
-  min-width: 80px;
+  min-width: 90px;
 }
 
 .btn-delete-small:hover {
@@ -147,38 +158,38 @@ body {
 /* ---- FORMULÁRIO DE CRIAÇÃO ---- */
 #createForm {
   background: var(--white);
-  padding: 18px 22px;
-  border-radius: 10px;
+  padding: 20px 25px;
+  border-radius: 12px;
   border: 1px solid var(--cinza-medio);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
-  margin-top: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 #createForm label {
-  display: block;
-  margin-bottom: 6px;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 1rem;
+  margin-bottom: 4px;
 }
 
 #createForm input[type="text"] {
-  width: 80%;
-  padding: 8px;
+  width: 100%;
+  padding: 10px;
   border: 1px solid var(--cinza-medio);
   border-radius: 6px;
-  margin-bottom: 12px;
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
 
 .btn-primary {
   background: var(--verde-main);
   color: var(--white);
-  padding: 10px 18px;
+  padding: 12px 20px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 0.95rem;
-  font-weight: 500;
+  font-size: 1rem;
+  font-weight: 600;
   transition: 0.25s ease;
 }
 
@@ -188,22 +199,40 @@ body {
 
 /* ---- RESPONSIVO ---- */
 @media (max-width: 768px) {
-  .page-container {
-    margin: 15px;
-  }
-
-  #createForm input[type="text"] {
-    width: 100%;
+  .container {
+    padding: 0 20px;
   }
 
   .process-item {
     flex-direction: column;
     align-items: stretch;
-    padding: 15px;
+    gap: 10px;
   }
 
-  .btn-delete-small {
+  .btn-delete-small,
+  .process-btn {
     width: 100%;
-    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  .process-btn,
+  .btn-delete-small,
+  #createForm input[type="text"],
+  .btn-primary {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+
+  .container {
+    gap: 20px;
   }
 }

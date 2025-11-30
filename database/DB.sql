@@ -115,7 +115,7 @@ CREATE TABLE Opcao (
     respostavf BOOLEAN,
     correta BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (questao_id)
-        REFERENCES Questao (id)
+        REFERENCES Questao (id) ON DELETE CASCADE
 );
 
 CREATE TABLE Submissao (
@@ -153,9 +153,11 @@ CREATE TABLE Peso (
     opcao_id BIGINT UNSIGNED,
     peso DECIMAL(4 , 2 ) NOT NULL,
     FOREIGN KEY (questao_id)
-        REFERENCES Questao (id),
+        REFERENCES Questao (id)
+        ON DELETE CASCADE,
     FOREIGN KEY (opcao_id)
         REFERENCES Opcao (id)
+        ON DELETE CASCADE
 );
 
 -- Impedir submissão duplicada para formulários identificados
@@ -239,53 +241,4 @@ VALUES
 (1, 5, TRUE, 1),
 (2, 4, TRUE, 1);
 
-INSERT INTO ProcessoAvaliativo (nome, ativo, periodo, turma_id, stat)
-VALUES
-('Avaliação Docente 2025', TRUE, 1, 1, 1);
-
-
-INSERT INTO Formulario (processo_id, titulo, identificado, stat)
-VALUES
-(1, 'Avaliação da Turma PROG1-A', TRUE, 102);
-
-
-INSERT INTO Questao (formulario_id, texto, tipo, obrigatoria)
-VALUES
-(1, 'O professor demonstra domínio do conteúdo?', 'obj', TRUE),
-(1, 'Comente sobre os pontos fortes do professor.', 'disc', FALSE);
-
-INSERT INTO Opcao (questao_id, texto, vf, respostavf, correta)
-VALUES
-(1, 'Excelente', FALSE, NULL, FALSE),
-(1, 'Bom', FALSE, NULL, FALSE),
-(1, 'Regular', FALSE, NULL, FALSE),
-(1, 'Ruim', FALSE, NULL, FALSE);
-
-
-INSERT INTO Peso (questao_id, opcao_id, peso)
-VALUES
-(1, 1, 1.0),
-(1, 2, 0.8),
-(1, 3, 0.5),
-(1, 4, 0.2);
-
-INSERT INTO Submissao (formulario_id, turma_id, usuario_id, nota)
-VALUES
-(1, 1, 4, 0),  -- Ana
-(1, 1, 5, 0);  -- Bruno
-
-INSERT INTO Resposta (submissao_id, questao_id, opcao_id, texto)
-VALUES
-(1, 1, 1, NULL),
-(1, 2, NULL, 'Professor explica muito bem e dá exemplos.');
-
-INSERT INTO Resposta (submissao_id, questao_id, opcao_id, texto)
-VALUES
-(2, 1, 3, NULL),
-(2, 2, NULL, 'Acho que poderia melhorar a dinâmica das aulas.');
-
 select * from usuario;
-
-SELECT id, nome, ativo, stat FROM processoavaliativo WHERE turma_id = 1;
-
-select * from processoavaliativo;

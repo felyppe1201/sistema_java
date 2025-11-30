@@ -5,21 +5,14 @@ import jakarta.persistence.*;
 import java.util.List;
 
 public class OpcaoRepository {
-    private EntityManager em;
+    private final EntityManager em;
 
     public OpcaoRepository(EntityManager em) {
         this.em = em;
     }
 
     public void save(Opcao obj) {
-        try {
-            em.getTransaction().begin();
-            em.persist(obj);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            if (em.getTransaction().isActive()) em.getTransaction().rollback();
-            throw e;
-        }
+        em.persist(obj);
     }
 
     public Opcao findById(long id) {
@@ -31,25 +24,20 @@ public class OpcaoRepository {
     }
 
     public void update(Opcao obj) {
-        try {
-            em.getTransaction().begin();
-            em.merge(obj);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            if (em.getTransaction().isActive()) em.getTransaction().rollback();
-            throw e;
-        }
+        em.merge(obj);
     }
 
-    public void delete(long id) {
-        try {
-            em.getTransaction().begin();
-            Opcao obj = em.find(Opcao.class, id);
-            if (obj != null) em.remove(obj);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            if (em.getTransaction().isActive()) em.getTransaction().rollback();
-            throw e;
+    public void delete(Opcao obj) {
+        if (obj != null) {
+            em.remove(em.contains(obj) ? obj : em.merge(obj));
         }
     }
+    
+    public List<Opcao> findByQuestaoId(Long questaoId) {
+        TypedQuery<Opcao> q = em.createQuery(
+            "SELECT o FROM Opcao o WHERE o.idQuestao = :qid ORDER BY o.id", Opcao.class);
+        q.setParameter("qid", questaoId);
+        return q.getResultList();
+    }
+
 }
