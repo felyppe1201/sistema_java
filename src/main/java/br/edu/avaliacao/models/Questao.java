@@ -31,7 +31,6 @@ public class Questao {
     @OneToMany(mappedBy = "questao", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Peso> pesos;
 
-    // ---- CONSTRUTORES ----
 
     public Questao() {}
 
@@ -43,7 +42,6 @@ public class Questao {
         this.obrigatoria = obrigatoria;
     }
 
-    // ---- GETTERS E SETTERS ----
 
     public long getId() { return id; }
     public void setId(long id) { this.id = id; }

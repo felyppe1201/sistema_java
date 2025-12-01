@@ -45,13 +45,11 @@ public class CriarQuestaoServlet extends HttpServlet {
                 questao = qRepo.findById(questaoId);
                 opcoes = oRepo.findByQuestaoId(questaoId);
 
-                // montar lista de ids das opções
                 List<Long> opIds = new java.util.ArrayList<>();
                 for (Opcao o : opcoes) {
                     opIds.add(o.getId());
                 }
 
-                // buscar pesos diretamente ligados às opções
                 pesosOpcoes = pRepo.findMapPesosPorOpcoes(opIds);
 
                 if (formId == null && questao != null) {

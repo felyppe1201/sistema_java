@@ -4,9 +4,6 @@ import br.edu.avaliacao.models.ProcessoAvaliativo;
 import jakarta.persistence.*;
 import java.util.List;
 
-/**
- * Repositório para operações CRUD e consultas específicas na entidade ProcessoAvaliativo.
- */
 public class ProcessoAvaliativoRepository {
     private EntityManager em;
 
@@ -14,12 +11,6 @@ public class ProcessoAvaliativoRepository {
         this.em = em;
     }
 
-    /**
-     * Busca todos os processos avaliativos ativos associados a uma turma específica.
-     * A consulta está ajustada para usar 'ativo' e ordenar por 'periodo' e 'nome'.
-     * @param turmaId O ID da turma.
-     * @return Lista de ProcessosAvaliativos ativos.
-     */
     public List<ProcessoAvaliativo> findByTurmaId(Long turmaId) {
         try {
             TypedQuery<ProcessoAvaliativo> query = em.createQuery(
@@ -34,12 +25,6 @@ public class ProcessoAvaliativoRepository {
         }
     }
     
-    // --- Métodos CRUD ---
-
-    /**
-     * Salva uma nova instância de ProcessoAvaliativo no banco de dados.
-     * @param obj O objeto ProcessoAvaliativo a ser persistido.
-     */
     public void save(ProcessoAvaliativo obj) {
         try {
             em.getTransaction().begin();
@@ -76,30 +61,14 @@ public class ProcessoAvaliativoRepository {
             }
      }
 
-
-
-
-    /**
-     * Busca um ProcessoAvaliativo pelo seu ID.
-     * @param id O ID do processo avaliativo.
-     * @return O ProcessoAvaliativo encontrado ou null se não existir.
-     */
     public ProcessoAvaliativo findById(long id) {
         return em.find(ProcessoAvaliativo.class, id);
     }
 
-    /**
-     * Retorna todos os Processos Avaliativos.
-     * @return Lista de todos os ProcessosAvaliativos.
-     */
     public List<ProcessoAvaliativo> findAll() {
         return em.createQuery("SELECT p FROM ProcessoAvaliativo p", ProcessoAvaliativo.class).getResultList();
     }
 
-    /**
-     * Atualiza os dados de um ProcessoAvaliativo existente.
-     * @param obj O objeto ProcessoAvaliativo com os dados atualizados.
-     */
     public void update(ProcessoAvaliativo obj) {
         try {
             em.getTransaction().begin();
@@ -111,10 +80,6 @@ public class ProcessoAvaliativoRepository {
         }
     }
 
-    /**
-     * Remove um ProcessoAvaliativo pelo seu ID.
-     * @param id O ID do processo avaliativo a ser excluído.
-     */
     public void delete(long id) {
         try {
             em.getTransaction().begin();

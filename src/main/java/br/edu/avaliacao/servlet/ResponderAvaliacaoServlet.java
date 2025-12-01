@@ -15,7 +15,6 @@ import java.util.List;
 @WebServlet("/aluno/responder")
 public class ResponderAvaliacaoServlet extends HttpServlet {
 
-    // --- TELA DA PROVA (GET) ---
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         EntityManager em = EntityManagerUtil.getEntityManager();
@@ -31,14 +30,13 @@ public class ResponderAvaliacaoServlet extends HttpServlet {
             Formulario form = formRepo.findById(idForm);
             Turma turma = tRepo.findById(idTurma);
 
-            // Busca questões do formulário
             List<Questao> questoes = qRepo.findAll().stream()
                 .filter(q -> q.getIdFormulario() == idForm).toList();
 
             req.setAttribute("formulario", form);
             req.setAttribute("turma", turma);
             req.setAttribute("questoes", questoes);
-            req.setAttribute("todasOpcoes", opRepo.findAll()); // Filtra na view
+            req.setAttribute("todasOpcoes", opRepo.findAll()); 
 
             req.getRequestDispatcher("/WEB-INF/views/aluno/responder-formulario.jsp").forward(req, resp);
 
@@ -47,7 +45,6 @@ public class ResponderAvaliacaoServlet extends HttpServlet {
         }
     }
 
-    // --- PROCESSAR RESPOSTAS (POST) ---
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
@@ -59,7 +56,7 @@ public class ResponderAvaliacaoServlet extends HttpServlet {
         EntityManager em = EntityManagerUtil.getEntityManager();
         
         try {
-            em.getTransaction().begin(); // Transação única para tudo
+            em.getTransaction().begin(); 
 
             FormularioRepository formRepo = new FormularioRepository(em);
             SubmissaoRepository subRepo = new SubmissaoRepository(em);
@@ -67,30 +64,20 @@ public class ResponderAvaliacaoServlet extends HttpServlet {
 
             Formulario form = formRepo.findById(idForm);
 
-            // RF13 e RF14: Criação da Submissão
             Submissao submissao = new Submissao();
             submissao.setIdFormulario(idForm);
             submissao.setIdTurma(idTurma);
             submissao.setDataEnvio(Timestamp.from(Instant.now()));
-            
-            // Lógica de Anonimato (RF14)
+
             if (form.isIdentificado()) {
                 submissao.setIdUsuario(usuario.getId());
             } else {
-                // Se anônimo, salvamos NULL no ID ou usamos uma tabela auxiliar de controle 
-                // Para simplificar aqui: Null no vinculo direto, 
-                // mas o controle de "já respondeu" precisaria de uma tabela de hash.
-                // Vamos salvar o ID para controle de duplicidade (RF13) mas o relatório oculta (RF20).
+
                 submissao.setIdUsuario(usuario.getId()); 
             }
-            
-            // Verifica duplicidade antes de salvar (Trigger no banco também ajuda)
-            // (Omitido aqui pois já fizemos no GET do MinhasAvaliacoes, mas seria bom revalidar)
 
-            subRepo.save(submissao); // Gera o ID da submissão
+            subRepo.save(submissao); 
 
-            // Salvar cada resposta
-            // O form envia inputs com nomes: "resp_IDQUESTAO"
             QuestaoRepository qRepo = new QuestaoRepository(em);
             List<Questao> questoes = qRepo.findAll().stream()
                 .filter(q -> q.getIdFormulario() == idForm).toList();
@@ -104,17 +91,15 @@ public class ResponderAvaliacaoServlet extends HttpServlet {
                     r.setIdQuestao(q.getId());
 
                     if ("obj".equals(q.getTipo())) {
-                        // Se for objetiva, o valor é o ID da opção
                         r.setIdOpcao(Long.parseLong(valorInput));
                     } else {
-                        // Se for discursiva, o valor é o texto
                         r.setTexto(valorInput);
                     }
                     respRepo.save(r);
                 }
             }
 
-            em.getTransaction().commit(); // Comita tudo ou nada
+            em.getTransaction().commit(); 
             
             resp.sendRedirect(req.getContextPath() + "/aluno/avaliacoes?msg=sucesso");
 

@@ -6,7 +6,7 @@ import br.edu.avaliacao.models.*;
 import br.edu.avaliacao.repositorys.AlunoMatriculadoRepository;
 import br.edu.avaliacao.repositorys.AtribuicaoProfessorRepository;
 import br.edu.avaliacao.repositorys.MatriculaRepository;
-import br.edu.avaliacao.repositorys.TurmaRepository; // Import necessário
+import br.edu.avaliacao.repositorys.TurmaRepository; 
 import br.edu.avaliacao.repositorys.UsuarioRepository;
 import br.edu.avaliacao.security.UsuarioSessionDTO;
 
@@ -36,18 +36,15 @@ public class DashboardServlet extends HttpServlet {
 
         HttpSession session = req.getSession(false);
 
-        // Nenhuma sessão → redireciona para login
         if (session == null || session.getAttribute("usuario") == null) {
             resp.sendRedirect(req.getContextPath() + "/login.jsp");
             return;
         }
 
-        // Recupera o usuário logado
         UsuarioSessionDTO usuario = (UsuarioSessionDTO) session.getAttribute("usuario");
 
         String cargo = usuario.getCargo();
 
-        // ----------- Controle de exibição por cargo -------------
         String destino;
 
         switch (cargo.toUpperCase()) {
@@ -73,9 +70,7 @@ public class DashboardServlet extends HttpServlet {
                 break;
 
             case "PROF":
-                // Redireciona para o JSP específico do professor
                 destino = "/WEB-INF/views/dashboard/professorDashboard.jsp";
-                // Carrega os dados de turmas e perfil do professor
                 carregarDadosProfessor(req, usuario.getId());
                 break;
 
@@ -84,20 +79,14 @@ public class DashboardServlet extends HttpServlet {
                 break;
 
             default:
-                // Cargo inválido → volta para login
                 resp.sendRedirect(req.getContextPath() + "/login.jsp?erro=perfil");
                 return;
         }
 
-        // Encaminha para a view correta
         req.setAttribute("usuario", usuario);
         req.getRequestDispatcher(destino).forward(req, resp);
     }
     
-    /**
-     * Carrega informações básicas, turmas atuais e turmas disponíveis
-     * para uso no alunoDashboard.jsp.
-     */
     private void carregarDadosAluno(HttpServletRequest req, Long alunoId) {
 
         EntityManager em = EntityManagerUtil.getEntityManager();
@@ -106,7 +95,6 @@ public class DashboardServlet extends HttpServlet {
             AlunoMatriculadoRepository alunoMatRepo = new AlunoMatriculadoRepository(em);
             MatriculaRepository matriculaRepo = new MatriculaRepository(em);
 
-            // 1) Buscar matrícula acadêmica do aluno (curso + período)
             AlunoMatriculado am = alunoMatRepo.findByUsuarioId(alunoId);
 
             if (am == null) {
@@ -117,7 +105,6 @@ public class DashboardServlet extends HttpServlet {
             String cursoNome = am.getCurso().getNome();
             Integer periodoAtual = am.getPeriodo();
 
-            // 2) Buscar turmas em que o aluno está matriculado
             List<Object[]> resultados = matriculaRepo.findTurmasDetalhadasByAlunoId(alunoId);
 
             List<Map<String, Object>> turmasDTO = new ArrayList<>();
@@ -137,7 +124,6 @@ public class DashboardServlet extends HttpServlet {
                 turmasDTO.add(map);
             }
 
-            // 3) Atribuir ao request
             req.setAttribute("curso", cursoNome);
             req.setAttribute("periodo", periodoAtual);
             req.setAttribute("turmasMatriculadas", turmasDTO);
@@ -147,9 +133,6 @@ public class DashboardServlet extends HttpServlet {
         }
     }
 
-    /**
-     * Carrega os dados de perfil e a lista de turmas que o professor está lecionando.
-     */
     private void carregarDadosProfessor(HttpServletRequest req, Long professorId) {
         
         EntityManager em = EntityManagerUtil.getEntityManager();
@@ -158,10 +141,8 @@ public class DashboardServlet extends HttpServlet {
             UsuarioRepository usuarioRepo = new UsuarioRepository(em);
             TurmaRepository turmaRepo = new TurmaRepository(em);
 
-            // 1. BUSCAR DADOS COMPLETOS DO PROFESSOR (Nome, Email, etc.)
             Usuario professor = usuarioRepo.findById(professorId);
 
-            // 2. BUSCAR TURMAS ATIVAS
             List<Turma> turmas = turmaRepo.findTurmasByProfessorId(professorId);
             List<Map<String, Object>> turmasDTO = new ArrayList<>();
             
@@ -175,7 +156,6 @@ public class DashboardServlet extends HttpServlet {
                 turmasDTO.add(map);
             }
 
-            // 4. Setar atributos para o JSP
             req.setAttribute("professor", professor);
             req.setAttribute("turmas", turmasDTO);
             
@@ -188,10 +168,6 @@ public class DashboardServlet extends HttpServlet {
         }
     }
 
-    /**
-     * Carrega lista de professores e suas turmas
-     * para uso no adminDashboard.jsp
-     */
     private void carregarDadosAdmin(HttpServletRequest req) {
 
         EntityManager em = EntityManagerUtil.getEntityManager();
@@ -202,22 +178,18 @@ public class DashboardServlet extends HttpServlet {
                     new AtribuicaoProfessorRepository(em);
             UsuarioRepository usuarioRepo = new UsuarioRepository(em);
 
-            // 1) Buscar todos os professores (via Repository)
             List<Usuario> professores = usuarioRepo.findProfessoresAtivos();
             System.out.println("DEBUG: professores.size() = " + (professores == null ? "null" : professores.size()));
 
-            // 2) Buscar todas as atribuições
             List<AtribuicaoProfessor> atribuicoes = atribuicaoRepo.findAll();
             System.out.println("DEBUG: atribuicoes.size() = " + (atribuicoes == null ? "null" : atribuicoes.size()));
 
-            // 3) Estrutura final para enviar ao JSP
             List<Map<String, Object>> professoresDTO = new ArrayList<>();
 
             for (Usuario prof : professores) {
 
                 List<Map<String, Object>> turmasDoProfessor = new ArrayList<>();
 
-                // filtrar turmas deste professor
                 for (AtribuicaoProfessor ap : atribuicoes) {
                     if (ap.getProfessor().getId() == prof.getId()) {
 

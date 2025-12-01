@@ -64,7 +64,7 @@ public class QuestaoServlet extends HttpServlet {
                 Questao q = new Questao();
                 q.setIdFormulario(idFormulario);
                 q.setTexto(req.getParameter("texto"));
-                q.setTipo(req.getParameter("tipo")); // 'obj' ou 'disc'
+                q.setTipo(req.getParameter("tipo")); 
                 q.setObrigatoria(req.getParameter("obrigatoria") != null);
                 repo.save(q);
                 
@@ -76,12 +76,10 @@ public class QuestaoServlet extends HttpServlet {
                 repo.save(o);
                 
             } else if ("excluir_questao".equals(acao)) {
-                 // Lógica de excluir (cuidado com FKs de Opcao)
                  QuestaoRepository repo = new QuestaoRepository(em);
                  repo.delete(Long.parseLong(req.getParameter("idQuestao")));
             }
 
-            // Redireciona de volta para a mesma tela (Refresh)
             resp.sendRedirect(req.getContextPath() + "/admin/questoes?idFormulario=" + idFormulario);
 
         } catch (Exception e) {

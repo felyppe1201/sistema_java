@@ -32,7 +32,6 @@ public class TurmaDisponivelService {
     public List<TurmaDisponivelDTO> listarTurmasDisponiveis(Long alunoId) {
         EntityManager em = EntityManagerUtil.getEntityManager();
         try {
-            // 1) Buscar matrícula ativa do aluno
             TypedQuery<AlunoMatriculado> queryAluno = em.createQuery(
                 "SELECT am FROM AlunoMatriculado am WHERE am.idUsuario = :id AND am.ativo = true",
                 AlunoMatriculado.class
@@ -45,7 +44,6 @@ public class TurmaDisponivelService {
             Long cursoId = matricula.getCursoId();
             int periodoAluno = matricula.getPeriodo();
 
-            // 2) Buscar disciplinas do curso e período
             TypedQuery<Disciplina> queryDisc = em.createQuery(
                 "SELECT d FROM Disciplina d WHERE d.curso.id = :cursoId AND d.periodo = :periodo AND d.ativo = true",
                 Disciplina.class
@@ -57,7 +55,6 @@ public class TurmaDisponivelService {
             List<TurmaDisponivelDTO> resultado = new ArrayList<>();
 
             for (Disciplina d : disciplinas) {
-                // 3) Buscar turmas da disciplina ativas
                 TypedQuery<Turma> queryTurma = em.createQuery(
                     "SELECT t FROM Turma t WHERE t.disciplina.id = :disciplinaId AND t.ativo = true",
                     Turma.class
@@ -66,7 +63,6 @@ public class TurmaDisponivelService {
                 List<Turma> turmas = queryTurma.getResultList();
 
                 for (Turma t : turmas) {
-                    // 4) Verificar se o aluno já está matriculado nessa turma
                     TypedQuery<Long> queryAlunoMatriculado = em.createQuery(
                         "SELECT COUNT(m) FROM Matricula m WHERE m.turma.id = :turmaId AND m.aluno.id = :alunoId AND m.ativo = true",
                         Long.class
@@ -74,9 +70,8 @@ public class TurmaDisponivelService {
                     queryAlunoMatriculado.setParameter("turmaId", t.getId());
                     queryAlunoMatriculado.setParameter("alunoId", alunoId);
                     Long jaMatriculado = queryAlunoMatriculado.getSingleResult();
-                    if (jaMatriculado > 0) continue; // já matriculado → ignora
+                    if (jaMatriculado > 0) continue; 
 
-                    // 5) Contar matriculas ativas para calcular vagas restantes
                     TypedQuery<Long> queryMatriculas = em.createQuery(
                         "SELECT COUNT(m) FROM Matricula m WHERE m.turma.id = :turmaId AND m.ativo = true",
                         Long.class

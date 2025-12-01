@@ -10,9 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Serviço que gera os DTOs consolidados para o relatório do professor.
- */
 public class RelatorioService {
 
     public static class RelatorioTurmaDTO {
@@ -49,8 +46,8 @@ public class RelatorioService {
         private Long idFormulario;
         private String titulo;
         private int totalSubmissions;
-        private int totalOptions; // opções (exclui dissertativas)
-        private double percentualAcerto; // 0..100
+        private int totalOptions; 
+        private double percentualAcerto; 
         private boolean identificado;
         private List<QuestaoStatDTO> estatisticasQuestoes;
 
@@ -79,7 +76,7 @@ public class RelatorioService {
         private Long idQuestao;
         private String codigoQuestao;
         private String textoQuestao;
-        private double scoreTotal; // % de acertos na questão (0..100)
+        private double scoreTotal; 
         private List<AlternativaStatDTO> alternativas;
 
         public QuestaoStatDTO(Long idQuestao, String codigoQuestao, String textoQuestao,
@@ -101,14 +98,10 @@ public class RelatorioService {
     public static class AlternativaStatDTO {
         private Long idOpcao;
         private String textoAlternativa;
-        /**
-         * Para questão objetiva: percentualEscolhida = timesChosen / totalSubmissions (0..1)
-         * Para VF: percentualV = timesMarkedTrue / totalSubmissions (0..1)
-         *          percentualF = timesMarkedFalse / totalSubmissions (0..1)
-         */
-        private double percentualEscolhida; // usado para objetivas (0..1)
-        private double percentualV; // para VF
-        private double percentualF; // para VF
+
+        private double percentualEscolhida; 
+        private double percentualV; 
+        private double percentualF; 
 
         public AlternativaStatDTO(Long idOpcao, String textoAlternativa,
                                   double percentualEscolhida,
@@ -127,14 +120,9 @@ public class RelatorioService {
         public double getPercentualF() { return percentualF; }
     }
 
-    /**
-     * Gera relatórios consolidados por todas as turmas que o professor leciona.
-     * @param professorId id do professor (session)
-     */
     public List<RelatorioTurmaDTO> buscarRelatoriosPorProfessor(Long professorId) {
         EntityManager em = EntityManagerUtil.getEntityManager();
         try {
-            // 1) buscar turmas que o professor leciona via AtribuicaoProfessor
             TypedQuery<Turma> qTurmas = em.createQuery(
                     "SELECT ap.turma FROM AtribuicaoProfessor ap WHERE ap.professor.id = :pid AND ap.turma.ativo = true",
                     Turma.class);
@@ -146,7 +134,6 @@ public class RelatorioService {
             for (Turma turma : turmas) {
                 Long turmaId = turma.getId();
 
-                // total alunos matriculados (assume entidade Matricula existe)
                 Long totalMatriculas = 0L;
                 try {
                     TypedQuery<Long> qMat = em.createQuery(
@@ -155,10 +142,8 @@ public class RelatorioService {
                     qMat.setParameter("tid", turmaId);
                     totalMatriculas = qMat.getSingleResult();
                 } catch (Exception ignored) {
-                    // se Matricula não existir, mantém 0
                 }
 
-                // buscar formulários ativos vinculados a processos da turma
                 TypedQuery<Formulario> qForms = em.createQuery(
                         "SELECT f FROM Formulario f WHERE f.idProcesso IN (" +
                                 " SELECT p.id FROM ProcessoAvaliativo p WHERE p.turma.id = :tid AND p.ativo = true" +
@@ -171,7 +156,6 @@ public class RelatorioService {
                 List<FormularioStatsDTO> formsStats = new ArrayList<>();
 
                 for (Formulario f : formularios) {
-                    // total de submissões para o formulário
                     TypedQuery<Long> qSubsCount = em.createQuery(
                             "SELECT COUNT(s) FROM Submissao s WHERE s.idFormulario = :fid",
                             Long.class);
@@ -180,7 +164,6 @@ public class RelatorioService {
                     int totalSubmissions = (totalSubsLong == null) ? 0 : totalSubsLong.intValue();
                     totalRespostasColetadas += (totalSubsLong == null ? 0L : totalSubsLong);
 
-                    // buscar submissões (lista) - para mapear respostas
                     TypedQuery<Submissao> qSubsList = em.createQuery(
                             "SELECT s FROM Submissao s WHERE s.idFormulario = :fid",
                             Submissao.class);
@@ -190,7 +173,6 @@ public class RelatorioService {
                     List<Long> subIds = new ArrayList<>();
                     for (Submissao s : subsList) subIds.add(s.getId());
 
-                    // obter todas as respostas das submissões deste formulário (uma única query)
                     List<Resposta> todasRespostas;
                     if (subIds.isEmpty()) {
                         todasRespostas = List.of();
@@ -202,7 +184,6 @@ public class RelatorioService {
                         todasRespostas = qAllResp.getResultList();
                     }
 
-                    // agrupar respostas por submissão e por opcao
                     Map<Long, List<Resposta>> respostasPorSub = new HashMap<>();
                     Map<Long, List<Resposta>> respostasPorOpcao = new HashMap<>();
                     for (Resposta r : todasRespostas) {
@@ -211,7 +192,6 @@ public class RelatorioService {
                             respostasPorOpcao.computeIfAbsent(r.getIdOpcao(), k -> new ArrayList<>()).add(r);
                     }
 
-                    // buscar questões não-dissertativas
                     TypedQuery<Questao> qQuests = em.createQuery(
                             "SELECT q FROM Questao q WHERE q.idFormulario = :fid AND q.tipo <> 'disc'",
                             Questao.class);
@@ -223,11 +203,9 @@ public class RelatorioService {
 
                     List<QuestaoStatDTO> questaoStats = new ArrayList<>();
 
-                    // Se o formulário não for identificado, não calculamos detalhes de score; apenas informamos identificado=false
                     boolean formularioIdentificado = Boolean.TRUE.equals(f.isIdentificado()) || (f.isIdentificado() == true);
 
                     for (Questao q : questoes) {
-                        // buscar opções da questão
                         TypedQuery<Opcao> qOps = em.createQuery(
                                 "SELECT o FROM Opcao o WHERE o.idQuestao = :qid",
                                 Opcao.class);
@@ -237,55 +215,40 @@ public class RelatorioService {
                         int totalOptionsThisQuest = opcoes.size();
                         totalOptionsInForm += totalOptionsThisQuest;
 
-                        long acumuladoMarcasCorretasQuest = 0L; // soma de marcas corretas (opção × submissão) para essa questão
+                        long acumuladoMarcasCorretasQuest = 0L; 
                         List<AlternativaStatDTO> altStats = new ArrayList<>();
 
-                        // Para cada opção, calcule:
-                        // - countChosen (objetiva): quantas vezes idOpcao == op.id (nº de respostas que referenciam essa opção)
-                        // - para VF: countTrue / countFalse (contagem de respostas com respostavf true/false para esta opção)
-                        // - marcasCorretasEstaOpcao: para cálculo de score (usando as regras fornecidas)
                         for (Opcao op : opcoes) {
                             List<Resposta> respForOption = respostasPorOpcao.getOrDefault(op.getId(), List.of());
-                            long countChosen = respForOption.size(); // quantas vezes a opção foi escolhida (objetiva) ou respondeu (vf)
+                            long countChosen = respForOption.size(); 
                             long countTrue = 0L;
                             long countFalse = 0L;
                             long marcasCorretasEstaOpcao = 0L;
 
                             if (!respForOption.isEmpty()) {
                                 for (Resposta rr : respForOption) {
-                                    // VF responses have respostavf set
                                     if (rr.getRespostaVf() != null) {
                                         if (rr.getRespostaVf()) countTrue++;
                                         else countFalse++;
-                                        // correctness: rr.respostaVf == op.vf ?
                                         Boolean opVf = op.getVf();
                                         if (opVf != null && rr.getRespostaVf().equals(opVf)) {
                                             marcasCorretasEstaOpcao++;
                                         }
                                     } else {
-                                        // objective response (presence indicates chosen)
-                                        // mark correctness later depending on opcao.correta
-                                        // We'll handle below
+
                                     }
                                 }
                             }
 
                             if ("vf".equalsIgnoreCase(q.getTipo())) {
-                                // percentual V / F sobre total submissions
                                 double percentV = (totalSubmissions == 0) ? 0.0 : (double) countTrue / (double) totalSubmissions;
                                 double percentF = (totalSubmissions == 0) ? 0.0 : (double) countFalse / (double) totalSubmissions;
 
-                                // marcasCorretasEstaOpcao já incrementada para VF (where rr.respostaVf == op.getVf())
                                 altStats.add(new AlternativaStatDTO(op.getId(), op.getTexto(), 0.0, percentV, percentF));
                                 acumuladoMarcasCorretasQuest += marcasCorretasEstaOpcao;
                             } else {
-                                // objetiva
-                                // countChosen é quantas vezes opção foi marcada
                                 double percentEscolhida = (totalSubmissions == 0) ? 0.0 : (double) countChosen / (double) totalSubmissions;
 
-                                // Para cálculo de marcas corretas:
-                                // - se op.correta == true e aluno marcou -> marcasCorretasEstaOpcao += countChosen
-                                // - se op.correta == false e aluno NÃO marcou -> marcasCorretasEstaOpcao += (totalSubmissions - countChosen)
                                 boolean opcaoCorreta = Boolean.TRUE.equals(op.getCorreta());
                                 if (opcaoCorreta) {
                                     marcasCorretasEstaOpcao += countChosen;
@@ -296,27 +259,18 @@ public class RelatorioService {
                                 altStats.add(new AlternativaStatDTO(op.getId(), op.getTexto(), percentEscolhida, 0.0, 0.0));
                                 acumuladoMarcasCorretasQuest += marcasCorretasEstaOpcao;
                             }
-                        } // end for opcoes
+                        } 
 
-                        // scoreTotal da questão = acumuladoMarcasCorretasQuest / (totalOptionsThisQuest * totalSubmissions) * 100
                         double scoreTotal = 0.0;
                         if (totalOptionsThisQuest > 0 && totalSubmissions > 0) {
                             double denom = (double) totalOptionsThisQuest * (double) totalSubmissions;
                             scoreTotal = ((double) acumuladoMarcasCorretasQuest / denom) * 100.0;
                         }
 
-                        // adicionar estatística da questão
                         questaoStats.add(new QuestaoStatDTO(q.getId(), String.valueOf(q.getId()), q.getTexto(), scoreTotal, altStats));
+                    } 
 
-                        // Note: Já acumulamos marcas corretas por opção em acumuladoMarcasCorretasQuest,
-                        // mas atenção: nas implementações acima eu somei marcasCorretasEstaOpcao duas vezes dentro do loop.
-                        // Para evitar dupla contagem, ajustarei o acumulado global abaixo de forma segura.
-                    } // end foreach questoes
-
-                    // Recomputar acumuladoMarcasCorretasFormulario corretamente:
-                    // Em vez de confiar no incremental (que poderia ter dupla contagem), vamos recalcular somando, por questão, as marcas corretas reais.
                     long acumuladoMarcasCorretasRecalc = 0L;
-                    // Recalc: para cada questão/alternativa somar marcas corretas usando os mesmos dados.
                     for (Questao q : questoes) {
                         TypedQuery<Opcao> qOps2 = em.createQuery(
                                 "SELECT o FROM Opcao o WHERE o.idQuestao = :qid",
@@ -355,10 +309,8 @@ public class RelatorioService {
                         percentualAcerto = ((double) acumuladoMarcasCorretasRecalc / denom) * 100.0;
                     }
 
-                    // Se formulário não identificado: não devolvemos estatísticas (ou devolvemos vazio) — front decide exibir/ocultar
                     boolean identificado = Boolean.TRUE.equals(f.isIdentificado());
 
-                    // Se anonimato -> não calcula detalhamento (mas mantemos totalSubmissions e flag identificado=false)
                     List<QuestaoStatDTO> questaoStatsToReturn = identificado ? questaoStats : new ArrayList<>();
 
                     FormularioStatsDTO formStats = new FormularioStatsDTO(
@@ -372,9 +324,8 @@ public class RelatorioService {
                     );
 
                     formsStats.add(formStats);
-                } // end foreach formulario
+                } 
 
-                // taxaConclusao = totalRespostasColetadas / (totalMatriculas * totalFormularios)
                 double taxaConclusao = 0.0;
                 int totalFormularios = formularios.size();
                 if (totalMatriculas > 0 && totalFormularios > 0) {
@@ -383,7 +334,6 @@ public class RelatorioService {
                     if (taxaConclusao > 1.0) taxaConclusao = 1.0;
                 }
 
-                // disciplina nome (se houver)
                 String nomeDisciplina = null;
                 try {
                     nomeDisciplina = turma.getDisciplina() != null ? turma.getDisciplina().getNome() : null;
@@ -399,7 +349,7 @@ public class RelatorioService {
                         formsStats
                 );
                 resultado.add(turmaDto);
-            } // end foreach turma
+            } 
 
             return resultado;
         } finally {

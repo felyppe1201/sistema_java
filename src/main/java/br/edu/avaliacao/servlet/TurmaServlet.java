@@ -21,7 +21,6 @@ public class TurmaServlet extends HttpServlet {
         DisciplinaRepository discRepo = new DisciplinaRepository(em);
 
         try {
-            // Carrega disciplinas para o dropdown
             req.setAttribute("listaDisciplinas", discRepo.findAll());
 
             if ("editar".equals(acao)) {
@@ -47,9 +46,9 @@ public class TurmaServlet extends HttpServlet {
             Turma t = new Turma();
             if (idStr != null && !idStr.isEmpty()) t = repo.findById(Long.parseLong(idStr));
 
-            t.setCodigoTurma(req.getParameter("codigoTurma")); // Ex: T01
+            t.setCodigoTurma(req.getParameter("codigoTurma")); 
             t.setNumeroVagas(Integer.parseInt(req.getParameter("numeroVagas")));
-            t.setPeriodo(Integer.parseInt(req.getParameter("periodo"))); // Ex: 20251
+            t.setPeriodo(Integer.parseInt(req.getParameter("periodo"))); 
             t.setIdDisciplina(Long.parseLong(req.getParameter("idDisciplina")));
             t.setStat(1);
 

@@ -32,7 +32,6 @@ public class CriarFormularioServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // autenticação / autorização
         HttpSession session = req.getSession(false);
         if (session == null || session.getAttribute("usuario") == null) {
             resp.sendRedirect(req.getContextPath() + "/login.jsp");
@@ -50,9 +49,6 @@ public class CriarFormularioServlet extends HttpServlet {
         Long processoId = null; 
         Long idForm = null;
 
-        // -----------------------------------------
-        // 1) CASO: id_form presente → buscar formulário e derivar processo
-        // -----------------------------------------
         if (idFormParam != null && !idFormParam.isBlank()) {
             try {
                 idForm = Long.parseLong(idFormParam);
@@ -62,7 +58,7 @@ public class CriarFormularioServlet extends HttpServlet {
                     FormularioRepository fRepo = new FormularioRepository(emTemp);
                     Formulario f = fRepo.findById(idForm);
                     if (f != null) {
-                        processoId = f.getIdProcesso(); // derivação correta
+                        processoId = f.getIdProcesso(); 
                     }
                 } finally {
                     emTemp.close();
@@ -71,9 +67,6 @@ public class CriarFormularioServlet extends HttpServlet {
             } catch (NumberFormatException ignored) {}
         }
 
-        // -----------------------------------------
-        // 2) CASO: ainda não temos processoId → tentar via id_process
-        // -----------------------------------------
         if (processoId == null) {
             if (processoIdParam == null || processoIdParam.isBlank()) {
                 resp.sendError(400, "ID do processo não informado.");
@@ -113,20 +106,13 @@ public class CriarFormularioServlet extends HttpServlet {
                 return;
             }
 
-            // -----------------------------------------
-            // 3) Carregar o formulário:
-            //    - id_form explícito
-            //    - ou último formulário do processo
-            // -----------------------------------------
             Formulario formulario = null;
 
             if (idForm != null) {
                 formulario = formRepo.findById(idForm);
             }
 
-            // -----------------------------------------
-            // 4) Montar estrutura para exibição no JSP
-            // -----------------------------------------
+
             List<Map<String, Object>> qView = new ArrayList<>();
 
             if (formulario != null) {
@@ -156,12 +142,6 @@ public class CriarFormularioServlet extends HttpServlet {
         }
     }
 
-
-    /**
-     * POST: salva/atualiza somente o cabeçalho do formulário.
-     * Se id_form não existir, cria um novo formulário associado ao processo.
-     * Redireciona para a mesma página com id_form para permitir adicionar questões.
-     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -178,9 +158,6 @@ public class CriarFormularioServlet extends HttpServlet {
 
         req.setCharacterEncoding("UTF-8");
 
-         // ====================================================================================
-        // ===== BLOCO DE EXCLUSÃO DE QUESTÃO — CORRETO, USANDO REPOSITÓRIO E TRANSAÇÃO =======
-        // ====================================================================================
         String action = req.getParameter("action");
         if ("deleteQuestao".equals(action)) {
 
@@ -289,14 +266,11 @@ public class CriarFormularioServlet extends HttpServlet {
                 formRepo.save(formulario);
                 session.setAttribute("msgSuccess", "Cabeçalho do formulário criado. Agora você pode adicionar questões.");
             } else {
-                // atualiza apenas título/identificado
                 formulario.setTitulo(titulo.trim());
                 formulario.setIdentificado(identifiedTrue(identificadoParam));
                 formRepo.update(formulario);
                 session.setAttribute("msgSuccess", "Cabeçalho atualizado.");
             }
-
-            // redireciona para página de edição do mesmo formulário (id_form)
             resp.sendRedirect(req.getContextPath() + "/lecio/criar-forms?id_process=" + processoId + "&id_form=" + formulario.getId());
             return;
         } catch (Exception e) {

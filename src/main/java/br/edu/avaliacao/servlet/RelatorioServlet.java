@@ -35,10 +35,8 @@ public class RelatorioServlet extends HttpServlet {
             return;
         }
 
-        // DTO seguro da sessão
         UsuarioSessionDTO sessionUser = (UsuarioSessionDTO) session.getAttribute("usuario");
 
-        // autenticação/autorização: professor ativo (stat==1) e cargo 'prof'
         if (sessionUser == null || !"prof".equalsIgnoreCase(sessionUser.getCargo()) || sessionUser.getStat() != 1) {
             response.sendRedirect(request.getContextPath() + "/auth/login");
             return;
@@ -48,7 +46,7 @@ public class RelatorioServlet extends HttpServlet {
             List<RelatorioTurmaDTO> relatorios = relatorioService.buscarRelatoriosPorProfessor(sessionUser.getId());
 
             request.setAttribute("relatorios", relatorios);
-            request.setAttribute("nomeProfessor", sessionUser.getNome()); // agora vem do DTO
+            request.setAttribute("nomeProfessor", sessionUser.getNome()); 
 
             request.getRequestDispatcher("/WEB-INF/views/lecio/relatorio.jsp").forward(request, response);
 

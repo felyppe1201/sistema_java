@@ -28,7 +28,6 @@ public class ResponderFormularioServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        // 1) ID do formulário
         String idParam = req.getParameter("id");
         if (idParam == null || idParam.isEmpty()) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID do formulário não fornecido.");
@@ -43,7 +42,6 @@ public class ResponderFormularioServlet extends HttpServlet {
             return;
         }
 
-        // 2) Obter o usuário da sessão
         HttpSession session = req.getSession(false);
         if (session == null) {
             resp.sendRedirect(req.getContextPath() + "/auth/login");
@@ -58,7 +56,6 @@ public class ResponderFormularioServlet extends HttpServlet {
 
         Long usuarioId = usuario.getId();
 
-        // 3) Chamar o service
         ResponderFormularioService service = new ResponderFormularioService();
         FormularioDTO formularioDTO = service.montarFormulario(formularioId);
 
@@ -67,12 +64,10 @@ public class ResponderFormularioServlet extends HttpServlet {
             return;
         }
 
-        // 4) Enviar ao JSP
         req.setAttribute("usuarioId", usuarioId);
         req.setAttribute("formularioId", formularioId);
         req.setAttribute("formulario", formularioDTO);
 
-        // 5) Forward
         req.getRequestDispatcher("/WEB-INF/views/aluno/responderFormulario.jsp")
                 .forward(req, resp);
     }
@@ -90,7 +85,6 @@ public class ResponderFormularioServlet extends HttpServlet {
             long formularioId = Long.parseLong(req.getParameter("formularioId"));
             long usuarioId = Long.parseLong(req.getParameter("usuarioId"));
 
-            // Buscar turma pelo processo → turma
             Turma turma = buscarTurmaDoFormulario(em, formularioId);
             if (turma == null) {
                 em.getTransaction().rollback();
@@ -98,7 +92,6 @@ public class ResponderFormularioServlet extends HttpServlet {
                 return;
             }
 
-            // Recarregar o DTO do service (não usar Formulario JPA para montar as questões!)
             ResponderFormularioService service = new ResponderFormularioService();
             ResponderFormularioService.FormularioDTO formDTO = service.montarFormulario(formularioId);
 
@@ -107,7 +100,6 @@ public class ResponderFormularioServlet extends HttpServlet {
                 return;
             }
 
-            // Criar submissão
             Submissao submissao = new Submissao();
             submissao.setIdFormulario(formularioId);
             submissao.setIdTurma(turma.getId());
@@ -116,19 +108,15 @@ public class ResponderFormularioServlet extends HttpServlet {
             SubmissaoRepository subRepo = new SubmissaoRepository(em);
             subRepo.save(submissao);
 
-            em.flush(); // obter ID da submissão
+            em.flush(); 
 
             RespostaRepository respRepo = new RespostaRepository(em);
 
-            // ============================================================
-            //   PERCORRER QUESTÕES DO DTO (com getters!)
-            // ============================================================
             for (var questao : formDTO.getQuestoes()) {
 
                 long questaoId = questao.getId();
                 String tipo = questao.getTipo();
 
-                // OBJETIVAS (múltipla escolha)
                 if (tipo.equals("obj")) {
 
                     String[] selecionadas = req.getParameterValues("questao_obj_" + questaoId);
@@ -146,7 +134,6 @@ public class ResponderFormularioServlet extends HttpServlet {
                     }
                 }
 
-                // VERDADEIRO / FALSO
                 else if (tipo.equals("vf")) {
 
                     for (var opcao : questao.getOpcoes()) {
@@ -167,7 +154,6 @@ public class ResponderFormularioServlet extends HttpServlet {
                     }
                 }
 
-                // DISSERTATIVAS
                 else if (tipo.equals("disc")) {
 
                     String texto = req.getParameter("questao_disc_" + questaoId);
@@ -199,16 +185,13 @@ public class ResponderFormularioServlet extends HttpServlet {
 
     private Turma buscarTurmaDoFormulario(EntityManager em, long formularioId) {
 
-        // 1) Buscar o formulário
         FormularioRepository formularioRepo = new FormularioRepository(em);
         Formulario form = formularioRepo.findById(formularioId);
         if (form == null) return null;
 
-        // 2) Buscar o processo do formulário
         var processo = em.find(br.edu.avaliacao.models.ProcessoAvaliativo.class, form.getIdProcesso());
         if (processo == null) return null;
 
-        // 3) Buscar a turma
         return em.find(Turma.class, processo.getIdTurma());
     }
 

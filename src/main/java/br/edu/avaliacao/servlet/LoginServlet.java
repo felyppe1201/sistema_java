@@ -39,8 +39,7 @@ public class LoginServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/auth/login?erro=1");
             return;
         }
-
-        // criar DTO seguro para a sessão
+        
         UsuarioSessionDTO sessionUser = new UsuarioSessionDTO(
             user.getId(),
             user.getNome(),

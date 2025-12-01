@@ -20,7 +20,7 @@ public class AlunoMatriculadoRepository {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw e; // Repassa o erro para quem chamou tratar
+            throw e; 
         }
     }
 

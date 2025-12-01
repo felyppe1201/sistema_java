@@ -12,11 +12,9 @@ public class Submissao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    // Campo controlável para INSERT/UPDATE
     @Column(name = "formulario_id", nullable = false)
     private long idFormulario;
 
-    // Associação apenas para leitura do formulário
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "formulario_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Formulario formulario;

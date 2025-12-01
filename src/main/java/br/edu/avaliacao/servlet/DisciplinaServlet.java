@@ -21,7 +21,6 @@ public class DisciplinaServlet extends HttpServlet {
         CursoRepository cursoRepo = new CursoRepository(em);
 
         try {
-            // Precisamos da lista de cursos para preencher o <select> no formulário
             req.setAttribute("listaCursos", cursoRepo.findAll());
 
             if ("editar".equals(acao)) {
@@ -51,7 +50,7 @@ public class DisciplinaServlet extends HttpServlet {
             if (idStr != null && !idStr.isEmpty()) d = repo.findById(Long.parseLong(idStr));
 
             d.setNome(req.getParameter("nome"));
-            d.setCursoId(Long.parseLong(req.getParameter("idCurso"))); // Vínculo com Curso
+            d.setCursoId(Long.parseLong(req.getParameter("idCurso"))); 
 
             if (d.getId() == 0) repo.save(d);
             else repo.update(d);

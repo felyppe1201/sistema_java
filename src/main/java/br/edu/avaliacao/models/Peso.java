@@ -19,7 +19,6 @@ public class Peso {
     @Column(nullable = false)
     private double peso;
 
-    // ---- RELACIONAMENTOS ----
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "questao_id", insertable = false, updatable = false)
@@ -37,8 +36,6 @@ public class Peso {
         this.idOpcao = idOpcao;
         this.peso = peso;
     }
-
-    // ---- GETTERS E SETTERS ----
 
     public long getId() { return id; }
     public void setId(long id) { this.id = id; }

@@ -2,17 +2,15 @@ package br.edu.avaliacao.dtos;
 
 import java.util.List;
 
-// DTO que consolida os resultados do relatório para uma Turma específica.
 public class RelatorioTurmaDTO {
     private String nomeDisciplina;
     private String codigoTurma;
     private String nomeProfessor;
-    private double taxaConclusao; // Ex: 0.85 para 85%
+    private double taxaConclusao; 
     private int totalAlunosMatriculados;
     private int totalRespostasColetadas;
-    private List<EstatisticaQuestaoDTO> estatisticasQuestoes; // Estatísticas das questões fechadas
+    private List<EstatisticaQuestaoDTO> estatisticasQuestoes; 
 
-    // Construtor completo
     public RelatorioTurmaDTO(String nomeDisciplina, String codigoTurma, String nomeProfessor, double taxaConclusao, int totalAlunosMatriculados, int totalRespostasColetadas, List<EstatisticaQuestaoDTO> estatisticasQuestoes) {
         this.nomeDisciplina = nomeDisciplina;
         this.codigoTurma = codigoTurma;
@@ -23,7 +21,6 @@ public class RelatorioTurmaDTO {
         this.estatisticasQuestoes = estatisticasQuestoes;
     }
 
-    // Getters
     public String getNomeDisciplina() { return nomeDisciplina; }
     public String getCodigoTurma() { return codigoTurma; }
     public String getNomeProfessor() { return nomeProfessor; }

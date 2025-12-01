@@ -1,7 +1,7 @@
 package br.edu.avaliacao.repositorys;
 
 import br.edu.avaliacao.models.Usuario;
-import br.edu.avaliacao.security.Crypt; // NOVO: Importa a classe de segurança
+import br.edu.avaliacao.security.Crypt; 
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -14,7 +14,6 @@ public class UsuarioRepository {
 
     public void save(Usuario obj) {
         try {
-            // APLICA O HASH NA SENHA ANTES DE SALVAR NO BANCO
             if (obj.getSenha() != null && !obj.getSenha().startsWith("$2a$")) {
                 obj.setSenha(Crypt.hashPassword(obj.getSenha()));
             }
@@ -32,7 +31,6 @@ public class UsuarioRepository {
         return em.find(Usuario.class, id);
     }
 
-    // Mantido, busca usuários ativos
     public Usuario findByEmail(String email) {
         try {
             TypedQuery<Usuario> query = em.createQuery(
@@ -80,57 +78,35 @@ public class UsuarioRepository {
         }
     }
 
-    /**
-     * NOVO: Autentica o usuário comparando a senha em texto simples com o hash armazenado.
-     */
     public boolean authenticate(String email, String senha) {
-        Usuario usuario = findByEmail(email); // Busca o usuário ativo apenas pelo email
+        Usuario usuario = findByEmail(email); 
 
         if (usuario != null) {
-            // Verifica a senha em texto simples contra o hash do banco de dados
             return Crypt.checkPassword(senha, usuario.getSenha());
         }
 
         return false;
     }
 
-    // =================================================================
-    // MÉTODOS DE ATUALIZAÇÃO DA PÁGINA CONTA (REVERTIDO PARA NOMES ANTIGOS E ID LONG)
-    // =================================================================
-
-    /**
-     * Tenta atualizar o email de um usuário, exigindo a senha atual para confirmação.
-     * REVERTIDO: Nome do método para 'updateUserEmail'.
-     * REVERTIDO: Tipo do parâmetro idUsuario para Long.
-     * @return true se a senha estiver correta e a atualização for feita, false caso contrário.
-     */
     public boolean updateUserEmail(Long idUsuario, String novoEmail, String senhaAtual) {
         if (idUsuario == null) return false;
         
         try {
             em.getTransaction().begin();
-            // Busca usando o ID Long diretamente
             Usuario usuario = em.find(Usuario.class, idUsuario); 
-            
-            // 1. Verifica se o usuário existe e se a senha atual está correta
             if (usuario != null && Crypt.checkPassword(senhaAtual, usuario.getSenha())) {
-                
-                // 2. Verifica se o novo email já está em uso por outro usuário ativo
                 Usuario existingUser = findByEmail(novoEmail);
-                // Compara o ID Long
                 if (existingUser != null && existingUser.getId() != idUsuario) {
                     em.getTransaction().rollback();
-                    return false; // Email já em uso
+                    return false; 
                 }
-                
-                // 3. Aplica a mudança e salva
                 usuario.setEmail(novoEmail);
                 em.merge(usuario);
                 em.getTransaction().commit();
                 return true;
             }
             em.getTransaction().rollback();
-            return false; // Senha incorreta ou usuário não encontrado
+            return false; 
         } catch (Exception e) {
             if (em.getTransaction().isActive()) em.getTransaction().rollback();
             System.err.println("Erro ao atualizar email: " + e.getMessage());
@@ -138,42 +114,27 @@ public class UsuarioRepository {
         }
     }
 
-    /**
-     * Tenta atualizar a senha de um usuário, exigindo a senha antiga para confirmação.
-     * REVERTIDO: Nome do método para 'updateUserPassword'.
-     * REVERTIDO: Tipo do parâmetro idUsuario para Long.
-     * @return true se a senha antiga estiver correta e a nova senha for salva, false caso contrário.
-     */
     public boolean updateUserPassword(Long idUsuario, String senhaAntiga, String novaSenha) {
         if (idUsuario == null) return false;
         
         try {
             em.getTransaction().begin();
-             // Busca usando o ID Long diretamente
             Usuario usuario = em.find(Usuario.class, idUsuario);
             
-            // 1. Verifica se o usuário existe e se a senha antiga está correta
             if (usuario != null && Crypt.checkPassword(senhaAntiga, usuario.getSenha())) {
-                
-                // 2. Aplica o hash na nova senha antes de salvar
                 usuario.setSenha(Crypt.hashPassword(novaSenha));
                 em.merge(usuario);
                 em.getTransaction().commit();
                 return true;
             }
             em.getTransaction().rollback();
-            return false; // Senha antiga incorreta ou usuário não encontrado
+            return false; 
         } catch (Exception e) {
             if (em.getTransaction().isActive()) em.getTransaction().rollback();
             System.err.println("Erro ao atualizar senha: " + e.getMessage());
             return false;
         }
     }
-
-
-    // =================================================================
-    // CÓDIGO CONTA DTO E BUSCAR DADOS (AJUSTADO O TIPO DO ID)
-    // =================================================================
 
     public static class ContaDTO {
         private String cursoNome;
@@ -192,19 +153,13 @@ public class UsuarioRepository {
             return periodoAtual;
         }
     }
-    
-    /**
-     * Busca o nome do curso e o período atual do aluno.
-     * REVERTIDO: Tipo do parâmetro idUsuario para Long.
-     */
+
     public ContaDTO buscarDadosAcademicosDoAluno(Long idUsuario) {
         if (idUsuario == null) {
              return new ContaDTO("ID Inválido", 0);
         }
         
         String cursoNome = "N/A";
-        
-        // 1. Busca o nome do curso
         try {
             String jpqlCurso = "SELECT c.nome FROM AlunoMatriculado am JOIN am.curso c WHERE am.usuario.id = :idUsuario";
             TypedQuery<String> queryCurso = em.createQuery(jpqlCurso, String.class);
@@ -218,8 +173,7 @@ public class UsuarioRepository {
         }
 
         Integer periodoAtual = 1; 
-        
-        // 2. Busca o período atual (turma mais avançada)
+
         try {
             String jpqlPeriodo = "SELECT MAX(t.periodo) FROM Turma t JOIN Matricula m ON t.id = m.turma.id WHERE m.aluno.id = :idUsuario AND m.ativo = TRUE";
             TypedQuery<Integer> queryPeriodo = em.createQuery(jpqlPeriodo, Integer.class);
@@ -232,7 +186,6 @@ public class UsuarioRepository {
             }
 
         } catch (NoResultException e) {
-            // Se não houver matrícula, mantém 1
         } catch (Exception e) {
             System.err.println("Erro ao buscar período: " + e.getMessage());
         }

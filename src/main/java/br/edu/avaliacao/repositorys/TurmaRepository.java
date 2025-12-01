@@ -30,10 +30,6 @@ public class TurmaRepository {
         return em.createQuery("SELECT t FROM Turma t", Turma.class).getResultList();
     }
 
-    /**
-     * NOVO: Busca todas as turmas associadas a um professor específico.
-     * Assume que a classe Turma tem um campo 'professor' que referencia a classe Usuario.
-     */
     public List<Turma> findTurmasByProfessorId(Long professorId) {
     try {
         TypedQuery<Turma> query = em.createQuery(

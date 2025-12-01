@@ -25,7 +25,6 @@ public class Opcao {
     @Column(name = "correta", columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean correta = false;
 
-    // ---- RELACIONAMENTO ----
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "questao_id", insertable = false, updatable = false)
@@ -38,8 +37,6 @@ public class Opcao {
         this.idQuestao = idQuestao;
         this.texto = texto;
     }
-
-    // ---- GETTERS E SETTERS ----
 
     public long getId() { return id; }
     public void setId(long id) { this.id = id; }

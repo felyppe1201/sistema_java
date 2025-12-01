@@ -109,7 +109,6 @@ public class CriarOpcaoServlet extends HttpServlet {
             return;
         }
 
-        // validação do peso
         if (pesoStr == null || pesoStr.isBlank()) {
             req.setAttribute("msgError", "O peso é obrigatório.");
             resp.sendRedirect(req.getContextPath() + "/lecio/opcao?questao=" + questaoId);
@@ -197,7 +196,6 @@ public class CriarOpcaoServlet extends HttpServlet {
             if (creating) oRepo.save(opcao);
             else oRepo.update(opcao);
 
-            // SALVAR / ATUALIZAR PESO DA OPÇÃO
             Double oldPeso = pRepo.findPesoByOpcaoId(opcao.getId());
 
             if (oldPeso == null) {

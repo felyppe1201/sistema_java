@@ -49,8 +49,7 @@ public class UsuarioServlet extends HttpServlet {
         try {
             String idStr = req.getParameter("id");
             Usuario u = new Usuario();
-            
-            // Se for edição, carrega os dados antigos primeiro
+
             if (idStr != null && !idStr.isEmpty() && !"0".equals(idStr)) {
                 u = repo.findById(Long.parseLong(idStr));
             }

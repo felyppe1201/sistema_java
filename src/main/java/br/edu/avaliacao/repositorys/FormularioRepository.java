@@ -69,9 +69,6 @@ public class FormularioRepository {
         }
     }
 
-    /**
-     * Soft delete: marca ativo = false e stat = 0
-     */
     public void softDelete(Long id) {
         try {
             em.getTransaction().begin();

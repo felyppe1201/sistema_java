@@ -18,7 +18,6 @@ public class AuthFilter implements Filter {
         String uri = req.getRequestURI();
         String ctx = req.getContextPath();
 
-        // NOVO: redireciona a rota raiz para o dashboard
         if (uri.equals(ctx + "/") || uri.equals(ctx)) {
             resp.sendRedirect(ctx + "/dashboard");
             return;
@@ -31,7 +30,6 @@ public class AuthFilter implements Filter {
         HttpSession session = req.getSession(false);
         boolean logado = (session != null && session.getAttribute("usuario") != null);
 
-        // --- BLOQUEIA TENTATIVAS DE ACESSAR JSP DIRETAMENTE ---
         if (uri.endsWith(".jsp")) {
             if (logado) {
                 resp.sendRedirect(ctx + "/dashboard");
@@ -40,19 +38,14 @@ public class AuthFilter implements Filter {
             }
             return;
         }
-
-        // --- ROTAS PÚBLICAS (login, logout, assets) ---
         if (isLoginServlet || isStatic || isLogout) {
             chain.doFilter(request, response);
             return;
         }
-
-        // --- BLOQUEIA ROTAS PROTEGIDAS ---
         if (!logado) {
             resp.sendRedirect(ctx + "/auth/login");
             return;
         }
-
         chain.doFilter(request, response);
     }
 }

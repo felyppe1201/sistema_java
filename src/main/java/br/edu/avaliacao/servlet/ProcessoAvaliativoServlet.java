@@ -43,7 +43,7 @@ public class ProcessoAvaliativoServlet extends HttpServlet {
             if (idStr != null && !idStr.isEmpty()) p = repo.findById(Long.parseLong(idStr));
 
             p.setNome(req.getParameter("nome"));
-            p.setPeriodo(Integer.parseInt(req.getParameter("periodo"))); // Ex: 20251
+            p.setPeriodo(Integer.parseInt(req.getParameter("periodo"))); 
             p.setStat(1);
 
             if (p.getId() == 0) repo.save(p);

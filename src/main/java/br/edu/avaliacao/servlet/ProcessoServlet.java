@@ -67,16 +67,13 @@ public class ProcessoServlet extends HttpServlet {
                 return;
             }
 
-            // verifica se o professor logado leciona a turma
             if (!turmaRepo.professorLecionaTurma(usuario.getId(), turma.getId())) {
                 resp.sendError(403, "Você não leciona esta turma.");
                 return;
             }
 
-            // busca formulários ativos do processo
             List<Formulario> formularios = formRepo.findAtivosByProcessoId(processoId);
 
-            // flash messages (se houver)
             HttpSession s = req.getSession();
             String msgSuccess = (String) s.getAttribute("msgSuccess");
             String msgError = (String) s.getAttribute("msgError");
@@ -93,13 +90,6 @@ public class ProcessoServlet extends HttpServlet {
         }
     }
 
-    /**
-     * POST usado para soft-delete de formulário.
-     * Espera parâmetros:
-     * - action=delete
-     * - idFormulario
-     * - id (id do processo) -> para redirecionar corretamente
-     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
@@ -116,7 +106,7 @@ public class ProcessoServlet extends HttpServlet {
         }
 
         String action = req.getParameter("action");
-        String processoIdParam = req.getParameter("id"); // id do processo
+        String processoIdParam = req.getParameter("id"); 
         if (processoIdParam == null || processoIdParam.isBlank()) {
             resp.sendError(400, "ID do processo não informado.");
             return;
@@ -172,7 +162,6 @@ public class ProcessoServlet extends HttpServlet {
                 return;
             }
 
-            // verifica se formulário pertence ao processo
             Formulario alvo = formRepo.findById(idFormulario);
             if (alvo == null) {
                 session.setAttribute("msgError", "Formulário não encontrado.");
@@ -185,7 +174,6 @@ public class ProcessoServlet extends HttpServlet {
                 return;
             }
 
-            // Soft delete via repository
             formRepo.softDelete(idFormulario);
 
             session.setAttribute("msgSuccess", "Formulário removido (soft delete).");
