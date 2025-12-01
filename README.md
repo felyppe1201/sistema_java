@@ -52,7 +52,7 @@ Troque os valores pelos seus reais.
 
 Exemplo visual do Workbench mostrando nome do servidor e usuário:  
 
-![[Pasted image 20251130161258 1.png]]
+![Exemplo do MySQL](https://github.com/felyppe1201/sistema_java/blob/main/src/main/webapp/assets/mysql-config.png?raw=true)
 
 ---
 ## **4. Preparar o projeto (caso a pasta target exista ou não)**
@@ -119,7 +119,18 @@ http://localhost:8080/avaliacao
 
 ## **7. Login**
 
-Os usuários existentes estão definidos no script SQL dentro da pasta **database**.  
+Os usuários existentes são:
+
+| Cargo:        | E-mail:          |
+| ------------- | ---------------- |
+| Administrador | admin@teste.com  |
+| Coordenador   | coord@teste.com  |
+| Professor     | prof@teste.com   |
+| Aluna         | aluna1@teste.com |
+| Aluno         | aluno2@teste.com |
+
+### **Todos usam a senha padrão 123**
+
 Certifique-se de que o **persistence.xml** está corretamente configurado para puxar dados do seu MySQL.
 
 ---
@@ -133,4 +144,6 @@ No mesmo diretório `bin` do Tomcat, execute:
 ```
 
 ---
+
+
 
