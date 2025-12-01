@@ -10,17 +10,13 @@
 
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-        <!-- Caminho base dos modelos JPA -->
         <class>br.edu.avaliacao.models.SeuModeloAqui</class>
 
         <properties>
-            <!-- VARIÁVEIS DO BANCO (serão carregadas do .env) -->
             <property name="jakarta.persistence.jdbc.url" value="${DB_URL}"/>
             <property name="jakarta.persistence.jdbc.user" value="${DB_USER}"/>
             <property name="jakarta.persistence.jdbc.password" value="${DB_PASS}"/>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-
-            <!-- Hibernate -->
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="false"/>
             <property name="hibernate.format_sql" value="true"/>
