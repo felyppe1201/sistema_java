@@ -1,16 +1,136 @@
-## Trabalho da Disciplina - Linguagem de Programação Orientada a Objetos(DS142)
-Integrantes do Trabalho:
-Felyppe Marcelo Silva - GRR20242028
-João Pedro Rocha Senna - GRR20241287
-Paulo Roberto Gomes Barroso Schiochet - GRR20242749
-### O trabalho é um sistema de avaliação com a integração de formulários e relatórios administrativos em um ambiente acadêmico.
+## **Trabalho da Disciplina – Linguagem de Programação Orientada a Objetos (DS142)**
+
+### **Integrantes**
+
+- **Felyppe Marcelo da Silva** – GRR20242028
+    
+- **João Pedro Rocha Senna** – GRR20241287
+    
+- **Paulo Roberto Gomes Barroso Schiochet** – GRR20242749
+    
+
+## **O trabalho é um sistema de avaliação com a integração de formulários e relatórios administrativos em um ambiente acadêmico.**
+
 - O trabalho é para realizar aplicação de avaliações, gestões de formulários e de usuários, configuração de contextos avaliativos, e relatórios com resultados, via Web Browser, feito seguindo os requisitos da matéria de DS142 com o Professor Dieval. O sistema foi feito em cima da linguagem de programação Java(versão 17) para fins da utilização e aprendizado sobre JPA.
 
-## Como iniciar o sistema?
-Para iniciar dentro do sistema de avaliação, é necessário a seguinte sequência de inputs vindo de você(o usuário) para visualizar e mexer no sistema.
-Apache: Utilizamos de servidor Apache Tomcat 10.x, não se esqueça de configurar-lo para ter acesso ao sistema.
-Passo zero: Caso haja a presença da pasta Target, remova ela. Sua presença faz com que a aplicação não rode como devido.
-Boot-up: Caso não haja a presença da pasta target, utilize o comando ./mvnw clean package, ele criara um arquivo .war, o que possibilita rodar o programa localmente. Logo após isso, utilize o comando ./startup.sh, assim o programa irá rodar localmente dentro da sua máquina e você poderá acessar ele enquanto não houver interrupções 
-O login: Você será levado a tela de login, nosso banco de dados há maneiras de logar dentro do sistema, mas sinta-se livre para criar seu próprio usuário, seja ele administrador, professor ou aluno. Certifique-se que seu banco de dados está conectado com nosso sistema através do persistence.xml, lá iremos puxar dados para poder-mos obter os logins, resultados, formulários etc.
+---
 
-Desligamento: Se tiver satisfeito ou deseja não utilizar mais o nosso sistema, não se esqueça de rodar ./shutdown.sh para desligar o sistema localmente.
+## **Como iniciar o sistema**
+
+### **1. Configurar o Apache Tomcat**
+
+Instale e configure o **Apache Tomcat 10.x**.  
+O sistema depende dele para rodar localmente.
+
+---
+
+## **2. Criar o banco de dados**
+
+No **MySQL Workbench**, crie um banco chamado **facul**.
+
+A pasta **database** do projeto contém o script completo. Basta copiar e executar.
+
+---
+
+## **3. Criar o arquivo `.env`**
+
+Crie um arquivo chamado `.env` dentro de:
+
+```
+src/main/resources
+```
+
+Conteúdo do arquivo:
+
+```
+DB_URL=jdbc:mysql://localhost:3306/facul
+DB_USER=root
+DB_PASS=1234
+```
+
+Troque os valores pelos seus reais.
+
+Exemplo visual do Workbench mostrando nome do servidor e usuário:  
+
+![[Pasted image 20251130161258 1.png]]
+
+---
+## **4. Preparar o projeto (caso a pasta target exista ou não)**
+
+### **Se a pasta `target` existir(no diretório raiz do projeto)**
+
+Apague ela manualmente.
+
+### **Se a pasta `target` não existir**
+
+Abra um terminal no diretório raiz do projeto:
+
+```
+C:\Users\usuario\Área de Trabalho\sistema_java
+```
+
+E execute:
+
+```
+./mvn clean package
+```
+
+Se der erro:
+
+```
+mvn package
+```
+
+Isso criará a pasta `target` e dentro dela um arquivo `.war`.
+
+---
+
+## **5. Implantar no Tomcat**
+
+Pegue o arquivo `.war` gerado na pasta `target` e mova para:
+
+```
+C:\apache-tomcat-10.1.49\webapps
+```
+
+---
+
+## **6. Iniciar o servidor**
+
+Abra um terminal dentro da pasta `bin` do Tomcat:
+
+```
+C:\apache-tomcat-10.1.49\bin
+```
+
+Execute para iniciar:
+
+```
+./startup.bat
+```
+
+O sistema será carregado localmente. Agora você pode abrir o navegador e acessar:
+
+```
+http://localhost:8080/avaliacao
+```
+
+---
+
+## **7. Login**
+
+Os usuários existentes estão definidos no script SQL dentro da pasta **database**.  
+Certifique-se de que o **persistence.xml** está corretamente configurado para puxar dados do seu MySQL.
+
+---
+
+## **8. Encerrar o servidor**
+
+No mesmo diretório `bin` do Tomcat, execute:
+
+```sh
+./shutdown.bat
+```
+
+---
+
