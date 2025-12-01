@@ -23,6 +23,7 @@ CREATE TABLE Curso (
 CREATE TABLE aluno_matriculado (
     id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     id_usuario BIGINT UNSIGNED NOT NULL,
+    periodo INT UNSIGNED,
     curso_id BIGINT UNSIGNED NOT NULL,
     ativo BOOLEAN DEFAULT TRUE,
     FOREIGN KEY (id_usuario)
@@ -36,6 +37,7 @@ CREATE TABLE Disciplina (
     curso_id BIGINT UNSIGNED NOT NULL,
     ativo BOOLEAN DEFAULT TRUE,
     nome VARCHAR(255) NOT NULL,
+    periodo INT UNSIGNED,
     FOREIGN KEY (curso_id)
         REFERENCES Curso (id)
 );
@@ -79,7 +81,9 @@ CREATE TABLE ProcessoAvaliativo (
     nome VARCHAR(255) NOT NULL,
     ativo BOOLEAN DEFAULT TRUE,
     periodo INT,
-    stat INT UNSIGNED NOT NULL DEFAULT 1
+    turma_id BIGINT UNSIGNED NOT NULL,
+    stat INT UNSIGNED NOT NULL DEFAULT 1,
+    foreign key (turma_id) references Turma(id)
 );
 
 CREATE TABLE Formulario (
@@ -87,6 +91,7 @@ CREATE TABLE Formulario (
     processo_id BIGINT UNSIGNED NOT NULL,
     titulo VARCHAR(255) NOT NULL,
     identificado BOOLEAN NOT NULL DEFAULT TRUE,
+    ativo BOOLEAN DEFAULT TRUE,
     stat INT UNSIGNED NOT NULL DEFAULT 1,
     FOREIGN KEY (processo_id)
         REFERENCES ProcessoAvaliativo (id)
@@ -110,7 +115,7 @@ CREATE TABLE Opcao (
     respostavf BOOLEAN,
     correta BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (questao_id)
-        REFERENCES Questao (id)
+        REFERENCES Questao (id) ON DELETE CASCADE
 );
 
 CREATE TABLE Submissao (
@@ -133,6 +138,7 @@ CREATE TABLE Resposta (
     submissao_id BIGINT UNSIGNED NOT NULL,
     questao_id BIGINT UNSIGNED NOT NULL,
     opcao_id BIGINT UNSIGNED,
+    respostavf boolean,
     texto TEXT,
     FOREIGN KEY (submissao_id)
         REFERENCES Submissao (id),
@@ -148,9 +154,11 @@ CREATE TABLE Peso (
     opcao_id BIGINT UNSIGNED,
     peso DECIMAL(4 , 2 ) NOT NULL,
     FOREIGN KEY (questao_id)
-        REFERENCES Questao (id),
+        REFERENCES Questao (id)
+        ON DELETE CASCADE,
     FOREIGN KEY (opcao_id)
         REFERENCES Opcao (id)
+        ON DELETE CASCADE
 );
 
 DELIMITER $$
@@ -181,7 +189,7 @@ BEGIN
     FROM Formulario
     WHERE id = NEW.formulario_id;
 
-    IF form_status <> 102 THEN
+    IF form_status = 102 THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Formulário não está aberto para respostas.';
     END IF;
@@ -196,18 +204,22 @@ VALUES
 ('Ana Aluna', 'aluna1@teste.com', '$2a$10$gh3qXRA14m0eiZnm9mweUuNskXxCM3IHcnn6QZNjWt3gLZ/eCpXdG', 'alu', TRUE, 1),
 ('Bruno Aluno', 'aluno2@teste.com', '$2a$10$gh3qXRA14m0eiZnm9mweUuNskXxCM3IHcnn6QZNjWt3gLZ/eCpXdG', 'alu', TRUE, 1);
 
+INSERT INTO Usuario (nome, email, senha, cargo, ativo, stat)
+VALUES
+('Pedro Professor', 'prof2@teste.com', '$2a$10$gh3qXRA14m0eiZnm9mweUuNskXxCM3IHcnn6QZNjWt3gLZ/eCpXdG', 'prof', TRUE, 1);
+
 INSERT INTO Curso (nome, ativo)
 VALUES ('Ciência da Computação', TRUE);
 
-INSERT INTO aluno_matriculado (id_usuario, curso_id, ativo)
+INSERT INTO aluno_matriculado (id_usuario, curso_id, periodo, ativo)
 VALUES
-(4, 1, TRUE),
-(5, 1, TRUE);
+(4, 1,1, TRUE),
+(5, 1,1, TRUE);
 
-INSERT INTO Disciplina (curso_id, nome, ativo)
+INSERT INTO Disciplina (curso_id, nome, periodo, ativo)
 VALUES
-(1, 'Programação I', TRUE),
-(1, 'Banco de Dados', TRUE);
+(1, 'Programação I', 1, TRUE),
+(1, 'Banco de Dados', 1, TRUE);
 
 INSERT INTO Turma (disciplina_id, codigo_turma, ativo, numero_vagas, periodo, stat)
 VALUES
@@ -221,53 +233,6 @@ VALUES
 
 INSERT INTO Matricula (turma_id, aluno_id, ativo, stat)
 VALUES
-(1, 4, TRUE, 1),
-(1, 5, TRUE, 1),
-(2, 4, TRUE, 1);
-
-INSERT INTO ProcessoAvaliativo (nome, ativo, periodo, stat)
-VALUES
-('Avaliação Docente 2025', TRUE, 1, 1);
-
-
-INSERT INTO Formulario (processo_id, titulo, identificado, stat)
-VALUES
-(1, 'Avaliação da Turma PROG1-A', TRUE, 102);
-
-
-INSERT INTO Questao (formulario_id, texto, tipo, obrigatoria)
-VALUES
-(1, 'O professor demonstra domínio do conteúdo?', 'obj', TRUE),
-(1, 'Comente sobre os pontos fortes do professor.', 'disc', FALSE);
-
-INSERT INTO Opcao (questao_id, texto, vf, respostavf, correta)
-VALUES
-(1, 'Excelente', FALSE, NULL, FALSE),
-(1, 'Bom', FALSE, NULL, FALSE),
-(1, 'Regular', FALSE, NULL, FALSE),
-(1, 'Ruim', FALSE, NULL, FALSE);
-
-
-INSERT INTO Peso (questao_id, opcao_id, peso)
-VALUES
-(1, 1, 1.0),
-(1, 2, 0.8),
-(1, 3, 0.5),
-(1, 4, 0.2);
-
-INSERT INTO Submissao (formulario_id, turma_id, usuario_id, nota)
-VALUES
-(1, 1, 4, 0),  -- Ana
-(1, 1, 5, 0);  -- Bruno
-
-INSERT INTO Resposta (submissao_id, questao_id, opcao_id, texto)
-VALUES
-(1, 1, 1, NULL),
-(1, 2, NULL, 'Professor explica muito bem e dá exemplos.');
-
-INSERT INTO Resposta (submissao_id, questao_id, opcao_id, texto)
-VALUES
-(2, 1, 3, NULL),
-(2, 2, NULL, 'Acho que poderia melhorar a dinâmica das aulas.');
+(1, 5, TRUE, 1);
 
 select * from usuario;
