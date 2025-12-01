@@ -1,0 +1,181 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f1f3f7;
+  margin: 0;
+  padding: 0;
+}
+
+.container-geral {
+  width: 90%;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.titulo {
+  margin-top: 10px;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.subtitulo {
+  margin-top: 40px;
+  font-size: 24px;
+  text-align: left;
+}
+
+.grid-formularios {
+  margin-top: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* =============================== */
+/*    CARD DO FORMULÁRIO          */
+/* =============================== */
+.form-card {
+  width: 220px;
+  height: 160px;
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+  position: relative;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.15s ease-in-out;
+}
+
+.form-card:hover {
+  transform: scale(1.03);
+}
+
+/* Link */
+.nao-respondido {
+  text-decoration: none;
+  color: black;
+}
+
+/* =============================== */
+/*     TÍTULO DO FORMULÁRIO       */
+/* =============================== */
+.form-titulo {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* =============================== */
+/*   IDENTIFICAÇÃO (👤 / 🕶️)      */
+/* =============================== */
+.identificacao {
+  font-size: 14px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.icone-identificado {
+  font-size: 18px;
+}
+
+/* =============================== */
+/*     CÍRCULO DE PORCENTAGEM     */
+/* =============================== */
+.circle-container {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 55px;
+  height: 55px;
+}
+
+.progress-circle {
+  width: 55px;
+  height: 55px;
+  transform: rotate(-90deg);
+}
+
+.progress-circle .bg {
+  fill: none;
+  stroke: #d6d6d6;
+  stroke-width: 3.8;
+}
+
+.progress-circle .progress {
+  fill: none;
+  stroke: #4caf50; /* verde padrão */
+  stroke-width: 3.8;
+  stroke-linecap: round;
+  stroke-dasharray: 0, 100;
+  transition: stroke-dasharray 0.6s ease-out;
+}
+
+.percentual-text {
+  position: absolute;
+  top: 14px;
+  left: 0;
+  width: 55px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* botão de voltar generico */
+
+/* Botão padrão de voltar */
+.voltarbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  background-color: #f2f2f2;
+  color: #333;
+  font-size: 15px;
+  font-weight: 500;
+
+  padding: 10px 18px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  text-decoration: none;
+  margin-bottom: 12px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Ícone opcional caso queira usar "←" ou SVG */
+.voltarbtn .icon {
+  font-size: 16px;
+  margin-right: 6px;
+}
+
+/* Hover */
+.voltarbtn:hover {
+  background-color: #e6e6e6;
+  border-color: #bcbcbc;
+}
+
+/* Focus para acessibilidade */
+.voltarbtn:focus {
+  outline: 2px solid #5a8dee;
+  outline-offset: 2px;
+}
+
+/* Desabilitado (se necessário) */
+.voltarbtn.disabled,
+.voltarbtn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Responsividade – mobile */
+@media (max-width: 600px) {
+  .voltarbtn {
+    padding: 8px 14px;
+    font-size: 14px;
+    gap: 6px;
+  }
+}

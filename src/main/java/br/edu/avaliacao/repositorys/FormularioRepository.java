@@ -92,12 +92,24 @@ public class FormularioRepository {
     
     public List<Formulario> findByProcessoId(Long processoId) {
         return em.createQuery(
-            "SELECT f FROM Formulario f WHERE f.idProcesso = :pid AND f.ativo = true ORDER BY f.id DESC",
-            Formulario.class
-        )
-        .setParameter("pid", processoId)
-        .getResultList();
+                "SELECT f FROM Formulario f WHERE f.idProcesso = :pid AND f.ativo = true ORDER BY f.id DESC",
+                Formulario.class)
+                .setParameter("pid", processoId)
+                .getResultList();
     }
+    
+    public Long findProcessoIdByFormularioId(Long formularioId) {
+    try {
+        return em.createQuery(
+                "SELECT f.idProcesso FROM Formulario f WHERE f.id = :fid",
+                Long.class
+        ).setParameter("fid", formularioId)
+         .getSingleResult();
+    } catch (Exception e) {
+        return null;
+    }
+}
+
 
 
 }

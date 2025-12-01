@@ -101,3 +101,36 @@ body {
     max-width: 360px;
   }
 }
+/* Botão Nova Matrícula */
+.btn-nova-matricula {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 220px;
+  height: 180px;
+  background-color: #2ecc71; /* verde total */
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.btn-nova-matricula:hover {
+  background-color: #27ae60; /* verde escuro */
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.btn-plus {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.btn-text {
+  margin-top: 8px;
+  font-size: 1rem;
+}

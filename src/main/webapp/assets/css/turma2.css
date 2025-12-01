@@ -1,0 +1,95 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  background-color: var(--cinza-claro);
+  color: var(--texto-dark);
+}
+/* Container principal */
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* CABEÇALHO DA TURMA */
+.cabecalho-turma {
+  border-bottom: 2px solid #ddd;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+}
+
+.codigo-turma {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.info-turma p {
+  font-size: 16px;
+  margin: 5px 0;
+}
+
+.email-professor {
+  color: green;
+  font-weight: bold;
+}
+
+/* LISTA DE PROCESSOS AVALIATIVOS */
+.processos-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* BOTÕES DE PROCESSO */
+.processo-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f7f7f7;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  padding: 15px 20px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  text-align: left;
+}
+
+.processo-btn:hover {
+  background-color: #e0f0ff;
+  border-color: #007acc;
+}
+
+/* INFORMAÇÕES DENTRO DO BOTÃO */
+.processo-info {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  text-decoration: none;
+  color: #585858ff;
+}
+
+.nome-processo {
+  font-size: 18px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.forms-info {
+  font-size: 16px;
+  text-decoration: none;
+}
+
+/* Check verde quando completo */
+.check {
+  color: green;
+  font-weight: bold;
+  margin-left: 8px;
+}
+
+/* Texto em verde quando completo */
+.forms-info:has(.check) {
+  color: green;
+  font-weight: bold;
+}

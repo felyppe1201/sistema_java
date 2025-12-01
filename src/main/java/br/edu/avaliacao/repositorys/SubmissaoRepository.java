@@ -12,14 +12,7 @@ public class SubmissaoRepository {
     }
 
     public void save(Submissao obj) {
-        try {
-            em.getTransaction().begin();
-            em.persist(obj);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            if (em.getTransaction().isActive()) em.getTransaction().rollback();
-            throw e;
-        }
+        em.persist(obj);
     }
 
     public Submissao findById(long id) {
@@ -31,25 +24,11 @@ public class SubmissaoRepository {
     }
 
     public void update(Submissao obj) {
-        try {
-            em.getTransaction().begin();
-            em.merge(obj);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            if (em.getTransaction().isActive()) em.getTransaction().rollback();
-            throw e;
-        }
+        em.merge(obj);
     }
 
     public void delete(long id) {
-        try {
-            em.getTransaction().begin();
-            Submissao obj = em.find(Submissao.class, id);
-            if (obj != null) em.remove(obj);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            if (em.getTransaction().isActive()) em.getTransaction().rollback();
-            throw e;
-        }
+        Submissao obj = em.find(Submissao.class, id);
+        if (obj != null) em.remove(obj);
     }
 }

@@ -8,7 +8,7 @@ public class ProcessoAvaliativo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id; // long conforme solicitado
+    private long id;
 
     @Column(nullable = false)
     private String nome;
@@ -17,14 +17,14 @@ public class ProcessoAvaliativo {
     private boolean ativo = true;
 
     @Column(nullable = false)
-    private int periodo; // NOVO: Campo período
+    private int periodo; 
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "turma_id", nullable = false)
     private Turma turma;
 
     @Column(name = "stat", nullable = false, columnDefinition = "INT UNSIGNED DEFAULT 1")
-    private Integer stat = 1; // NOVO: Campo stat
+    private Integer stat = 1; 
 
     public ProcessoAvaliativo() {}
 
@@ -54,4 +54,6 @@ public class ProcessoAvaliativo {
 
     public Integer getStat() { return stat; } // Getter para stat
     public void setStat(Integer stat) { this.stat = stat; } // Setter para stat
+    public long getIdTurma() {return turma != null ? turma.getId() : 0;}
+
 }

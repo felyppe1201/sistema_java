@@ -1,0 +1,165 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f1f3f7;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container geral */
+.container-geral {
+  max-width: 820px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* Título */
+.titulo-form {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+/* Botão voltar */
+.voltarbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #ececec;
+  padding: 8px 14px;
+  border-radius: 6px;
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  margin-bottom: 20px;
+  transition: 0.2s;
+}
+
+.voltarbtn:hover {
+  background-color: #dcdcdc;
+}
+
+/* Card da questão */
+.questao-card {
+  background: white;
+  border-radius: 10px;
+  padding: 22px 24px;
+  margin-bottom: 28px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  width: 100%;
+}
+
+/* Cabeçalho */
+.questao-texto {
+  width: 80%;
+  font-size: 18px;
+  margin-top: 10px;
+  margin-bottom: 14px;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+/* Opções */
+.opcoes-container {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Objetivas */
+.opcao-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fafafa;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.opcao-texto {
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+/* Verdadeiro/Falso */
+.vf-bloco {
+  padding: 14px 16px;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+/* Linha divisória interna */
+.vf-bloco:not(:last-child) {
+  border-bottom: 1px solid #e3e3e3;
+}
+
+.vf-enunciado {
+  font-size: 16px;
+  margin-bottom: 10px;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.vf-opcoes {
+  display: flex;
+  gap: 22px;
+  padding-top: 8px;
+  border-top: 1px solid #e0e0e0;
+  margin-top: 6px;
+}
+
+.vf-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #fafafa;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.vf-item:hover {
+  background: #f1f1f1;
+}
+
+/* Campo dissertativo */
+.campo-texto {
+  width: 100%;
+  min-height: 140px;
+  resize: vertical;
+  padding: 14px 18px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  line-height: 1.5;
+  background: #fafafa;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+/* Botão enviar */
+.btn-enviar {
+  margin-top: 30px;
+  width: 100%;
+  background-color: #6e93d6;
+  color: white;
+  padding: 14px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-enviar:hover {
+  background-color: #5a7ec0;
+}

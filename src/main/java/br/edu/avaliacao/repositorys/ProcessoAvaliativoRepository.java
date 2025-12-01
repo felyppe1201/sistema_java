@@ -46,10 +46,38 @@ public class ProcessoAvaliativoRepository {
             em.persist(obj);
             em.getTransaction().commit();
         } catch (Exception e) {
-            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             throw new RuntimeException("Erro ao salvar ProcessoAvaliativo: " + e.getMessage(), e);
         }
     }
+    
+    public String findNomeById(Long id) {
+        try {
+            return em.createQuery(
+                    "SELECT p.nome FROM ProcessoAvaliativo p WHERE p.id = :id",
+                    String.class)
+                    .setParameter("id", id)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+    public Long findTurmaById(Long id) {
+            try {
+                return em.createQuery(
+                    "SELECT p.turma.id FROM ProcessoAvaliativo p WHERE p.id = :id",
+                    Long.class
+                )
+                .setParameter("id", id)
+                .getSingleResult();
+            } catch (NoResultException e) {
+                return null;
+            }
+     }
+
+
+
 
     /**
      * Busca um ProcessoAvaliativo pelo seu ID.

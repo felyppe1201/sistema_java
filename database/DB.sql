@@ -138,6 +138,7 @@ CREATE TABLE Resposta (
     submissao_id BIGINT UNSIGNED NOT NULL,
     questao_id BIGINT UNSIGNED NOT NULL,
     opcao_id BIGINT UNSIGNED,
+    respostavf boolean,
     texto TEXT,
     FOREIGN KEY (submissao_id)
         REFERENCES Submissao (id),
@@ -190,7 +191,7 @@ BEGIN
     FROM Formulario
     WHERE id = NEW.formulario_id;
 
-    IF form_status <> 102 THEN
+    IF form_status = 102 THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Formulário não está aberto para respostas.';
     END IF;
@@ -215,15 +216,15 @@ VALUES
 INSERT INTO Curso (nome, ativo)
 VALUES ('Ciência da Computação', TRUE);
 
-INSERT INTO aluno_matriculado (id_usuario, curso_id, ativo)
+INSERT INTO aluno_matriculado (id_usuario, curso_id, periodo, ativo)
 VALUES
-(4, 1, TRUE),
-(5, 1, TRUE);
+(4, 1,1, TRUE),
+(5, 1,1, TRUE);
 
-INSERT INTO Disciplina (curso_id, nome, ativo)
+INSERT INTO Disciplina (curso_id, nome, periodo, ativo)
 VALUES
-(1, 'Programação I', TRUE),
-(1, 'Banco de Dados', TRUE);
+(1, 'Programação I', 1, TRUE),
+(1, 'Banco de Dados', 1, TRUE);
 
 INSERT INTO Turma (disciplina_id, codigo_turma, ativo, numero_vagas, periodo, stat)
 VALUES
@@ -237,8 +238,6 @@ VALUES
 
 INSERT INTO Matricula (turma_id, aluno_id, ativo, stat)
 VALUES
-(1, 4, TRUE, 1),
-(1, 5, TRUE, 1),
-(2, 4, TRUE, 1);
+(1, 5, TRUE, 1);
 
 select * from usuario;

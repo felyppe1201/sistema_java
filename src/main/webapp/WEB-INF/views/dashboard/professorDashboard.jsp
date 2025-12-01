@@ -24,9 +24,10 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="jakarta.tags.core" %>
       <button class="nav-toggle" onclick="toggleMenu()">☰</button>
       <ul id="nav-links" class="nav-links">
         <li>
-          <a href="${pageContext.request.contextPath}/dashboard/professor"
-            >Painel</a
-          >
+          <a href="${pageContext.request.contextPath}/relatorio">Relatório</a>
+        </li>
+        <li>
+          <a href="${pageContext.request.contextPath}/dashboard">Painel</a>
         </li>
         <li><a href="${pageContext.request.contextPath}/conta">Conta</a></li>
         <li>

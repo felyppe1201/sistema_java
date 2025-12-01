@@ -164,4 +164,16 @@ body {
   .peso-input {
     width: 100%;
   }
+  .textoq {
+    width: 100%;
+  }
+}
+
+.textoq {
+  width: 80%;
+  box-sizing: border-box;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  margin: 0;
 }

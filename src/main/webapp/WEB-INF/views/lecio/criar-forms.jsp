@@ -136,7 +136,11 @@ uri="jakarta.tags.functions" %>
             </div>
 
             <p style="margin: 6px 0">
-              <strong>Enunciado:</strong> ${fn:escapeXml(q.texto)}
+              <strong>Enunciado:</strong>
+            </p>
+
+            <p class="textoq" style="margin: 6px 0">
+              <c:out value="${q.texto}" />
             </p>
 
             <c:if test="${not empty q.pesoQuestao}">

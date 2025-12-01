@@ -7,12 +7,19 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "submissao")
 public class Submissao {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    // Campo controlável para INSERT/UPDATE
     @Column(name = "formulario_id", nullable = false)
     private long idFormulario;
+
+    // Associação apenas para leitura do formulário
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "formulario_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Formulario formulario;
 
     @Column(name = "turma_id", nullable = false)
     private long idTurma;
@@ -38,14 +45,22 @@ public class Submissao {
 
     public long getId() { return id; }
     public void setId(long id) { this.id = id; }
+
     public long getIdFormulario() { return idFormulario; }
     public void setIdFormulario(long idFormulario) { this.idFormulario = idFormulario; }
+
+    public Formulario getFormulario() { return formulario; }
+    public void setFormulario(Formulario formulario) { this.formulario = formulario; }
+
     public long getIdTurma() { return idTurma; }
     public void setIdTurma(long idTurma) { this.idTurma = idTurma; }
+
     public Long getIdUsuario() { return idUsuario; }
     public void setIdUsuario(Long idUsuario) { this.idUsuario = idUsuario; }
+
     public Timestamp getDataEnvio() { return dataEnvio; }
     public void setDataEnvio(Timestamp dataEnvio) { this.dataEnvio = dataEnvio; }
+
     public BigDecimal getNota() { return nota; }
     public void setNota(BigDecimal nota) { this.nota = nota; }
 }
