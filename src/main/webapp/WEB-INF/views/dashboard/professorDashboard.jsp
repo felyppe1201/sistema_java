@@ -40,9 +40,7 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="jakarta.tags.core" %>
       <h1>Dashboard do Professor</h1>
       <p class="text-secondary">Bem-vindo, ${professor.nome}!</p>
 
-      <!-- Container das Abas -->
       <div class="m-t-5">
-        <!-- Cabeçalho das Abas -->
         <div class="tabs-header">
           <button
             class="tab-button active"
@@ -55,7 +53,6 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="jakarta.tags.core" %>
           </button>
         </div>
 
-        <!-- Conteúdo da Aba 1: VISÃO GERAL -->
         <div id="visao-geral" class="tab-content active">
           <h2>Informações de Perfil</h2>
           <div
@@ -90,7 +87,6 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="jakarta.tags.core" %>
           </div>
         </div>
 
-        <!-- Conteúdo da Aba 2: MINHAS TURMAS -->
         <div id="turmas" class="tab-content">
           <h2>Turmas em Andamento</h2>
           <div class="bg-white rounded-lg p-4 shadow">
@@ -121,7 +117,6 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="jakarta.tags.core" %>
       </div>
     </div>
     <script>
-      // Função para alternar o menu responsivo
       function toggleMenu() {
         const navLinks = document.getElementById("nav-links");
         if (
@@ -134,22 +129,17 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="jakarta.tags.core" %>
           navLinks.classList.add("active");
         }
       }
-      // Função para alternar as abas
       function openTab(tabId, element) {
-        // Remove a classe 'active' de todos os conteúdos
         document.querySelectorAll(".tab-content").forEach((content) => {
           content.classList.remove("active");
         });
 
-        // Remove a classe 'active' de todos os botões
         document.querySelectorAll(".tab-button").forEach((btn) => {
           btn.classList.remove("active");
         });
 
-        // Adiciona a classe 'active' ao conteúdo da aba clicada
         document.getElementById(tabId).classList.add("active");
 
-        // Adiciona a classe 'active' ao botão clicado
         element.classList.add("active");
       }
     </script>

@@ -45,7 +45,6 @@ uri="jakarta.tags.functions" %>
         <div class="msg-error">${msgError}</div>
       </c:if>
 
-      <!-- CABEÇALHO DO FORMULÁRIO -->
       <form
         id="formHeader"
         method="post"

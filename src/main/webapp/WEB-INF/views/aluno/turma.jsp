@@ -31,7 +31,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     </nav>
 
     <div class="container">
-      <!-- CABEÇALHO DA TURMA -->
       <div class="cabecalho-turma">
         <h1 class="codigo-turma">${turma.codigoTurma}</h1>
         <div class="info-turma">
@@ -44,7 +43,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         </div>
       </div>
 
-      <!-- LISTA DE PROCESSOS AVALIATIVOS -->
       <div class="processos-lista">
         <c:forEach var="processo" items="${processosAluno}">
           <a

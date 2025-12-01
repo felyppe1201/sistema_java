@@ -40,9 +40,6 @@ uri="http://java.sun.com/jsp/jstl/functions" %>
       >
       <h1 class="titulo">${nomeProcesso}</h1>
 
-      <!-- ============================ -->
-      <!-- FORMULÁRIOS NÃO RESPONDIDOS -->
-      <!-- ============================ -->
       <c:if test="${not empty naoRespondidos}">
         <h2 class="subtitulo">Formulários Pendentes</h2>
 
@@ -71,9 +68,6 @@ uri="http://java.sun.com/jsp/jstl/functions" %>
         </div>
       </c:if>
 
-      <!-- ============================ -->
-      <!-- FORMULÁRIOS RESPONDIDOS -->
-      <!-- ============================ -->
       <c:if test="${not empty respondidos}">
         <h2 class="subtitulo">Formulários Respondidos</h2>
 
@@ -95,7 +89,6 @@ uri="http://java.sun.com/jsp/jstl/functions" %>
                 </c:choose>
               </div>
 
-              <!-- CÍRCULO DE PORCENTAGEM -->
               <div class="circle-container">
                 <svg class="progress-circle" viewBox="0 0 36 36">
                   <path
@@ -122,15 +115,12 @@ uri="http://java.sun.com/jsp/jstl/functions" %>
       </c:if>
     </div>
 
-    <!-- JS para aplicar o dasharray -->
     <script>
       document.querySelectorAll(".progress").forEach((el) => {
         const dash = parseFloat(el.dataset.dash) || 0;
 
-        // Obtém o comprimento do path
         const pathLength = el.getTotalLength();
 
-        // Define stroke-dasharray e stroke-dashoffset proporcional
         el.style.strokeDasharray = pathLength;
         el.style.strokeDashoffset = pathLength * (1 - dash / 100);
       });

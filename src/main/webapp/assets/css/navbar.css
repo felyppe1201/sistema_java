@@ -1,7 +1,3 @@
-/* -------------------- */
-/* NAVBAR DESKTOP       */
-/* -------------------- */
-
 .navbar {
   width: 100%;
   height: 60px;
@@ -19,7 +15,6 @@
   font-weight: bold;
 }
 
-/* Botão hambúrguer - oculto no desktop */
 .nav-toggle {
   display: none;
   background: none;
@@ -29,7 +24,6 @@
   cursor: pointer;
 }
 
-/* Lista de links desktop */
 .nav-links {
   list-style: none;
   display: flex;
@@ -52,17 +46,11 @@
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* -------------------- */
-/* NAVBAR MOBILE        */
-/* -------------------- */
-
 @media (max-width: 768px) {
-  /* Mostra o botão hambúrguer */
   .nav-toggle {
     display: block;
   }
 
-  /* Oculta os links por padrão no mobile */
   .nav-links {
     display: none;
     position: absolute;
@@ -81,7 +69,6 @@
     padding: 8px 15px;
   }
 
-  /* Quando abre */
   .nav-links.nav-open {
     display: flex;
   }

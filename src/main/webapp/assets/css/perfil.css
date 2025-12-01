@@ -1,19 +1,10 @@
-/*
- * Estilos da Página Perfil/Conta
- * Este arquivo define a estrutura principal e o estilo dos cartões de informação
- * na página Minha Conta.
- */
-
-/* Container Principal */
 .perfil-container {
     max-width: 1000px;
     margin: 40px auto;
     padding: 20px;
-    /* Ajuste para telas menores */
     box-sizing: border-box; 
 }
 
-/* Cartões de Informação (Fundo Branco) */
 .info-card {
     background-color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -25,39 +16,32 @@
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Estilo para cada item de informação (Nome, Email, Curso, etc.) */
 .perfil-item {
     display: flex;
     flex-direction: column;
-    min-width: 250px; /* Garante que os itens não fiquem muito apertados em flex-wrap */
+    min-width: 250px; 
 }
 
-/* Rótulo (Label) do Campo */
 .info-label {
     font-size: 0.85rem;
-    color: #6c757d; /* Cinza suave */
+    color: #6c757d; 
     font-weight: 500;
     margin-bottom: 3px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-/* Valor (Value) do Campo (Dado real) */
 .info-value {
     font-size: 1.1rem;
-    color: #343a40; /* Texto escuro */
+    color: #343a40; 
     font-weight: bold;
-    word-break: break-word; /* Para emails longos */
+    word-break: break-word; 
 }
 
-/* Estilos de Utilidade (Baseados nas classes do conta.jsp) */
-
-/* Cores */
 .text-blue {
     color: #007bff;
 }
 
-/* Layout e Espaçamento */
 .p-4 { padding: 1rem; }
 .p-6 { padding: 1.5rem; }
 .m-b-4 { margin-bottom: 1rem; }
@@ -73,16 +57,14 @@
 .rounded-lg { border-radius: 0.5rem; }
 .w-full { width: 100%; }
 
-/* Tipografia */
 .font-bold { font-weight: 700; }
 .text-lg { font-size: 1.125rem; }
 .text-left { text-align: left; }
-.no-select { user-select: none; } /* Útil para a navbar */
+.no-select { user-select: none; } 
 
-/* Linha Divisória */
 hr.border-gray {
     border: 0;
     height: 1px;
-    background: #e9ecef; /* Cinza claro */
+    background: #e9ecef; 
     margin: 10px 0;
 }

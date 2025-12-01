@@ -5,14 +5,13 @@ body {
   background-color: var(--cinza-claro);
   color: var(--texto-dark);
 }
-/* Container principal */
+
 .container {
   max-width: 900px;
   margin: 40px auto;
   padding: 20px;
 }
 
-/* CABEÇALHO DA TURMA */
 .cabecalho-turma {
   border-bottom: 2px solid #ddd;
   margin-bottom: 30px;
@@ -35,14 +34,12 @@ body {
   font-weight: bold;
 }
 
-/* LISTA DE PROCESSOS AVALIATIVOS */
 .processos-lista {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
-/* BOTÕES DE PROCESSO */
 .processo-btn {
   display: flex;
   justify-content: space-between;
@@ -61,7 +58,6 @@ body {
   border-color: #007acc;
 }
 
-/* INFORMAÇÕES DENTRO DO BOTÃO */
 .processo-info {
   display: flex;
   justify-content: space-between;
@@ -81,14 +77,12 @@ body {
   text-decoration: none;
 }
 
-/* Check verde quando completo */
 .check {
   color: green;
   font-weight: bold;
   margin-left: 8px;
 }
 
-/* Texto em verde quando completo */
 .forms-info:has(.check) {
   color: green;
   font-weight: bold;

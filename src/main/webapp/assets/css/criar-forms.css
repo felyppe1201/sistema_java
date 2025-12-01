@@ -9,7 +9,6 @@
   --danger: #e74c3c;
 }
 
-/* base */
 body {
   margin: 0;
   font-family: "Segoe UI", Roboto, Arial, sans-serif;
@@ -50,7 +49,6 @@ body {
   display: inline-block;
 }
 
-/* mensagens */
 .msg-success {
   background: #e6ffed;
   border-left: 5px solid var(--verde-main);
@@ -66,7 +64,6 @@ body {
   margin-bottom: 10px;
 }
 
-/* questions */
 .questions-area {
   display: flex;
   flex-direction: column;
@@ -147,7 +144,6 @@ body {
   border: 1px solid var(--cinza-medio);
 }
 
-/* small */
 .btn-remove-opt {
   background: transparent;
   border: 1px solid #ccc;

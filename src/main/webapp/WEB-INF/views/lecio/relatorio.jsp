@@ -111,13 +111,11 @@ prefix="c" %> <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                   </div>
                 </div>
 
-                <!-- Loop sobre cada formulário da turma -->
                 <c:forEach var="form" items="${relatorio.formularios}">
                   <h4 class="section-title">
                     Formulário: <c:out value="${form.titulo}" />
                   </h4>
 
-                  <!-- Se o formulário for anônimo -->
                   <c:if test="${not form.identificado}">
                     <div class="card anonimo-card">
                       <p class="anonimo-text">
@@ -131,7 +129,6 @@ prefix="c" %> <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                     </div>
                   </c:if>
 
-                  <!-- Se o formulário for identificado -->
                   <c:if test="${form.identificado}">
                     <c:forEach
                       var="questao"
@@ -172,7 +169,6 @@ prefix="c" %> <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                                 />
                               </span>
 
-                              <!-- Detecta se é VF -->
                               <c:choose>
                                 <c:when
                                   test="${alternativa.percentualV != 0.0 || alternativa.percentualF != 0.0}"

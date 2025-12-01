@@ -31,9 +31,6 @@ body {
   justify-content: center;
 }
 
-/* =============================== */
-/*    CARD DO FORMULÁRIO          */
-/* =============================== */
 .form-card {
   width: 220px;
   height: 160px;
@@ -53,24 +50,17 @@ body {
   transform: scale(1.03);
 }
 
-/* Link */
 .nao-respondido {
   text-decoration: none;
   color: black;
 }
 
-/* =============================== */
-/*     TÍTULO DO FORMULÁRIO       */
-/* =============================== */
 .form-titulo {
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 10px;
 }
 
-/* =============================== */
-/*   IDENTIFICAÇÃO (👤 / 🕶️)      */
-/* =============================== */
 .identificacao {
   font-size: 14px;
   display: flex;
@@ -82,9 +72,6 @@ body {
   font-size: 18px;
 }
 
-/* =============================== */
-/*     CÍRCULO DE PORCENTAGEM     */
-/* =============================== */
 .circle-container {
   position: absolute;
   bottom: 10px;
@@ -107,7 +94,7 @@ body {
 
 .progress-circle .progress {
   fill: none;
-  stroke: #4caf50; /* verde padrão */
+  stroke: #4caf50; 
   stroke-width: 3.8;
   stroke-linecap: round;
   stroke-dasharray: 0, 100;
@@ -124,9 +111,6 @@ body {
   font-weight: bold;
 }
 
-/* botão de voltar generico */
-
-/* Botão padrão de voltar */
 .voltarbtn {
   display: inline-flex;
   align-items: center;
@@ -146,32 +130,27 @@ body {
   transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
-/* Ícone opcional caso queira usar "←" ou SVG */
 .voltarbtn .icon {
   font-size: 16px;
   margin-right: 6px;
 }
 
-/* Hover */
 .voltarbtn:hover {
   background-color: #e6e6e6;
   border-color: #bcbcbc;
 }
 
-/* Focus para acessibilidade */
 .voltarbtn:focus {
   outline: 2px solid #5a8dee;
   outline-offset: 2px;
 }
 
-/* Desabilitado (se necessário) */
 .voltarbtn.disabled,
 .voltarbtn[disabled] {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-/* Responsividade – mobile */
 @media (max-width: 600px) {
   .voltarbtn {
     padding: 8px 14px;

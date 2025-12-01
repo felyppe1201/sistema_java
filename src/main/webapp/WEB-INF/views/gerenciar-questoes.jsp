@@ -8,7 +8,7 @@
         .questao-card {
             background: #fff;
             border: 1px solid #e5e7eb;
-            border-left: 5px solid #1E3A8A; /* Destaque azul */
+            border-left: 5px solid #1E3A8A; 
             padding: 20px;
             margin-bottom: 20px;
             border-radius: 4px;

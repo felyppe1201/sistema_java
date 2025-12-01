@@ -1,13 +1,8 @@
-/* * Estilos genéricos para os JSPs da aplicação de Avaliação.
-
-Focado em layout responsivo, tipografia limpa e cores sóbrias.
-*/
-
 :root {
 --primary-color: #007bff;
 --secondary-color: #6c757d;
---success-color: #28a745; /* Cor para ATIVO /
---danger-color: #dc3545; / Cor de exemplo para uso futuro */
+--success-color: #28a745;
+--danger-color: #dc3545; 
 --background-color: #f8f9fa;
 --card-background: #ffffff;
 --text-color: #343a40;
@@ -74,7 +69,6 @@ margin-top: 20px;
 margin-bottom: 20px;
 }
 
-/* Estilo para cartões de informação */
 .card {
 background-color: var(--card-background);
 border: 1px solid var(--border-color);
@@ -84,7 +78,6 @@ margin-bottom: 20px;
 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-/* Estilos de Botões */
 .btn {
 display: inline-block;
 padding: 10px 20px;
@@ -113,7 +106,6 @@ background-color: var(--secondary-color);
 color: white;
 }
 
-/* Estilos de Lista/Tabela para Processos Avaliativos */
 .processos-list {
 list-style: none;
 padding: 0;
@@ -128,7 +120,6 @@ margin-bottom: 10px;
 background-color: var(--card-background);
 border: 1px solid var(--border-color);
 border-radius: 6px;
-/* Borda esquerda padrão */
 border-left: 5px solid var(--border-color);
 }
 
@@ -152,7 +143,6 @@ color: var(--secondary-color);
 margin-right: 15px;
 }
 
-/* ESTILOS PARA O BADGE DE STATUS */
 .status-badge {
 padding: 4px 8px;
 border-radius: 12px;
@@ -167,7 +157,6 @@ margin-top: 0;
 background-color: var(--success-color);
 }
 
-/* Aplica cor na borda esquerda do item quando ativo */
 .processo-item:has(.status-ativo) {
 border-left-color: var(--success-color);
 }
@@ -175,12 +164,6 @@ border-left-color: var(--success-color);
 .status-arquivado {
 background-color: var(--secondary-color);
 }
-
-/* Aplica cor na borda esquerda do item quando arquivado /
-.processo-item:has(.status-arquivado) {
-border-left-color: var(--secondary-color);
-}
-/ FIM DOS ESTILOS DE STATUS */
 
 .processo-actions a {
 margin-left: 10px;
@@ -195,7 +178,6 @@ border: 1px solid #ffeeba;
 border-radius: 8px;
 }
 
-/* Responsividade Básica */
 @media (max-width: 768px) {
 header .container {
 flex-direction: column;
@@ -217,7 +199,6 @@ nav a {
     align-items: flex-start;
 }
 
-/* Quebra os detalhes (nome, período, status) em colunas no mobile */
 .processo-details {
     margin-bottom: 10px;
     flex-direction: column; 
@@ -231,7 +212,7 @@ nav a {
 
 .processo-actions {
     margin-top: 10px;
-    width: 100%; /* Faz as ações ocuparem a largura total */
+    width: 100%; 
 }
 
 .processo-actions a {

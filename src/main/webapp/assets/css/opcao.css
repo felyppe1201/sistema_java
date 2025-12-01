@@ -92,7 +92,6 @@ textarea {
   margin-bottom: 10px;
 }
 
-/* Container geral para alinhar o peso com os outros controles */
 .peso-container {
   display: flex;
   align-items: center;
@@ -100,14 +99,12 @@ textarea {
   margin-top: 6px;
 }
 
-/* Label do peso */
 .peso-label {
   font-size: 0.95rem;
   font-weight: 500;
   color: #333;
 }
 
-/* Campo numérico integrado ao estilo dos inputs existentes */
 .peso-input {
   width: 70px;
   padding: 6px 8px;
@@ -117,7 +114,6 @@ textarea {
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Foco padronizado */
 .peso-input:focus {
   border-color: #4c7af1;
   box-shadow: 0 0 0 3px rgba(76, 122, 241, 0.25);

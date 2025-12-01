@@ -28,10 +28,8 @@
     </c:if>
 
     <form method="post" action="${pageContext.request.contextPath}/lecio/opcao">
-        <!-- identificar a questão -->
         <input type="hidden" name="questao" value="${questao.id}"/>
 
-        <!-- identificar a opcao (quando editar) -->
         <c:if test="${not isNew}">
             <input type="hidden" name="opcao" value="${opcao.id}"/>
         </c:if>

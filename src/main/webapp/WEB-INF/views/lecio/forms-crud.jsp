@@ -84,7 +84,6 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="jakarta.tags.core" %>
           </c:when>
         </c:choose>
 
-        <!-- Card de criação sempre como último -->
         <div class="form-card create-card">
           <a
             class="create-link"

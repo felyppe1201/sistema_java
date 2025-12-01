@@ -22,7 +22,6 @@
         </div>
     </header>
     <div class="container">
-        <!-- DADOS DA TURMA -->
         <div class="card">
             <h1>Turma: ${turma.disciplina.nome}</h1>
             <p><strong>Disciplina:</strong> ${turma.disciplina.nome}</p>
@@ -31,8 +30,7 @@
             
             <a href="#" class="btn btn-secondary" style="margin-top: 15px;">Gerenciar Alunos</a>
         </div>
-        
-        <!-- PROCESSOS AVALIATIVOS (Com Status) -->
+
         <h2 style="display: flex; justify-content: space-between; align-items: center;">
             Processos Avaliativos
             <a href="${context}/lecio/processo?turmaId=${turma.id}&action=new" class="btn btn-primary" style="font-size: 0.9rem;">+ Novo Processo</a>
@@ -46,8 +44,7 @@
                             <div class="processo-details">
                                 <span class="processo-name">${processo.nome}</span>
                                 <span class="processo-periodo">(Período ${processo.periodo})</span>
-                                
-                                <!-- Bloco de Lógica para exibir o Status ATIVO ou ARQUIVADO -->
+
                                 <c:choose>
                                     <c:when test="${processo.ativo}">
                                         <span class="status-badge status-ativo">ATIVO</span>
@@ -59,9 +56,7 @@
                                 
                             </div>
                             <div class="processo-actions">
-                                <!-- Link para ver/editar o processo -->
                                 <a href="${context}/lecio/processo?id=${processo.id}" class="btn btn-primary">Gerenciar</a>
-                                <!-- Link para lançar notas (exemplo) -->
                                 <a href="${context}/lecio/processo?id=${processo.id}&action=notas" class="btn btn-secondary">Notas</a>
                             </div>
                         </li>
@@ -75,8 +70,7 @@
                 </div>
             </c:otherwise>
         </c:choose>
-        
-        <!-- Seção de Relatórios e Outras Ações -->
+
         <h2 style="margin-top: 40px;">Relatórios e Ações</h2>
         <div class="card">
             <a href="#" class="btn btn-secondary">Gerar Relatório Final</a>

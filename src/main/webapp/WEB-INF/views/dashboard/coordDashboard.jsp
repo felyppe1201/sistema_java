@@ -17,7 +17,6 @@
   </head>
 
   <body>
-    <!-- NAVBAR -->
     <nav class="navbar no-select">
       <div class="nav-logo">Sistema Acadêmico</div>
 
@@ -42,7 +41,6 @@
       </ul>
     </nav>
 
-    <!-- CONTEÚDO DO DASHBOARD -->
     <main class="dashboard-content no-select">
       <h1>Bem-vindo, Administrador</h1>
 

@@ -17,9 +17,9 @@
   padding: 25px;
   text-align: center;
 }
-/* Reutilizando info-card, mas ajustando para texto à esquerda na aba de perfil */
+
 .info-card.text-left .info-value {
-  font-size: 1.125rem; /* text-lg do JSP */
+  font-size: 1.125rem; 
 }
 .info-card.text-left .text-xl {
   font-size: 1.25rem;
@@ -37,7 +37,6 @@
   text-transform: uppercase;
 }
 
-/* --- ESTILOS DAS ABAS (TABS) --- */
 .tabs-header {
   display: flex;
   border-bottom: 2px solid #dee2e6;
@@ -51,7 +50,7 @@
   font-weight: bold;
   color: #6c757d;
   transition: color 0.3s, border-bottom 0.3s;
-  margin-bottom: -2px; /* Ajuste para sobrepor a linha */
+  margin-bottom: -2px; 
 }
 .tab-button:hover {
   color: #495057;
@@ -69,7 +68,6 @@
   display: block;
 }
 
-/* Estilos da Tabela de Turmas */
 .turmas-table {
   width: 100%;
   border-collapse: collapse;
@@ -87,7 +85,6 @@
   text-transform: uppercase;
 }
 
-/* Estilos de Ação/Link na Tabela */
 .action-link {
   color: #007bff;
   text-decoration: none;
@@ -100,7 +97,6 @@
   text-decoration: underline;
 }
 
-/* ---- GRID DE TURMAS ---- */
 .turmas-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -108,7 +104,6 @@
   margin-top: 15px;
 }
 
-/* ---- BOTÃO DE TURMA ---- */
 .turma-button {
   display: flex;
   flex-direction: column;
@@ -126,14 +121,12 @@
   min-height: 120px;
 }
 
-/* ---- Hover ---- */
 .turma-button:hover {
   box-shadow: 0 0 12px rgba(46, 204, 113, 0.8);
   border: 2px solid var(--verde-dark);
   transform: translateY(-2px);
 }
 
-/* ---- INFORMAÇÕES INTERNAS ---- */
 .turma-button .disciplina {
   font-size: 1rem;
   color: var(--verde-dark);
@@ -151,7 +144,6 @@
   color: #555;
 }
 
-/* ---- RESPONSIVO ---- */
 @media (max-width: 768px) {
   .turmas-grid {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));

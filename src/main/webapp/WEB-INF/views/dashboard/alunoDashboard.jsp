@@ -73,7 +73,6 @@ uri="jakarta.tags.core" %>
               </p>
             </c:otherwise>
           </c:choose>
-          <!-- Botão Nova Matrícula -->
           <a
             class="btn-nova-matricula"
             href="${pageContext.request.contextPath}/aluno/matricula"

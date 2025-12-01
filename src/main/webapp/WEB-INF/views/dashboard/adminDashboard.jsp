@@ -18,7 +18,6 @@ uri="http://java.sun.com/jsp/jstl/core" %>
   </head>
 
   <body>
-    <!-- NAVBAR -->
     <nav class="navbar no-select">
       <div class="nav-logo">Sistema Acadêmico</div>
 
@@ -43,7 +42,6 @@ uri="http://java.sun.com/jsp/jstl/core" %>
       </ul>
     </nav>
 
-    <!-- CONTEÚDO DO DASHBOARD -->
     <main class="dashboard-content no-select">
       <h1 class="main-title">Professores</h1>
 

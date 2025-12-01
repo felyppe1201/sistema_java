@@ -54,7 +54,6 @@
 
                 <div class="opcoes-container">
 
-                    <!-- OBJETIVA (checkboxes) -->
                     <c:if test="${q.tipo == 'obj'}">
                         <c:forEach var="op" items="${q.opcoes}" varStatus="os">
 
@@ -75,8 +74,6 @@
                         </c:forEach>
                     </c:if>
 
-
-                    <!-- VERDADEIRO/FALSO CORRETO -->
                     <c:if test="${q.tipo == 'vf'}">
 
                         <c:forEach var="op" items="${q.opcoes}">
@@ -112,7 +109,6 @@
                     </c:if>
 
 
-                    <!-- DISSERTATIVA -->
                     <c:if test="${q.tipo == 'disc'}">
                         <textarea
                                 name="questao_disc_${q.id}"

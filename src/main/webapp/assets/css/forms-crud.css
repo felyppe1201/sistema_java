@@ -1,4 +1,3 @@
-/* colors and base from your theme */
 :root {
   --verde-main: #2ecc71;
   --verde-dark: #27ae60;
@@ -35,7 +34,6 @@ body {
   margin-bottom: 18px;
 }
 
-/* flash */
 .msg-success,
 .msg-error {
   padding: 12px;
@@ -53,7 +51,6 @@ body {
   color: #7a1b1b;
 }
 
-/* grid of cards */
 .forms-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -61,7 +58,6 @@ body {
   margin-top: 12px;
 }
 
-/* card */
 .form-card {
   background: var(--white);
   border: 1px solid var(--cinza-medio);
@@ -100,7 +96,6 @@ body {
   font-size: 1.2rem;
 }
 
-/* actions */
 .form-actions {
   display: flex;
   gap: 8px;
@@ -131,7 +126,6 @@ body {
   cursor: pointer;
 }
 
-/* create card */
 .create-card {
   display: flex;
   align-items: center;
@@ -159,7 +153,6 @@ body {
   font-weight: 600;
 }
 
-/* responsive tweaks */
 @media (max-width: 768px) {
   .forms-grid {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));

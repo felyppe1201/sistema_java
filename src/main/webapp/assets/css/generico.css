@@ -1,6 +1,3 @@
-/* =======================
-   Display
-======================= */
 .block {
   display: block;
 }
@@ -23,9 +20,6 @@
   flex-wrap: wrap;
 }
 
-/* =======================
-   Flex alignment
-======================= */
 .items-start {
   align-items: flex-start;
 }
@@ -51,9 +45,6 @@
   justify-content: space-around;
 }
 
-/* =======================
-   Width & Height
-======================= */
 .w-0 {
   width: 0;
 }
@@ -115,9 +106,6 @@
   width: 100%;
 }
 
-/* =======================
-   Padding
-======================= */
 .p-0 {
   padding: 0;
 }
@@ -149,9 +137,6 @@
   padding: 3rem;
 }
 
-/* =======================
-   Margin
-======================= */
 .m-0 {
   margin: 0;
 }
@@ -183,9 +168,6 @@
   margin: 3rem;
 }
 
-/* =======================
-   Gap
-======================= */
 .gap-0 {
   gap: 0;
 }
@@ -217,9 +199,6 @@
   gap: 3rem;
 }
 
-/* =======================
-   Text & Font
-======================= */
 .text-left {
   text-align: left;
 }
@@ -251,9 +230,6 @@
   color: #6b7280;
 }
 
-/* =======================
-   Background
-======================= */
 .bg-white {
   background-color: #ffffff;
 }
@@ -270,9 +246,6 @@
   background-color: #ff0000;
 }
 
-/* =======================
-   Position
-======================= */
 .relative {
   position: relative;
 }
@@ -283,10 +256,6 @@
   position: fixed;
 }
 
-/* =======================
-   Position offsets
-   (top, right, bottom, left)
-======================= */
 .top-0 {
   top: 0;
 }
@@ -411,9 +380,6 @@
   left: 3rem;
 }
 
-/* =======================
-   Border & Radius
-======================= */
 .border {
   border: 1px solid #d1d5db;
 }
@@ -424,9 +390,6 @@
   border-radius: 0.5rem;
 }
 
-/* =======================
-   Overflow
-======================= */
 .overflow-hidden {
   overflow: hidden;
 }
@@ -434,9 +397,6 @@
   overflow: auto;
 }
 
-/* =======================
-   Custom width viewport
-======================= */
 .w-10vw {
   width: 10vw;
 }
@@ -456,9 +416,6 @@
   width: 90vw;
 }
 
-/* =======================
-   Height custom
-======================= */
 .h-0 {
   height: 0;
 }
@@ -535,9 +492,6 @@
   height: 100%;
 }
 
-/* =======================
-   Form & Buttons
-======================= */
 input[type="text"],
 input[type="password"] {
   width: 100%;

@@ -5,8 +5,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Minha Conta</title>
-    
-    <!-- Seus arquivos CSS existentes -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/navbar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/generico.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/perfil.css">
@@ -14,7 +12,6 @@
 </head>
 <body class="bg-gray m-0">
 
-    <!-- BARRA DE NAVEGAÇÃO -->
     <nav class="navbar no-select">
         <div class="nav-logo">Sistema Acadêmico</div>
 
@@ -30,8 +27,6 @@
     <div class="perfil-container p-4">
         <h1 class="text-blue text-left m-0 m-b-4">Minha Conta</h1>
 
-        <!-- LOCAL PARA EXIBIR FEEDBACK DO SERVIDOR (APÓS SUBMISSÃO DO FORMULÁRIO) -->
-        <!-- O feedback é enviado pelo Servlet como atributos de requisição -->
         <c:if test="${not empty feedbackMessage}">
             <div class="feedback-message 
                 <c:choose>
@@ -42,22 +37,18 @@
             </div>
         </c:if>
 
-        <!-- SEÇÃO 1: DADOS CADASTRAIS E ACADÊMICOS -->
         <div class="info-card bg-white p-6 flex flex-col gap-4 rounded-lg m-b-4">
             
             <h2 class="text-blue font-bold text-lg m-0">Informações de Perfil</h2>
             <hr class="w-full border-gray">
 
-            <!-- Nome e Email -->
             <div class="flex flex-wrap gap-8 justify-start">
-                
-                <!-- Nome -->
+
                 <div class="flex-col perfil-item">
                     <span class="info-label">NOME COMPLETO</span>
                     <span class="info-value">${nome}</span>
                 </div>
 
-                <!-- Email -->
                 <div class="flex-col perfil-item">
                     <span class="info-label">EMAIL CADASTRADO</span>
                     <span class="info-value">${email}</span>
@@ -83,15 +74,12 @@
             
         </div>
 
-        <!-- SEÇÃO 2: AÇÕES DE GERENCIAMENTO (Formulários) -->
         <div class="info-card bg-white p-6 rounded-lg">
             <h2 class="text-blue font-bold text-lg m-0 m-b-4">Gerenciamento e Segurança</h2>
 
-            <!-- Formulário de Alteração de Email -->
             <div class="form-section m-b-4">
                 <h3 class="text-blue font-bold text-md m-t-0 m-b-3">Alterar Email de Login</h3>
-                
-                <!-- Submissão tradicional (POST) para o Servlet /conta -->
+
                 <form method="POST" action="${pageContext.request.contextPath}/conta" class="flex flex-col gap-3">
                     <input type="hidden" name="action" value="updateEmail"> 
                     
@@ -113,11 +101,9 @@
             
             <hr class="w-full border-gray m-t-4 m-b-4">
 
-            <!-- Formulário de Alteração de Senha -->
             <div class="form-section">
                 <h3 class="text-blue font-bold text-md m-t-0 m-b-3">Alterar Senha de Acesso</h3>
-                
-                <!-- Submissão tradicional (POST) para o Servlet /conta -->
+
                 <form method="POST" action="${pageContext.request.contextPath}/conta" class="flex flex-col gap-3">
                     <input type="hidden" name="action" value="updatePassword"> 
                     
@@ -147,7 +133,6 @@
     
     
     <script>
-        // Função mínima para o menu responsivo (Navbar).
         function toggleMenu() {
             const navLinks = document.getElementById('nav-links');
             navLinks.classList.toggle('nav-open');
