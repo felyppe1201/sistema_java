@@ -4,7 +4,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public class Crypt {
 
-    private static final int LOG_ROUNDS = 10; // Custo do hashing. 10 é um bom padrão.
+    private static final int LOG_ROUNDS = 10; 
     
     public static String hashPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt(LOG_ROUNDS));
