@@ -66,7 +66,7 @@ Apague ela manualmente.
 Abra um terminal no diretório raiz do projeto:
 
 ```
-C:\Users\usuario\Área de Trabalho\sistema_java
+C:\Users\usuario\Área de Trabalho\sistema_java-main
 ```
 
 E execute:
@@ -144,6 +144,7 @@ No mesmo diretório `bin` do Tomcat, execute:
 ```
 
 ---
+
 
 
 
